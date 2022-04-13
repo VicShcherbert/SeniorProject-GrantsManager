@@ -1,8 +1,9 @@
 import { React, useState } from 'react';
 import Axios from 'axios'; //when adding something to the database
 import { Box } from 'theme-ui';
-import Button from '@mui/material/Button';
-import { TableBody, TableCell, TableRow, Table, TableHead } from '@mui/material';
+// import Button from '@mui/material/Button';
+import { Button, Table } from 'semantic-ui-react';
+
 
 export const ViewAllProposals = () => {
   const [list, setList] = useState([]);
@@ -28,37 +29,37 @@ export const ViewAllProposals = () => {
       </Box>
       <div>
         <Box>
-          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-            <TableHead>
-              <TableRow>
-                <TableCell align='center'>Proposal Number</TableCell>
-                <TableCell align='center'>Title</TableCell>
-                <TableCell align='center'>Agency</TableCell>
-                <TableCell align='center'>Funding Type</TableCell>
-                <TableCell align='center'>CFDA Number</TableCell>
-                <TableCell align='center'>Investigator</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
+          <Table celled>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell align='center'>Proposal Number</Table.HeaderCell>
+                <Table.HeaderCell align='center'>Title</Table.HeaderCell>
+                <Table.HeaderCell align='center'>Agency</Table.HeaderCell>
+                <Table.HeaderCell align='center'>Funding Type</Table.HeaderCell>
+                <Table.HeaderCell align='center'>CFDA Number</Table.HeaderCell>
+                <Table.HeaderCell align='center'>Investigator</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
               {list.map((proposal, key) => {
                 return (
-                  <TableRow key={proposal.proposal_number}>
-                    <TableCell align='center'>
+                  <Table.Row key={proposal.proposal_number}>
+                    <Table.Cell align='center'>
                       {proposal.proposal_number}
-                    </TableCell>
-                    <TableCell align='center'>{proposal.title}</TableCell>
-                    <TableCell align='center'>{proposal.agency}</TableCell>
-                    <TableCell align='center'>
+                    </Table.Cell>
+                    <Table.Cell align='center'>{proposal.title}</Table.Cell>
+                    <Table.Cell align='center'>{proposal.agency}</Table.Cell>
+                    <Table.Cell align='center'>
                       {proposal.funding_type}
-                    </TableCell>
-                    <TableCell align='center'>{proposal.cfda_number}</TableCell>
-                    <TableCell align='center'>
+                    </Table.Cell>
+                    <Table.Cell align='center'>{proposal.cfda_number}</Table.Cell>
+                    <Table.Cell align='center'>
                       {proposal.investigator}
-                    </TableCell>
-                  </TableRow>
+                    </Table.Cell>
+                  </Table.Row>
                 );
               })}
-            </TableBody>
+            </Table.Body>
           </Table>
         </Box>
       </div>
