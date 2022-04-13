@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Axios from 'axios'; //when adding something to the database
 // import './styles.css';
-import 'semantic-ui-css/semantic.min.css';
+// import 'semantic-ui-css/semantic.min.css';
 // import {Button} from 'semantic-ui-react';
 
 function App() {
