@@ -1,8 +1,7 @@
-// import logo from './logo.svg';
 import { useState } from 'react';
-import './App.css';
 import Axios from 'axios'; //when adding something to the database
-// import 'semantic-ui-css/semantic.min.css';
+// import './styles.css';
+import 'semantic-ui-css/semantic.min.css';
 // import {Button} from 'semantic-ui-react';
 
 function App() {
@@ -14,7 +13,7 @@ function App() {
   };
 
   return (
-    <div >
+    <div>
       Hi
       <input type='text'></input>
       <button>Yo what up</button>
@@ -23,26 +22,30 @@ function App() {
         <button onClick={getProposals}>Show Everyone</button>
         <div>
           <table>
-            <tr>
-              <th>Title</th>
-              <th>Proposal Number</th>
-              <th>Agency</th>
-              <th>Funding Type</th>
-              <th>CFDA Number</th>
-              <th>Investigator</th>
-            </tr>
-            {list.map((val, key) => {
-              return (
-                <tr>
-                  <td>{val.proposal_number}</td>
-                  <td>{val.title}</td>
-                  <td>{val.agency}</td>
-                  <td>{val.funding_type}</td>
-                  <td>{val.cfda_number}</td>
-                  <td>{val.investigator}</td>
-                </tr>
-              );
-            })}
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Proposal Number</th>
+                <th>Agency</th>
+                <th>Funding Type</th>
+                <th>CFDA Number</th>
+                <th>Investigator</th>
+              </tr>
+            </thead>
+            <tbody>
+              {list.map((proposal, key) => {
+                return (
+                  <tr>
+                    <td>{proposal.proposal_number}</td>
+                    <td>{proposal.title}</td>
+                    <td>{proposal.agency}</td>
+                    <td>{proposal.funding_type}</td>
+                    <td>{proposal.cfda_number}</td>
+                    <td>{proposal.investigator}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
         </div>
       </div>
