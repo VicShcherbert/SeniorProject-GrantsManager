@@ -74,6 +74,14 @@ const App = () => {
   const [name, setName] = useState("");
   const [id, setID] = useState("");
 
+  const addDepartment = () => {
+    Axios.post('http://localhost:8080/add_department', 
+              { 
+                id: id, 
+                name: name
+              }).then(console.log('success'));
+  };
+
   return (
     <div>
       Hi
