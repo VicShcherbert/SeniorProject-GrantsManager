@@ -517,6 +517,26 @@ const App = () => {
           </div>
         </div>
       </div>
+
+      <div>
+      <div className='add-department'>
+        <label>Name:</label>
+        <input 
+          type="text" 
+          onChange={(event) => {
+            setName(event.target.value);
+          }}/>
+
+        <label>ID:</label>
+        <input 
+          type="number" 
+          onChange={(event) => {
+            setID(event.target.value);
+          }}/>
+
+        <button onClick={addDepartment}>Add Department</button>
+      </div>
+      </div>
     </div>
   );
 };
