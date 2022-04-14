@@ -84,10 +84,6 @@ const App = () => {
 
   return (
     <div>
-      Hi
-      <input type='text'></input>
-      <button>Yo what up</button>
-      <hr />
       <div>
         <button onClick={getProposals}>Show Everyone</button>
         <div>
