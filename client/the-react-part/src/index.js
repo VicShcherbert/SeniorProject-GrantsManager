@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import Axios from 'axios'; //when adding something to the database
+import './App.css';
 // import './styles.css';
 // import 'semantic-ui-css/semantic.min.css';
 // import {Button} from 'semantic-ui-react';
