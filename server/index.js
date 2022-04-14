@@ -65,6 +65,21 @@ app.post('/addProposal', (req, res) => {
     const notes = req.body.notes
 })
 
+app.post('/add_department', (req, res) => {
+    const name = req.body.name;
+    const id = req.body.id;
+    db.query('INSERT INTO Departments (id, name) VALUES (?, ?);', [id, name], (err, result) => {
+        if(err) console.log(err);
+    });
+});
+
+app.get('/get_departments', (req, res) => {
+    db.query("SELECT * FROM Departments;", (err, result) => {
+        if(err) console.log(err);
+        else res.send(result);
+    });
+});
+
 app.listen(3001, ()=> {
     console.log("yo What up on port 3001");
 })
