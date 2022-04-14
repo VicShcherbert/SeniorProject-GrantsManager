@@ -69,6 +69,10 @@ const App = () => {
   const [archive_location, setArchiveLocation] = useState('');
   const [notes, setNotes] = useState('');
 
+  //department state
+  const [name, setName] = useState("");
+  const [id, setID] = useState("");
+
   return (
     <div>
       Hi
