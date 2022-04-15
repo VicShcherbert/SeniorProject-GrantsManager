@@ -4,6 +4,7 @@ import Axios from 'axios'; //when adding something to the database
 import './style.css';
 // import {Button} from 'semantic-ui-react';
 
+//Yo what up
 const App = () => {
   const [list, setList] = useState([]);
   const getProposals = () => {
