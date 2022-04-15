@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import Axios from 'axios'; //when adding something to the database
-import './App.css';
-// import './styles.css';
-// import 'semantic-ui-css/semantic.min.css';
+import './style.css';
 // import {Button} from 'semantic-ui-react';
 
 const App = () => {
@@ -71,20 +69,20 @@ const App = () => {
   const [notes, setNotes] = useState('');
 
   //department state
-  const [name, setName] = useState("");
-  const [id, setID] = useState("");
+  const [name, setName] = useState('');
+  const [id, setID] = useState('');
 
   const addDepartment = () => {
-    Axios.post('http://localhost:8080/add_department', 
-              { 
-                id: id, 
-                name: name
-              }).then(console.log('success'));
+    Axios.post('http://localhost:8080/add_department', {
+      id: id,
+      name: name,
+    }).then(console.log('success'));
   };
 
   return (
     <div>
       <div>
+        <p>Display all Proposals</p>
         <button onClick={getProposals}>Show Everyone</button>
         <div>
           <table>
@@ -117,6 +115,7 @@ const App = () => {
       </div>
       <div>
         <div className='App'>
+          <p>User input</p>
           <div className='information'>
             <label>Proposal Number: </label>
             <input
@@ -528,23 +527,26 @@ const App = () => {
       </div>
 
       <div>
-      <div className='add-department'>
-        <label>Name:</label>
-        <input 
-          type="text" 
-          onChange={(event) => {
-            setName(event.target.value);
-          }}/>
+        Add department
+        <div className='add-department'>
+          <label>Name:</label>
+          <input
+            type='text'
+            onChange={(event) => {
+              setName(event.target.value);
+            }}
+          />
 
-        <label>ID:</label>
-        <input 
-          type="number" 
-          onChange={(event) => {
-            setID(event.target.value);
-          }}/>
+          <label>ID:</label>
+          <input
+            type='number'
+            onChange={(event) => {
+              setID(event.target.value);
+            }}
+          />
 
-        <button onClick={addDepartment}>Add Department</button>
-      </div>
+          <button onClick={addDepartment}>Add Department</button>
+        </div>
       </div>
     </div>
   );
