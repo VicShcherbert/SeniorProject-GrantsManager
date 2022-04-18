@@ -104,7 +104,6 @@ export const AddProposal = () => {
   return (
     <div>
       <div className='App'>
-        <p>User input</p>
         <div className='information'>
           <label>Proposal Number: </label>
           <input
