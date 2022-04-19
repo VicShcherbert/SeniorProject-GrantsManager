@@ -1,6 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'; //when adding something to the database
-import { Table, TableBody, TableCell, TableHeader, TableHeaderCell, TableRow, Pagination } from 'semantic-ui-react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
+  Pagination,
+  Segment,
+  Header,
+  Button,
+  Modal,
+} from 'semantic-ui-react';
+import { UpdateModal } from '../modal/update-modal';
 
 export const ViewProposals = () => {
   const [list, setList] = useState([]);
@@ -13,41 +26,57 @@ export const ViewProposals = () => {
     });
   });
 
-  const changePage = ((e, pageInfo) => {
+  const changePage = (e, pageInfo) => {
     setCurrentPage(pageInfo.activePage);
-  });
+  };
 
   return (
-    <div className='proposals-table'>
-      <h2 id='page-title'>
+    <Segment basic style={{ maxWidth: '70%', margin: 'auto' }}>
+      <Header as='h1' textAlign='center'>
         Proposals
-      </h2>
-      <Pagination activePage={currentPage} totalPages={Math.ceil(list.length / proposalsPerPage)} onPageChange={changePage}/>
+      </Header>
+      <Pagination
+        activePage={currentPage}
+        totalPages={Math.ceil(list.length / proposalsPerPage)}
+        onPageChange={changePage}
+      />
       <Table celled>
         <TableHeader>
-          <TableHeaderCell>Title</TableHeaderCell>
           <TableHeaderCell>Proposal Number</TableHeaderCell>
+          <TableHeaderCell>Title</TableHeaderCell>
           <TableHeaderCell>Agency</TableHeaderCell>
           <TableHeaderCell>Funding Number</TableHeaderCell>
-          <TableHeaderCell>CFDA Number</TableHeaderCell>
+          {/* <TableHeaderCell>CFDA Number</TableHeaderCell> */}
           <TableHeaderCell>Investigator</TableHeaderCell>
+          <TableHeaderCell></TableHeaderCell>
         </TableHeader>
         <TableBody>
-          {list.slice((currentPage*proposalsPerPage - 1), (currentPage*proposalsPerPage + (proposalsPerPage + 1))).map((proposal, key) => {
-            return (
-              <TableRow>
+          {list
+            .slice(
+              currentPage * proposalsPerPage - 1,
+              currentPage * proposalsPerPage + (proposalsPerPage + 1)
+            )
+            .map((proposal, key) => {
+              return (
+                <TableRow>
                   <TableCell>{proposal.proposal_number}</TableCell>
                   <TableCell>{proposal.title}</TableCell>
                   <TableCell>{proposal.agency}</TableCell>
                   <TableCell>{proposal.funding_type}</TableCell>
-                  <TableCell>{proposal.cfda_number}</TableCell>
+                  {/* <TableCell>{proposal.cfda_number}</TableCell> */}
                   <TableCell>{proposal.investigator}</TableCell>
-              </TableRow>
-            );
-          })}
+                  <TableCell>
+                    <UpdateModal proposal={proposal}/>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
         </TableBody>
       </Table>
-      <Pagination defaultActivePage={1} totalPages={Math.ceil(list.length / proposalsPerPage)} />
-    </div>
+      <Pagination
+        defaultActivePage={1}
+        totalPages={Math.ceil(list.length / proposalsPerPage)}
+      />
+    </Segment>
   );
 };
