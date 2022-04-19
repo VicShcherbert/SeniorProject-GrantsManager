@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'; //when adding something to the database
-import { Table, TableBody, TableCell, TableHeader, TableHeaderCell, TableRow } from 'semantic-ui-react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
+} from 'semantic-ui-react';
 
 export const ViewDepartments = () => {
   const [departments, setList] = useState([]);
@@ -22,8 +29,8 @@ export const ViewDepartments = () => {
           {departments.map((department, key) => {
             return (
               <TableRow>
-                  <TableCell>{department.id}</TableCell>
-                  <TableCell>{department.name}</TableCell>
+                <TableCell>{department.id}</TableCell>
+                <TableCell>{department.name}</TableCell>
               </TableRow>
             );
           })}
