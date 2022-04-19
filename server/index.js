@@ -132,3 +132,73 @@ app.get('/get_departments', (req, res) => {
 app.listen(3001, () => {
   console.log('yo What up on port 3001');
 });
+
+let currentDate = new Date();
+let currentMonth = currentDate.getMonth();
+let currentYear = currentDate.getFullYear();
+
+app.get('/get_proposal_quantity', (req, res) => {
+  if(currentMonth < 7){
+    db.query(`SELECT count(*) AS count FROM Proposals WHERE date_submitted>="${currentYear - 1}-07-01" AND date_submitted<="${currentYear}-06-30";`, (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    });
+  }
+  else{
+    db.query(`SELECT count(*) AS count FROM Proposals WHERE date_submitted>="${currentYear}-07-01";`, (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    });
+  }
+});
+
+app.get('/get_amount_funded', (req, res) => {
+  if(currentMonth < 7){
+    db.query(`SELECT sum(amount_funded) AS total 
+              FROM Proposals 
+              WHERE date_submitted>="${currentYear - 1}-07-01" 
+                AND date_submitted<="${currentYear}-06-30" 
+                AND (pre_award_status="Funded" 
+                OR pre_award_status="Additional");`, (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    });
+  }
+  else{
+    db.query(`SELECT count(amount_funded) AS total 
+              FROM Proposals 
+              WHERE date_submitted>="${currentYear}-07-01" 
+                AND (pre_award_status="Funded" 
+                OR pre_award_status="Additional");`, (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    });
+  }
+});
+
+app.get('/get_amount_funded_by_type', (req, res) => {
+  if(currentMonth < 7){
+    db.query(`SELECT grant_type, sum(amount_funded) AS sum
+              FROM Proposals
+              WHERE date_submitted>="2018-07-01" 
+                AND date_submitted<="2022-06-30"
+              GROUP BY grant_type;`, (err, result) => {
+      if (err) console.log(err);
+      else { 
+        res.send(result);
+      };
+    });
+  }
+  else{
+    db.query(`SELECT grant_type, sum(amount_funded) AS sum
+              FROM Proposals
+              WHERE date_submitted>="${currentYear - 1}-07-01" 
+                AND date_submitted<="${currentYear}-06-30"
+              GROUP BY grant_type;`, (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    });
+  }
+});
+
+
