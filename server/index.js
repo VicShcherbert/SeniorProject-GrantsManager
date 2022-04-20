@@ -122,6 +122,21 @@ app.post('/add_department', (req, res) => {
   );
 });
 
+app.put('/update', (req, res) => {
+  const proposal_number = req.body.proposal_number;
+  const title = req.body.title;
+  // const agency = req.body.agency;
+
+  db.query(
+    'UPDATE Proposals SET title = ? WHERE proposal_number = ?',
+    [title, proposal_number],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
 app.get('/get_departments', (req, res) => {
   db.query('SELECT * FROM Departments;', (err, result) => {
     if (err) console.log(err);
@@ -138,67 +153,82 @@ let currentMonth = currentDate.getMonth();
 let currentYear = currentDate.getFullYear();
 
 app.get('/get_proposal_quantity', (req, res) => {
-  if(currentMonth < 7){
-    db.query(`SELECT count(*) AS count FROM Proposals WHERE date_submitted>="${currentYear - 1}-07-01" AND date_submitted<="${currentYear}-06-30";`, (err, result) => {
-      if (err) console.log(err);
-      else res.send(result);
-    });
-  }
-  else{
-    db.query(`SELECT count(*) AS count FROM Proposals WHERE date_submitted>="${currentYear}-07-01";`, (err, result) => {
-      if (err) console.log(err);
-      else res.send(result);
-    });
+  if (currentMonth < 7) {
+    db.query(
+      `SELECT count(*) AS count FROM Proposals WHERE date_submitted>="${
+        currentYear - 1
+      }-07-01" AND date_submitted<="${currentYear}-06-30";`,
+      (err, result) => {
+        if (err) console.log(err);
+        else res.send(result);
+      }
+    );
+  } else {
+    db.query(
+      `SELECT count(*) AS count FROM Proposals WHERE date_submitted>="${currentYear}-07-01";`,
+      (err, result) => {
+        if (err) console.log(err);
+        else res.send(result);
+      }
+    );
   }
 });
 
 app.get('/get_amount_funded', (req, res) => {
-  if(currentMonth < 7){
-    db.query(`SELECT sum(amount_funded) AS total 
+  if (currentMonth < 7) {
+    db.query(
+      `SELECT sum(amount_funded) AS total 
               FROM Proposals 
               WHERE date_submitted>="${currentYear - 1}-07-01" 
                 AND date_submitted<="${currentYear}-06-30" 
                 AND (pre_award_status="Funded" 
-                OR pre_award_status="Additional");`, (err, result) => {
-      if (err) console.log(err);
-      else res.send(result);
-    });
-  }
-  else{
-    db.query(`SELECT count(amount_funded) AS total 
+                OR pre_award_status="Additional");`,
+      (err, result) => {
+        if (err) console.log(err);
+        else res.send(result);
+      }
+    );
+  } else {
+    db.query(
+      `SELECT count(amount_funded) AS total 
               FROM Proposals 
               WHERE date_submitted>="${currentYear}-07-01" 
                 AND (pre_award_status="Funded" 
-                OR pre_award_status="Additional");`, (err, result) => {
-      if (err) console.log(err);
-      else res.send(result);
-    });
+                OR pre_award_status="Additional");`,
+      (err, result) => {
+        if (err) console.log(err);
+        else res.send(result);
+      }
+    );
   }
 });
 
 app.get('/get_amount_funded_by_type', (req, res) => {
-  if(currentMonth < 7){
-    db.query(`SELECT grant_type, sum(amount_funded) AS sum
+  if (currentMonth < 7) {
+    db.query(
+      `SELECT grant_type, sum(amount_funded) AS sum
               FROM Proposals
               WHERE date_submitted>="2018-07-01" 
                 AND date_submitted<="2022-06-30"
-              GROUP BY grant_type;`, (err, result) => {
-      if (err) console.log(err);
-      else { 
-        res.send(result);
-      };
-    });
-  }
-  else{
-    db.query(`SELECT grant_type, sum(amount_funded) AS sum
+              GROUP BY grant_type;`,
+      (err, result) => {
+        if (err) console.log(err);
+        else {
+          res.send(result);
+        }
+      }
+    );
+  } else {
+    db.query(
+      `SELECT grant_type, sum(amount_funded) AS sum
               FROM Proposals
               WHERE date_submitted>="${currentYear - 1}-07-01" 
                 AND date_submitted<="${currentYear}-06-30"
-              GROUP BY grant_type;`, (err, result) => {
-      if (err) console.log(err);
-      else res.send(result);
-    });
+              GROUP BY grant_type;`,
+      (err, result) => {
+        if (err) console.log(err);
+        else res.send(result);
+      }
+    );
   }
 });
-
-

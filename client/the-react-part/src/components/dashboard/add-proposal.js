@@ -8,33 +8,20 @@ export const AddProposal = () => {
   const [pre_prop_num, setPrePropNum] = useState(0);
   const [title, setTitle] = useState('');
   const [agency, setAgency] = useState('');
-
-  //TBD how to get this
   const [fund_type, setFundType] = useState('');
-//   console.log(fund_type);
-
   const [cfda, setCFDA] = useState(0);
   const [investigator, setInvestigator] = useState('');
   const [extension, setExtension] = useState(0);
   const [email, setEmail] = useState('');
   const [department_number, setDeptNum] = useState(0);
   const [department_name, setDeptName] = useState('');
-
-  //TBD how to get this
   const [unit, setUnit] = useState('');
-
   const [amount_requested, setAmountRequested] = useState(0);
-
-  //TBD how to get this
   const [pre_award_status, setPreAwardStatus] = useState('');
-
-  //TBD how to set dates for these
   const [date_submitted, setDateSubmitted] = useState('');
-//   console.log(date_submitted);
   const [date_of_notice, setDateOfNotice] = useState('');
   const [project_start, setProjectStart] = useState('');
   const [project_end, setProjectEnd] = useState('');
-
   const [human_compliance, setHumanCompliace] = useState('');
   const [animal_compliace, setAnimalCompliance] = useState('');
   const [recombinant_dna, setRecombinantDNA] = useState('');
@@ -43,21 +30,14 @@ export const AddProposal = () => {
   const [amount_funded, setAmountFunded] = useState(0);
   const [grant_type, setGrantType] = useState('');
   const [category, setCategory] = useState('');
-  const [sponsor_id, setSponsorID] = useState('');
-
-  //TBD how to get this
   const [pre_award_poc, setPreAwardPOC] = useState('');
   const [post_award_poc, setPostAwardPOC] = useState('');
-
   const [contract_number, setContractNumber] = useState(0);
   const [indirect_cost, setIndirectCost] = useState(0);
-
-  //TBD how to get this
   const [internal_approval, setInternalApproval] = useState('');
   const [certification_assurance, setCertificationAssurance] = useState('');
   const [financial_interest, setFinancialInterest] = useState('');
   const [rcr, setRCR] = useState('');
-
   const [archive_location, setArchiveLocation] = useState('');
   const [notes, setNotes] = useState('');
 
@@ -89,7 +69,6 @@ export const AddProposal = () => {
         amount_funded: amount_funded,
         grant_type: grant_type,
         category: category,
-        sponsor_id: sponsor_id,
         pre_award_poc: pre_award_poc,
         post_award_poc: post_award_poc,
         contract_number: contract_number,
@@ -228,7 +207,7 @@ export const AddProposal = () => {
               <option value='student_affairs'>Student Affairs</option>
               <option value='university_libraries'>University Libraries</option>
               <option value='university_college'>University College</option>
-              <option value='presidents_office'>Preisident's Office</option>
+              <option value='presidents_office'>President's Office</option>
               <option value='outreach_engagement'>Outreach and Engagement</option>
             </select>
 
