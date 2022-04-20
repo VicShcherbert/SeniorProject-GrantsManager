@@ -1,6 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Axios from 'axios'; //when adding something to the database
-import { Form } from 'semantic-ui-react';
+import {
+  Modal,
+  Button,
+  Form,
+  Header,
+  Input,
+  Dropdown,
+  Divider,
+  Label,
+  Segment,
+} from 'semantic-ui-react';
 import '../../style.css';
 
 export const AddProposal = () => {
@@ -8,13 +18,14 @@ export const AddProposal = () => {
   const [pre_prop_num, setPrePropNum] = useState(0);
   const [title, setTitle] = useState('');
   const [agency, setAgency] = useState('');
-  const [fund_type, setFundType] = useState('');
-  const [cfda, setCFDA] = useState(0);
+  const [fund_type, setFundingType] = useState('');
+  const [cfda, setCFDANumber] = useState(0);
   const [investigator, setInvestigator] = useState('');
   const [extension, setExtension] = useState(0);
   const [email, setEmail] = useState('');
   const [department_number, setDeptNum] = useState(0);
   const [department_name, setDeptName] = useState('');
+  const [departmentList, setDepartmentList] = useState([]);
   const [unit, setUnit] = useState('');
   const [amount_requested, setAmountRequested] = useState(0);
   const [pre_award_status, setPreAwardStatus] = useState('');
@@ -22,8 +33,8 @@ export const AddProposal = () => {
   const [date_of_notice, setDateOfNotice] = useState('');
   const [project_start, setProjectStart] = useState('');
   const [project_end, setProjectEnd] = useState('');
-  const [human_compliance, setHumanCompliace] = useState('');
-  const [animal_compliace, setAnimalCompliance] = useState('');
+  const [human_compliance, setHumanCompliance] = useState('');
+  const [animal_compliance, setAnimalCompliance] = useState('');
   const [recombinant_dna, setRecombinantDNA] = useState('');
   const [subcontractors, setSubcontractors] = useState('');
   const [index_number, setIndexNumber] = useState(0);
@@ -41,6 +52,24 @@ export const AddProposal = () => {
   const [archive_location, setArchiveLocation] = useState('');
   const [notes, setNotes] = useState('');
 
+
+  const departmentNames = departmentList.map((element) => ({
+    key: element.id,
+    value: element.name,
+    text: element.name,
+  }));
+
+  const departmentNumbers = departmentList.map((element) => ({
+    key: element.id,
+    value: element.id,
+    text: element.id,
+  }));
+  
+  useEffect(() => {
+    Axios.get('http://localhost:3001/get_departments').then((response) => {
+      setDepartmentList(response.data); //becasue response contains 'data'
+    });
+  });
   const addProposal = () => {
     Axios.post('http://localhost:3001/addProposal', {
         prop_num: prop_num,
@@ -62,7 +91,7 @@ export const AddProposal = () => {
         project_start: project_start,
         project_end: project_end,
         human_compliance: human_compliance,
-        animal_compliace: animal_compliace,
+        animal_compliance: animal_compliance,
         recombinant_dna: recombinant_dna,
         subcontractors: subcontractors,
         index_number: index_number,
@@ -83,400 +112,766 @@ export const AddProposal = () => {
   };
 
   return (
-    <div>
+    <Segment basic id='add-proposal'>
       <h2 id='page-title'>
         Add a New Proposal
       </h2>
       <Form>
-        <div id='add-proposal'>
-          <div>
-            <label>Proposal Number: </label>
-            <input
+          <Segment basic>
+            <Divider horizontal>Main Information</Divider>
+          </Segment>
+          <Form.Field>
+            <Header>Title</Header>
+            <Input
+              placeholder='Title'
+              value={title}
+              name='title'
+              onChange={(_, { value }) => setTitle(value)}
               type='text'
-              onChange={(event) => {
-                setPropNum(event.target.value);
-              }}
             />
-
-            <label>Pre-Proposal Number: </label>
-            <input
+          </Form.Field>
+          <Form.Field>
+            <Header>Agency</Header>
+            <Input
+              placeholder='Agency'
+              value={agency}
+              name='agency'
+              onChange={(_, { value }) => setAgency(value)}
+              type='text'
+            />
+          </Form.Field>
+          <Form.Field>
+            <Header>Funding Type</Header>
+            <Dropdown
+              placeholder='Select funding type'
+              value={fund_type}
+              name='funding_type'
+              onChange={(_, { value }) => setFundingType(value)}
+              fluid
+              selection
+              options={[
+                { key: 'none', value: '', text: 'None' },
+                { key: 'federal', value: 'federal', text: 'Federal' },
+                { key: 'state', value: 'state', text: 'State' },
+                { key: 'tribal', value: 'tribal', text: 'Tribal' },
+                { key: 'private', value: 'private', text: 'Private' },
+              ]}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Header>CFDA Number</Header>
+            <Input
+              placeholder='CFDA Number'
+              value={cfda}
+              name='cfda_number'
+              onChange={(_, { value }) => setCFDANumber(value)}
               type='number'
-              onChange={(event) => {
-                setPrePropNum(event.target.value);
-              }}
             />
-
-            <label>Title: </label>
-            <input
+          </Form.Field>
+          <Form.Field>
+            <Header>Investigator</Header>
+            <Input
+              placeholder='Investigator'
+              value={investigator}
+              name='investigator'
+              onChange={(_, { value }) => setInvestigator(value)}
               type='text'
-              onChange={(event) => {
-                setTitle(event.target.value);
-              }}
             />
-
-            <label>Agency: </label>
-            <input
-              type='text'
-              onChange={(event) => {
-                setAgency(event.target.value);
-              }}
-            />
-
-            <label>Funding Type: </label>
-            <select
-              name='fund_type'
-              id='fund_type'
-              onChange={(event) => {
-                setFundType(event.target.value);
-              }}
-            >
-              <option value=''></option>
-              <option value='federal'>Federal</option>
-              <option value='state'>State</option>
-              <option value='tribal'>Tribal</option>
-              <option value='private'>Private</option>
-            </select>
-
-            <label>CFDA Number: </label>
-            <input
+          </Form.Field>
+          <Form.Field>
+            <Header>Extension</Header>
+            <Input
+              placeholder='Extension'
+              value={extension}
+              name='extension'
+              onChange={(_, { value }) => setExtension(value)}
               type='number'
-              onChange={(event) => {
-                setCFDA(event.target.value);
-              }}
             />
-
-            <label>Investigator: </label>
-            <input
+          </Form.Field>
+          <Form.Field>
+            <Header>Email</Header>
+            <Input
+              placeholder='Email'
+              value={email}
+              name='email'
+              onChange={(_, { value }) => setEmail(value)}
               type='text'
-              onChange={(event) => {
-                setInvestigator(event.target.value);
-              }}
             />
-
-            <label>Extension: </label>
-            <input
-              type='number'
-              onChange={(event) => {
-                setExtension(event.target.value);
-              }}
+          </Form.Field>
+          {/* <Form.Field>
+            <Header>Department Number</Header>
+            <Dropdown
+              placeholder='Select department number'
+              value={department_number}
+              name='department_number'
+              onChange={(_, { value }) => setDeptNum(value)}
+              fluid
+              selection
+              options={departmentNumbers}
             />
-
-            <label>Email: </label>
-            <input
-              type='text'
-              onChange={(event) => {
-                setEmail(event.target.value);
-              }}
+          </Form.Field> */}
+          <Form.Field>
+            <Header>Department Name</Header>
+            <Dropdown
+              placeholder='Select department name'
+              value={department_name}
+              name='department_name'
+              onChange={(_, { value }) => setDeptName(value)}
+              fluid
+              selection
+              options={departmentNames}
             />
-
-            <label>Department Number: </label>
-            <input
-              type='number'
-              onChange={(event) => {
-                setDeptNum(event.target.value);
-              }}
-            />
-
-            <label>Deparment Name: </label>
-            <input
-              type='text'
-              onChange={(event) => {
-                setDeptName(event.target.value);
-              }}
-            />
-
-            <label>Unit: </label>
-            <select
+          </Form.Field>
+          <Form.Field>
+            <Header>Unit</Header>
+            <Dropdown
+              placeholder='Select unit'
+              value={unit}
               name='unit'
-              id='unit'
-              onChange={(event) => {
-                setUnit(event.target.value);
-              }}
-            >
-              <option value=''></option>
-              <option value='academic_affairs'>Academic Affairs</option>
-              <option value='business_finance'>Business and Finance</option>
-              <option value='cahss'>CAHSS</option>
-              <option value='cpp'>CPP</option>
-              <option value='chsph'>CHSPH</option>
-              <option value='cstem'>CSTEM</option>
-              <option value='diversity_inclusion'>Diversity and Inclusion</option>
-              <option value='equal_opportunity'>
-                Equal Opportunity Affirm Action
-              </option>
-              <option value='student_affairs'>Student Affairs</option>
-              <option value='university_libraries'>University Libraries</option>
-              <option value='university_college'>University College</option>
-              <option value='presidents_office'>President's Office</option>
-              <option value='outreach_engagement'>Outreach and Engagement</option>
-            </select>
-
-            <label>Amount Requested: </label>
-            <input
+              onChange={(_, { value }) => setUnit(value)}
+              fluid
+              selection
+              options={[
+                { key: 'none', value: '', text: 'None' },
+                {
+                  key: 'academic_affairs',
+                  value: 'Academic Affairs',
+                  text: 'Academic Affairs',
+                },
+                {
+                  key: 'business_finance',
+                  value: 'Business Finance',
+                  text: 'Business Finance',
+                },
+                { key: 'cahss', value: 'CAHSS', text: 'CAHSS' },
+                { key: 'cpp', value: 'CPP', text: 'CPP' },
+                { key: 'chsph', value: 'CHSPH', text: 'CHSPH' },
+                { key: 'cstem', value: 'CSTEM', text: 'CSTEM' },
+                {
+                  key: 'diversity_inclusion',
+                  value: 'Diversity and Inclusion',
+                  text: 'Diversity and Inclusion',
+                },
+                {
+                  key: 'equal_opportunity',
+                  value: 'Equal Opportunity Affirm Action',
+                  text: 'Equal Opportunity Affirm Action',
+                },
+                {
+                  key: 'student_affairs',
+                  value: 'Student Affairs',
+                  text: 'Student Affairs',
+                },
+                {
+                  key: 'university_libraries',
+                  value: 'University Libraries',
+                  text: 'University Libraries',
+                },
+                {
+                  key: 'university_college',
+                  value: 'University College',
+                  text: 'University College',
+                },
+                {
+                  key: 'presidents_office',
+                  value: "President's Office",
+                  text: "President's Office",
+                },
+                {
+                  key: 'outreach_engagement',
+                  value: 'Outreach and Engagement',
+                  text: 'Outreach and Engagement',
+                },
+              ]}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Header>Amount Requested</Header>
+            <Input
+              placeholder='Amount Requested'
+              value={amount_requested}
+              name='amount_requested'
+              onChange={(_, { value }) => setAmountRequested(value)}
               type='number'
-              onChange={(event) => {
-                setAmountRequested(event.target.value);
-              }}
             />
-
-            <label>Pre Award Status: </label>
-            <select
-              name='preaward'
-              id='preaward'
-              onChange={(event) => {
-                setPreAwardStatus(event.target.value);
-              }}
-            >
-              <option value=''></option>
-              <option value='pending'>Pending</option>
-              <option value='funded'>Funded</option>
-              <option value='not_funded'>Not Funded</option>
-              <option value='additional'>Additional</option>
-              <option value='awarded'>Awarded</option>
-              <option value='cash_value'>Cash Value</option>
-              <option value='pre_proposal'>Pre Proposal</option>
-              <option value='invited'>Invited</option>
-              <option value='not_invited'>Not Invited</option>
-              <option value='no_cash_value'>No Cash Value</option>
-              <option value='reduced'>Reduced</option>
-              <option value='to_be_determined'>To be Determined</option>
-              <option value='see_notes'>See Notes</option>
-              <option value='not_accepted'>Not Accepted</option>
-            </select>
-
-            <label>Date Submitted: </label>
-            <input
+          </Form.Field>
+          <Form.Field>
+            <Header>Pre Award Status</Header>
+            <Dropdown
+              placeholder='Pre Award Status'
+              value={pre_award_status}
+              name='pre_award_status'
+              onChange={(_, { value }) => setPreAwardStatus(value)}
+              fluid
+              selection
+              options={[
+                { key: 'none', value: '', text: 'None' },
+                {
+                  key: 'pending',
+                  value: 'Pending',
+                  text: 'Pending',
+                },
+                {
+                  key: 'funded',
+                  value: 'Funded',
+                  text: 'Funded',
+                },
+                { key: 'not_funded', value: 'Not Funded', text: 'Not Funded' },
+                { key: 'additional', value: 'Additional', text: 'Additional' },
+                { key: 'awarded', value: 'Awarded', text: 'Awarded' },
+                { key: 'cash_value', value: 'Cash Value', text: 'Cash Value' },
+                {
+                  key: 'pre_proposal',
+                  value: 'Pre Proposal',
+                  text: 'Pre Proposal',
+                },
+                {
+                  key: 'invited',
+                  value: 'Invited',
+                  text: 'Invited',
+                },
+                {
+                  key: 'not_invited',
+                  value: 'Not Invited',
+                  text: 'Not Invited',
+                },
+                {
+                  key: 'no_cash_value',
+                  value: 'No Cash Value',
+                  text: 'No Cash Value',
+                },
+                {
+                  key: 'reduced',
+                  value: 'Reduced',
+                  text: 'Reduced',
+                },
+                {
+                  key: 'to_be_determined',
+                  value: 'To Be Determined',
+                  text: 'To Be Determined',
+                },
+                {
+                  key: 'see_notes',
+                  value: 'See Notes',
+                  text: 'See Notes',
+                },
+                {
+                  key: 'not_accepted',
+                  value: 'Not Accepted',
+                  text: 'Not Accepted',
+                },
+              ]}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Header>Date Submitted</Header>
+            <Input
+              placeholder='Date Submitted'
+              value={date_submitted}
+              name='date_submitted'
               type='date'
-              onChange={(event) => {
-                setDateSubmitted(event.target.value);
-              }}
+              onChange={(_, { value }) => setDateSubmitted(value)}
             />
-
-            <label>Date of Notice: </label>
-            <input
+          </Form.Field>
+          <Form.Field>
+            <Header>Date of Notice</Header>
+            <Input
+              placeholder='Date of Notice'
+              value={date_of_notice}
+              name='date_of_notice'
               type='date'
-              onChange={(event) => {
-                setDateOfNotice(event.target.value);
-              }}
+              onChange={(_, { value }) => setDateOfNotice(value)}
             />
-
-            <label>Project Start: </label>
-            <input
+          </Form.Field>
+          <Form.Field>
+            <Header>Project Start</Header>
+            <Input
+              placeholder='Project Start'
+              value={project_start}
+              name='project_start'
               type='date'
-              onChange={(event) => {
-                setProjectStart(event.target.value);
-              }}
+              onChange={(_, { value }) => setProjectStart(value)}
             />
-
-            <label>Project End: </label>
-            <input
+          </Form.Field>
+          <Form.Field>
+            <Header>Project End</Header>
+            <Input
+              placeholder='Project End'
+              value={project_end}
+              name='project_end'
               type='date'
-              onChange={(event) => {
-                setProjectEnd(event.target.value);
-              }}
+              onChange={(_, { value }) => setProjectEnd(value)}
             />
-
-            <label>Human Compliance: </label>
-            <input
-              type='text'
-              onChange={(event) => {
-                setHumanCompliace(event.target.value);
-              }}
+          </Form.Field>
+          <Form.Field>
+            <Header>Human Compliance</Header>
+            <Dropdown
+              placeholder='Select human compliance'
+              value={human_compliance}
+              name='human_compliance'
+              onChange={(_, { value }) => setHumanCompliance(value)}
+              fluid
+              selection
+              options={[
+                { key: 'none', value: '', text: 'None' },
+                { key: 'yes', value: 'Y', text: 'Y' },
+                { key: 'no', value: 'N', text: 'N' },
+              ]}
             />
-
-            <label>Animal Compliance: </label>
-            <input
-              type='text'
-              onChange={(event) => {
-                setAnimalCompliance(event.target.value);
-              }}
+          </Form.Field>
+          <Form.Field>
+            <Header>Animal Compliance</Header>
+            <Dropdown
+              placeholder='Select animal compliance'
+              value={animal_compliance}
+              name='animal_compliance'
+              onChange={(_, { value }) => setAnimalCompliance(value)}
+              fluid
+              selection
+              options={[
+                { key: 'none', value: '', text: 'None' },
+                { key: 'yes', value: 'Y', text: 'Y' },
+                { key: 'no', value: 'N', text: 'N' },
+              ]}
             />
-
-            <label>Recombinant DNA: </label>
-            <input
-              type='text'
-              onChange={(event) => {
-                setRecombinantDNA(event.target.value);
-              }}
+          </Form.Field>
+          <Form.Field>
+            <Header>Recombinant DNA</Header>
+            <Dropdown
+              placeholder='Select recombinant DNA'
+              value={recombinant_dna}
+              name='recombinant_dna'
+              onChange={(_, { value }) => setRecombinantDNA(value)}
+              fluid
+              selection
+              options={[
+                { key: 'none', value: '', text: 'None' },
+                { key: 'yes', value: 'Y', text: 'Y' },
+                { key: 'no', value: 'N', text: 'N' },
+              ]}
             />
-
-            <label>Subcontractors: </label>
-            <input
-              type='text'
-              onChange={(event) => {
-                setSubcontractors(event.target.value);
-              }}
+          </Form.Field>
+          <Form.Field>
+            <Header>Subcontractors</Header>
+            <Dropdown
+              placeholder='Subcontractors'
+              value={subcontractors}
+              name='subcontractors'
+              onChange={(_, { value }) => setSubcontractors(value)}
+              fluid
+              selection
+              options={[
+                { key: 'none', value: '', text: 'None' },
+                { key: 'yes', value: 'Y', text: 'Y' },
+                { key: 'no', value: 'N', text: 'N' },
+              ]}
             />
-
-            <label>Index Number: </label>
-            <input
+          </Form.Field>
+          <Form.Field>
+            <Header>Index Number</Header>
+            <Input
+              placeholder='Index Number'
+              value={index_number}
+              name='index_number'
+              onChange={(_, { value }) => setIndexNumber(value)}
               type='number'
-              onChange={(event) => {
-                setIndexNumber(event.target.value);
-              }}
             />
-
-            <label>Amount Funded: </label>
-            <input
+          </Form.Field>
+          <Form.Field>
+            <Header>Amount Funded</Header>
+            <Input
+              placeholder='Amount Funded'
+              value={amount_funded}
+              name='amount_funded'
+              onChange={(_, { value }) => setAmountFunded(value)}
               type='number'
-              onChange={(event) => {
-                setAmountFunded(event.target.value);
-              }}
             />
-
-            <label>Grant Type: </label>
-            <input
-              type='text'
-              onChange={(event) => {
-                setGrantType(event.target.value);
-              }}
+          </Form.Field>
+          <Form.Field>
+            <Header>Grant Type</Header>
+            <Dropdown
+              placeholder='Select Grant Type'
+              value={grant_type}
+              name='grant_type'
+              onChange={(_, { value }) => setGrantType(value)}
+              fluid
+              selection
+              options={[
+                { key: 'none', value: '', text: 'None' },
+                {
+                  key: 'contract',
+                  value: 'C - Contract',
+                  text: 'C - Contract',
+                },
+                { key: 'grant', value: 'G - Grant', text: 'G - Grant' },
+                {
+                  key: 'subcontract',
+                  value: 'S - Subcontract',
+                  text: 'S - Subcontract',
+                },
+                {
+                  key: 'interagency_agreement',
+                  value: 'IA - Interagency Agreement',
+                  text: 'IA - Interagency Agreement',
+                },
+                {
+                  key: 'cooperative_agreement',
+                  value: 'CA - Cooperative Agreement',
+                  text: 'CA - Cooperative Agreement',
+                },
+                {
+                  key: 'memorandum_of_agreement',
+                  value: 'MA - Memorandum of Agreement',
+                  text: 'MA - Memorandum of Agreement',
+                },
+                {
+                  key: 'purchase_order',
+                  value: 'PO - Purchase Order',
+                  text: 'PO - Purchase Order',
+                },
+              ]}
             />
-
-            <label>Category: </label>
-            <input
-              type='text'
-              onChange={(event) => {
-                setCategory(event.target.value);
-              }}
+          </Form.Field>
+          <Form.Field>
+            <Header>Category</Header>
+            <Dropdown
+              placeholder='Select Category'
+              value={category}
+              name='category'
+              onChange={(_, { value }) => setCategory(value)}
+              fluid
+              selection
+              options={[
+                { key: 'none', value: '', text: 'None' },
+                {
+                  key: 'basic_research',
+                  value: 'B -Basic Research',
+                  text: 'B -Basic Research',
+                },
+                {
+                  key: 'non_research_other',
+                  value: 'N -Non-research/other',
+                  text: 'N -Non-research/other',
+                },
+                {
+                  key: 'experimental',
+                  value: 'E -Experimental',
+                  text: 'E -Experimental',
+                },
+                {
+                  key: 'applied_research',
+                  value: 'A -Applied Research',
+                  text: 'A -Applied Research',
+                },
+              ]}
             />
-            <label>Pre Award POC: </label>
-            <select
+          </Form.Field>
+          <Form.Field>
+            <Header>Pre Award POC</Header>
+            <Dropdown
+              placeholder='Select a person'
+              value={pre_award_poc}
               name='pre_award_poc'
-              id='pre_award_poc'
-              onChange={(event) => {
-                setPreAwardPOC(event.target.value);
-              }}
-            >
-              <option value=''></option>
-              <option value='charlene_alspach'>Charlene Alspach</option>
-              <option value='kristyl_riddle'>Kristyl Riddle</option>
-              <option value='ruth_galm'>Ruth Galm</option>
-            </select>
-
-            <label>Post Award POC: </label>
-            <select
+              onChange={(_, { value }) => setPreAwardPOC(value)}
+              fluid
+              selection
+              options={[
+                { key: 'none', value: '', text: 'None' },
+                {
+                  key: 'charlene_alspach',
+                  value: 'Charlene Alspach',
+                  text: 'Charlene Alspach',
+                },
+                {
+                  key: 'kristyl_riddle',
+                  value: 'Kristyl Riddle',
+                  text: 'Kristyl Riddle',
+                },
+                {
+                  key: 'ruth_galm',
+                  value: 'Ruth Galm',
+                  text: 'Ruth Galm',
+                },
+              ]}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Header>Post Award POC</Header>
+            <Dropdown
+              placeholder='Select a person'
+              value={post_award_poc}
               name='post_award_poc'
-              id='post_award_poc'
-              onChange={(event) => {
-                setPostAwardPOC(event.target.value);
-              }}
-            >
-              <option value=''></option>
-              <option value='charlene_alspach'>Charlene Alspach</option>
-              <option value='danielle_desormier'>Danielle Desormier</option>
-              <option value='nancy_miller'>Nancy Miller</option>
-              <option value='michelle_siedenburg'>Michelle Siedenburg</option>
-            </select>
-
-            <label>Contract Number: </label>
-            <input
-              type='text'
-              onChange={(event) => {
-                setContractNumber(event.target.value);
-              }}
+              onChange={(_, { value }) => setPostAwardPOC(value)}
+              fluid
+              selection
+              options={[
+                { key: 'none', value: '', text: 'None' },
+                {
+                  key: 'charlene_alspach',
+                  value: 'Charlene Alspach',
+                  text: 'Charlene Alspach',
+                },
+                {
+                  key: 'danielle_desormier',
+                  value: 'Danielle Desormier',
+                  text: 'Danielle Desormier',
+                },
+                {
+                  key: 'nancy_miller',
+                  value: 'Nancy Miller',
+                  text: 'Nancy Miller',
+                },
+                {
+                  key: 'michelle_siedenburg',
+                  value: 'Michelle Siedenburg',
+                  text: 'Michelle Siedenburg',
+                },
+              ]}
             />
-
-            <label>Indirect Cost: </label>
-            <input
+          </Form.Field>
+          <Form.Field>
+            <Header>Contract Number</Header>
+            <Input
+              placeholder='Contract Number'
+              value={contract_number}
+              name='contract_number'
+              onChange={(_, { value }) => setContractNumber(value)}
+              type='text'
+            />
+          </Form.Field>
+          <Form.Field>
+            <Header>Indirect Cost</Header>
+            <Input
+              placeholder='Indirect Cost'
+              value={indirect_cost}
+              name='indirect_cost'
+              onChange={(_, { value }) => setIndirectCost(value)}
               type='number'
-              onChange={(event) => {
-                setIndirectCost(event.target.value);
-              }}
             />
-
-            <h3>Compliance Reqs</h3>
-            <label>Internal Approval: </label>
-            <select
+          </Form.Field>
+          <Segment basic>
+            <Divider horizontal>Compliance Requirements</Divider>
+          </Segment>
+          <Form.Field>
+            <Header>Internal Approval</Header>
+            <Dropdown
+              placeholder='Select internal approval type'
+              value={internal_approval}
               name='internal_approval'
-              id='internal_approval'
-              onChange={(event) => {
-                setInternalApproval(event.target.value);
-              }}
-            >
-              <option value=''></option>
-              <option value='in_process'>In Process</option>
-              <option value='need'>Need</option>
-              <option value='na'>NA</option>
-              <option value='complete'>Complete</option>
-              <option value='see_pre_award_contact'>See Pre Award Contact</option>
-              <option value='not_funded'>Not Funded</option>
-              <option value='see_notes'>See Notes</option>
-            </select>
-
-            <label>Certification and Assurance: </label>
-            <select
+              onChange={(_, { value }) => setInternalApproval(value)}
+              fluid
+              selection
+              options={[
+                { key: 'none', value: '', text: 'None' },
+                {
+                  key: 'in_process',
+                  value: 'In Process',
+                  text: 'In Process',
+                },
+                {
+                  key: 'need',
+                  value: 'Need',
+                  text: 'Need',
+                },
+                {
+                  key: 'na',
+                  value: 'NA',
+                  text: 'NA',
+                },
+                {
+                  key: 'complete',
+                  value: 'Complete',
+                  text: 'Complete',
+                },
+                {
+                  key: 'see_pre_award_contact',
+                  value: 'See Pre Award Contact',
+                  text: 'See Pre Award Contact',
+                },
+                {
+                  key: 'not_funded',
+                  value: 'Not Funded',
+                  text: 'Not Funded',
+                },
+                {
+                  key: 'see_notes',
+                  value: 'See Notes',
+                  text: 'See Notes',
+                },
+              ]}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Header>Certfication and Assurance</Header>
+            <Dropdown
+              placeholder='Select certification and assurance type'
+              value={certification_assurance}
               name='certification_assurance'
-              id='certification_assurance'
-              onChange={(event) => {
-                setCertificationAssurance(event.target.value);
-              }}
-            >
-              <option value=''></option>
-              <option value='in_process'>In Process</option>
-              <option value='need'>Need</option>
-              <option value='na'>NA</option>
-              <option value='complete'>Complete</option>
-              <option value='see_pre_award_contact'>See Pre Award Contact</option>
-              <option value='not_funded'>Not Funded</option>
-              <option value='see_notes'>See Notes</option>
-            </select>
-
-            <label>Financial Interest: </label>
-            <select
+              onChange={(_, { value }) => setCertificationAssurance(value)}
+              fluid
+              selection
+              options={[
+                { key: 'none', value: '', text: 'None' },
+                {
+                  key: 'in_process',
+                  value: 'In Process',
+                  text: 'In Process',
+                },
+                {
+                  key: 'need',
+                  value: 'Need',
+                  text: 'Need',
+                },
+                {
+                  key: 'na',
+                  value: 'NA',
+                  text: 'NA',
+                },
+                {
+                  key: 'complete',
+                  value: 'Complete',
+                  text: 'Complete',
+                },
+                {
+                  key: 'see_pre_award_contact',
+                  value: 'See Pre Award Contact',
+                  text: 'See Pre Award Contact',
+                },
+                {
+                  key: 'not_funded',
+                  value: 'Not Funded',
+                  text: 'Not Funded',
+                },
+                {
+                  key: 'see_notes',
+                  value: 'See Notes',
+                  text: 'See Notes',
+                },
+              ]}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Header>Financial Interest</Header>
+            <Dropdown
+              placeholder='Select financial interest type'
+              value={financial_interest}
               name='financial_interest'
-              id='financial_interest'
-              onChange={(event) => {
-                setFinancialInterest(event.target.value);
-              }}
-            >
-              <option value=''></option>
-              <option value='in_process'>In Process</option>
-              <option value='need'>Need</option>
-              <option value='na'>NA</option>
-              <option value='complete'>Complete</option>
-              <option value='see_pre_award_contact'>See Pre Award Contact</option>
-              <option value='not_funded'>Not Funded</option>
-              <option value='see_notes'>See Notes</option>
-            </select>
-
-            <label>RCR: </label>
-            <select
+              onChange={(_, { value }) => setFinancialInterest(value)}
+              fluid
+              selection
+              options={[
+                { key: 'none', value: '', text: 'None' },
+                {
+                  key: 'in_process',
+                  value: 'In Process',
+                  text: 'In Process',
+                },
+                {
+                  key: 'need',
+                  value: 'Need',
+                  text: 'Need',
+                },
+                {
+                  key: 'na',
+                  value: 'NA',
+                  text: 'NA',
+                },
+                {
+                  key: 'complete',
+                  value: 'Complete',
+                  text: 'Complete',
+                },
+                {
+                  key: 'see_pre_award_contact',
+                  value: 'See Pre Award Contact',
+                  text: 'See Pre Award Contact',
+                },
+                {
+                  key: 'not_funded',
+                  value: 'Not Funded',
+                  text: 'Not Funded',
+                },
+                {
+                  key: 'see_notes',
+                  value: 'See Notes',
+                  text: 'See Notes',
+                },
+              ]}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Header>RCR</Header>
+            <Dropdown
+              placeholder='Select RCR type'
+              value={rcr}
               name='rcr'
-              id='rcr'
-              onChange={(event) => {
-                setRCR(event.target.value);
-              }}
-            >
-              <option value=''></option>
-              <option value='in_process'>In Process</option>
-              <option value='need'>Need</option>
-              <option value='na'>NA</option>
-              <option value='complete'>Complete</option>
-              <option value='see_pre_award_contact'>See Pre Award Contact</option>
-              <option value='not_funded'>Not Funded</option>
-              <option value='see_notes'>See Notes</option>
-            </select>
-
-            <label>Archive Location: </label>
-            <input
-              type='text'
-              onChange={(event) => {
-                setArchiveLocation(event.target.value);
-              }}
+              onChange={(_, { value }) => setRCR(value)}
+              fluid
+              selection
+              options={[
+                { key: 'none', value: '', text: 'None' },
+                {
+                  key: 'in_process',
+                  value: 'In Process',
+                  text: 'In Process',
+                },
+                {
+                  key: 'need',
+                  value: 'Need',
+                  text: 'Need',
+                },
+                {
+                  key: 'na',
+                  value: 'NA',
+                  text: 'NA',
+                },
+                {
+                  key: 'complete',
+                  value: 'Complete',
+                  text: 'Complete',
+                },
+                {
+                  key: 'see_pre_award_contact',
+                  value: 'See Pre Award Contact',
+                  text: 'See Pre Award Contact',
+                },
+                {
+                  key: 'not_funded',
+                  value: 'Not Funded',
+                  text: 'Not Funded',
+                },
+                {
+                  key: 'see_notes',
+                  value: 'See Notes',
+                  text: 'See Notes',
+                },
+              ]}
             />
-
-            <label>Notes: </label>
-            <input
+          </Form.Field>
+          <Segment basic>
+            <Divider horizontal>Other</Divider>
+          </Segment>
+          <Form.Field>
+            <Header>Archive Location</Header>
+            <Input
+              placeholder='Archive Location'
+              value={archive_location}
+              name='archive_location'
+              onChange={(_, { value }) => setArchiveLocation(value)}
               type='text'
-              onChange={(event) => {
-                setNotes(event.target.value);
-              }}
             />
-
-            <Form.Button onClick={addProposal}> Submit Proposal</Form.Button>
-          </div>
-        </div>
-      </Form>
-    </div>
+          </Form.Field>
+          <Form.Field>
+            <Header>Notes</Header>
+            <Input
+              placeholder='Notes'
+              value={notes}
+              name='notes'
+              onChange={(_, { value }) => setNotes(value)}
+              type='text'
+            />
+          </Form.Field>
+        </Form>
+    </Segment>
   );
 };
