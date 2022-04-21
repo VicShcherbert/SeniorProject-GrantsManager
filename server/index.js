@@ -16,7 +16,7 @@ const db = mysql.createConnection({
 });
 
 app.get('/proposals', (req, res) => {
-  db.query('SELECT * FROM Proposals', (err, result) => {
+  db.query('SELECT * FROM Proposals ORDER BY proposal_number ASC;', (err, result) => {
     if (err) {
       console.log(err);
     } else {
@@ -125,11 +125,80 @@ app.post('/add_department', (req, res) => {
 app.put('/update', (req, res) => {
   const proposal_number = req.body.proposal_number;
   const title = req.body.title;
-  // const agency = req.body.agency;
+  const agency = req.body.agency;
+  const funding_type = req.body.funding_type;
+  const cfda_number = req.body.cfda_number;
+  const investigator = req.body.investigator;
+  const extension = req.body.extension;
+  const email = req.body.email;
+  const department_name = req.body.department_name;
+  const unit = req.body.unit;
+  const amount_reqested = req.body.amount_reqested; //MISSPELLED
+  const pre_award_status = req.body.pre_award_status;
+  const human_compliance = req.body.human_compliance;
+  const animal_compliance = req.body.animal_compliance;
+  const recombinant_dna = req.body.recombinant_dna;
+  const subcontractors = req.body.subcontractors;
+  const index_number = req.body.index_number;
+  const amount_funded = req.body.amount_funded;
+  const grant_type = req.body.grant_type;
+  const category = req.body.category;
+  const pre_award_poc = req.body.pre_award_poc;
+  const post_award_poc = req.body.post_award_poc;
+  const contract_number = req.body.contract_number;
+  const indirect_cost = req.body.indirect_cost;
+  const internal_approval = req.body.internal_approval;
+  const certification_assurance = req.body.certification_assurance;
+  const financial_interest = req.body.financial_interest;
+  const rcr = req.body.rcr;
+  const archive_location = req.body.archive_location;
+  const notes = req.body.notes;
 
   db.query(
-    'UPDATE Proposals SET title = ? WHERE proposal_number = ?',
-    [title, proposal_number],
+    'UPDATE Proposals SET title = ?, agency = ?,'+
+    ' funding_type = ?, cfda_number = ?, investigator = ?, extension = ?, email = ?, department_name = ?,'+
+    ' unit = ?, amount_reqested = ?, pre_award_status = ?, human_compliance = ?, animal_compliance = ?,' +
+    ' recombinant_dna = ?, subcontractors = ?, index_number = ?, amount_funded = ?, grant_type = ?,' +
+    ' category = ?, pre_award_poc = ?, post_award_poc = ?, contract_number = ?, indirect_cost = ?,' +
+    ' internal_approval = ?, certification_assurance = ?, financial_interest = ?, rcr = ?, archive_location = ?,' +
+    ' notes = ? WHERE proposal_number = ?',
+    [
+      title,
+      agency,
+      funding_type,
+      cfda_number,
+      investigator,
+      extension,
+      email,
+      // department_number: departmentNumber,
+      department_name,
+      unit,
+      amount_reqested, //MISSPELLED
+      pre_award_status,
+      // date_submitted: dateSubmitted,
+      // date_of_notice: dateOfNotice,
+      // project_start: projectStart,
+      // project_end: projectEnd,
+      human_compliance,
+      animal_compliance,
+      recombinant_dna,
+      subcontractors,
+      index_number,
+      amount_funded,
+      grant_type,
+      category,
+      pre_award_poc,
+      post_award_poc,
+      contract_number,
+      indirect_cost,
+      internal_approval,
+      certification_assurance,
+      financial_interest,
+      rcr,
+      archive_location,
+      notes,
+      proposal_number,
+    ],
     (err, result) => {
       if (err) console.log(err);
       else res.send(result);

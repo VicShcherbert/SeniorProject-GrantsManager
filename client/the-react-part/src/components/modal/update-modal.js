@@ -24,19 +24,27 @@ export const UpdateModal = ({ proposal }) => {
   const [departmentNumber, setDeptNum] = useState(proposal.department_number);
   const [departmentName, setDeptName] = useState(proposal.department_name);
   const [departmentList, setDepartmentList] = useState([]);
+  console.log(departmentList);
   const [unit, setUnit] = useState(proposal.unit);
   const [amountRequested, setAmountRequested] = useState(
-    proposal.amount_requested
+    proposal.amount_reqested //MISSPEELLLLLLED
   );
   const [preAwardStatus, setPreAwardStatus] = useState(
     proposal.pre_award_status
   );
-  const [dateSubmitted, setDateSubmitted] = useState('');
+
+  var dateObj = new Date();
+  var month = dateObj.getUTCMonth(proposal.date_submitted) + 1; //months from 1-12
+  var day = dateObj.getUTCDate(proposal.date_submitted);
+  var year = dateObj.getUTCFullYear(proposal.date_submitted);
+  const dateSubNew = year + '-' + '0' + month + '-' + day;
+
+  const [dateSubmitted, setDateSubmitted] = useState(dateSubNew);
   const [dateOfNotice, setDateOfNotice] = useState('');
   const [projectStart, setProjectStart] = useState('');
   const [projectEnd, setProjectEnd] = useState(''); //figure out the date format here
   const [humanCompliance, setHumanCompliance] = useState(
-    proposal.human_compiance
+    proposal.human_compliance
   );
   const [animalCompliance, setAnimalCompliance] = useState(
     proposal.animal_compliance
@@ -86,20 +94,103 @@ export const UpdateModal = ({ proposal }) => {
     Axios.get('http://localhost:3001/get_departments').then((response) => {
       setDepartmentList(response.data); //becasue response contains 'data'
     });
-  });
+  }, []);
+
+  const dealWithCancel = () => {
+    setTitle(proposal.title);
+    setAgency(proposal.agency);
+    setFundingType(proposal.funding_type);
+    setCFDANumber(proposal.cfda_number);
+    setInvestigator(proposal.investigator);
+    setExtension(proposal.extension);
+    setEmail(proposal.email);
+    // setDeptNum(proposal.department_number);
+    setDeptName(proposal.department_name);
+    setUnit(proposal.unit);
+    setAmountRequested(
+      proposal.amount_reqested //MISSPEELLLLLLED
+    );
+    setPreAwardStatus(proposal.pre_award_status);
+
+    var dateObj = new Date();
+    var month = dateObj.getUTCMonth(proposal.date_submitted) + 1; //months from 1-12
+    var day = dateObj.getUTCDate(proposal.date_submitted);
+    var year = dateObj.getUTCFullYear(proposal.date_submitted);
+    const dateSubNew = year + '-' + '0' + month + '-' + day;
+
+    // const [dateSubmitted, setDateSubmitted] = useState(dateSubNew);
+    // const [dateOfNotice, setDateOfNotice] = useState('');
+    // const [projectStart, setProjectStart] = useState('');
+    // const [projectEnd, setProjectEnd] = useState(''); //figure out the date format here
+    setHumanCompliance(proposal.human_compiance);
+    setAnimalCompliance(proposal.animal_compliance);
+    setRecombinantDNA(proposal.recombinant_dna);
+    setSubcontractors(proposal.subcontractors);
+    setIndexNumber(proposal.index_number);
+    setAmountFunded(proposal.amount_funded);
+    setGrantType(proposal.grant_type);
+    setCategory(proposal.category);
+    setPreAwardPOC(proposal.pre_award_poc);
+    setPostAwardPOC(proposal.post_award_poc);
+    setContractNumber(proposal.contract_number);
+    setIndirectCost(proposal.indirect_cost);
+    setInternalApproval(proposal.internal_approval);
+    setCertificationAssurance(proposal.certification_assurance);
+    setFinancialInterest(proposal.financial_interest);
+    setArchiveLocation(proposal.archive_location);
+    setRCR(proposal.rcr);
+    setNotes(proposal.notes);
+    setOpen(false);
+  };
 
   const handleUpdate = (prop_number) => {
     var result = window.confirm('Are you sure you want to update?');
-    if (result) {
+    console.log(dateSubmitted);
+    if (result && departmentList) {
       Axios.put('http://localhost:3001/update', {
         proposal_number: prop_number,
         title: title,
+        agency: agency,
+        funding_type: fundingType,
+        cfda_number: cfdaNumber,
+        investigator: investigator,
+        extension: extension,
+        email: email,
+        // department_number: departmentNumber,
+        department_name: departmentName,
+        unit: unit,
+        amount_reqested: amountRequested, //MISEPEELEEDDD
+        pre_award_status: preAwardStatus,
+        // date_submitted: dateSubmitted,
+        // date_of_notice: dateOfNotice,
+        // project_start: projectStart,
+        // project_end: projectEnd,
+        human_compliance: humanCompliance,
+        animal_compliance: animalCompliance,
+        recombinant_dna: recombinantDna,
+        subcontractors: subcontractors,
+        index_number: indexNumber,
+        amount_funded: amountFunded,
+        grant_type: grantType,
+        category: category,
+        pre_award_poc: preAwardPoc,
+        post_award_poc: postAwardPoc,
+        contract_number: contractNumber,
+        indirect_cost: indirectCost,
+        internal_approval: internalApproval,
+        certification_assurance: certificationAssurance,
+        financial_interest: financialInterest,
+        rcr: rcr,
+        archive_location: archiveLocation,
+        notes: notes,
       }).then((response) => {
-        alert('update');
+        console.log(response);
+        alert('Entry has been updated');
+        setOpen(false);
+        // window.location.reload();
       });
     }
   };
-
   //   console.log(title);
 
   return (
@@ -107,7 +198,7 @@ export const UpdateModal = ({ proposal }) => {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={<Button color='orange'>Update</Button>}
+      trigger={<Button color='grey'>View</Button>}
     >
       <Modal.Header>{proposal.title}</Modal.Header>
       <Modal.Content>
@@ -155,11 +246,11 @@ export const UpdateModal = ({ proposal }) => {
               fluid
               selection
               options={[
-                { key: 'none', value: '', text: 'None' },
-                { key: 'federal', value: 'federal', text: 'Federal' },
-                { key: 'state', value: 'state', text: 'State' },
-                { key: 'tribal', value: 'tribal', text: 'Tribal' },
-                { key: 'private', value: 'private', text: 'Private' },
+                { value: '', text: 'None' },
+                { value: 'federal', text: 'Federal' },
+                { value: 'state', text: 'State' },
+                { value: 'tribal', text: 'Tribal' },
+                { value: 'private', text: 'Private' },
               ]}
             />
           </Form.Field>
@@ -885,7 +976,9 @@ export const UpdateModal = ({ proposal }) => {
         >
           Update
         </Button>
-        <Button onClick={() => setOpen(false)}>Done</Button>
+        <Button color='red' onClick={() => dealWithCancel()}>
+          Cancel
+        </Button>
       </Modal.Actions>
     </Modal>
   );

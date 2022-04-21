@@ -19,6 +19,13 @@ export const AddDepartment = () => {
         Add a Department
       </h3>
       <Form id="add-department">
+          <label>ID:</label>
+          <input
+            type='number'
+            onChange={(event) => {
+              setID(event.target.value);
+            }}
+          />
           <label>Name:</label>
           <input
             type='text'
@@ -27,13 +34,6 @@ export const AddDepartment = () => {
             }}
           />
 
-          <label>ID:</label>
-          <input
-            type='number'
-            onChange={(event) => {
-              setID(event.target.value);
-            }}
-          />
 
           <Form.Button onClick={addDepartment}>Add Department</Form.Button>
       </Form>
