@@ -13,6 +13,7 @@ import {
 } from 'semantic-ui-react';
 
 export const UpdateModal = ({ proposal }) => {
+  console.log('Being reloaded again');
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(proposal.title);
   const [agency, setAgency] = useState(proposal.agency);
@@ -24,7 +25,7 @@ export const UpdateModal = ({ proposal }) => {
   const [departmentNumber, setDeptNum] = useState(proposal.department_number);
   const [departmentName, setDeptName] = useState(proposal.department_name);
   const [departmentList, setDepartmentList] = useState([]);
-  console.log(departmentList);
+
   const [unit, setUnit] = useState(proposal.unit);
   const [amountRequested, setAmountRequested] = useState(
     proposal.amount_reqested //MISSPEELLLLLLED
@@ -33,16 +34,28 @@ export const UpdateModal = ({ proposal }) => {
     proposal.pre_award_status
   );
 
-  var dateObj = new Date();
-  var month = dateObj.getUTCMonth(proposal.date_submitted) + 1; //months from 1-12
-  var day = dateObj.getUTCDate(proposal.date_submitted);
-  var year = dateObj.getUTCFullYear(proposal.date_submitted);
-  const dateSubNew = year + '-' + '0' + month + '-' + day;
+  //Date Work:
+  const getCorrectDate = (theDate) => {
+    return theDate.toLocaleDateString('en-CA', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+  };
 
-  const [dateSubmitted, setDateSubmitted] = useState(dateSubNew);
-  const [dateOfNotice, setDateOfNotice] = useState('');
-  const [projectStart, setProjectStart] = useState('');
-  const [projectEnd, setProjectEnd] = useState(''); //figure out the date format here
+  const dateSubmittedNew = getCorrectDate(new Date(proposal.date_submitted));
+  const [dateSubmitted, setDateSubmitted] = useState(dateSubmittedNew);
+  // console.log(dateSubmitted);
+  const dateOfNoticeNew = getCorrectDate(new Date(proposal.date_of_notice));
+  const [dateOfNotice, setDateOfNotice] = useState(dateOfNoticeNew);
+  // console.log(dateOfNotice);
+  const projectStartNew = getCorrectDate(new Date(proposal.project_start));
+  const [projectStart, setProjectStart] = useState(projectStartNew);
+  // console.log(projectStart);
+  const projectEndNew = getCorrectDate(new Date(proposal.project_end));
+  const [projectEnd, setProjectEnd] = useState(projectEndNew);
+  // console.log(projectEnd);
+
   const [humanCompliance, setHumanCompliance] = useState(
     proposal.human_compliance
   );
@@ -94,7 +107,7 @@ export const UpdateModal = ({ proposal }) => {
     Axios.get('http://localhost:3001/get_departments').then((response) => {
       setDepartmentList(response.data); //becasue response contains 'data'
     });
-  }, []);
+  });
 
   const dealWithCancel = () => {
     setTitle(proposal.title);
@@ -112,16 +125,23 @@ export const UpdateModal = ({ proposal }) => {
     );
     setPreAwardStatus(proposal.pre_award_status);
 
-    var dateObj = new Date();
-    var month = dateObj.getUTCMonth(proposal.date_submitted) + 1; //months from 1-12
-    var day = dateObj.getUTCDate(proposal.date_submitted);
-    var year = dateObj.getUTCFullYear(proposal.date_submitted);
-    const dateSubNew = year + '-' + '0' + month + '-' + day;
+    const getCorrectDate = (theDate) => {
+      return theDate.toLocaleDateString('en-CA', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      });
+    };
 
-    // const [dateSubmitted, setDateSubmitted] = useState(dateSubNew);
-    // const [dateOfNotice, setDateOfNotice] = useState('');
-    // const [projectStart, setProjectStart] = useState('');
-    // const [projectEnd, setProjectEnd] = useState(''); //figure out the date format here
+    const dateSubmittedNew = getCorrectDate(new Date(proposal.date_submitted));
+    setDateSubmitted(dateSubmittedNew);
+    const dateOfNoticeNew = getCorrectDate(new Date(proposal.date_of_notice));
+    setDateOfNotice(dateOfNoticeNew);
+    const projectStartNew = getCorrectDate(new Date(proposal.project_start));
+    setProjectStart(projectStartNew);
+    const projectEndNew = getCorrectDate(new Date(proposal.project_end));
+    setProjectEnd(projectEndNew);
+
     setHumanCompliance(proposal.human_compiance);
     setAnimalCompliance(proposal.animal_compliance);
     setRecombinantDNA(proposal.recombinant_dna);
@@ -146,6 +166,9 @@ export const UpdateModal = ({ proposal }) => {
   const handleUpdate = (prop_number) => {
     var result = window.confirm('Are you sure you want to update?');
     console.log(dateSubmitted);
+    console.log(dateOfNotice);
+    console.log(projectStart);
+    console.log(projectEnd);
     if (result && departmentList) {
       Axios.put('http://localhost:3001/update', {
         proposal_number: prop_number,
@@ -161,10 +184,10 @@ export const UpdateModal = ({ proposal }) => {
         unit: unit,
         amount_reqested: amountRequested, //MISEPEELEEDDD
         pre_award_status: preAwardStatus,
-        // date_submitted: dateSubmitted,
-        // date_of_notice: dateOfNotice,
-        // project_start: projectStart,
-        // project_end: projectEnd,
+        date_submitted: dateSubmitted,
+        date_of_notice: dateOfNotice,
+        project_start: projectStart,
+        project_end: projectEnd,
         human_compliance: humanCompliance,
         animal_compliance: animalCompliance,
         recombinant_dna: recombinantDna,
