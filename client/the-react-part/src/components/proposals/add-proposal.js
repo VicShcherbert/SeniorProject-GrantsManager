@@ -110,7 +110,9 @@ export const AddProposal = () => {
       rcr: rcr,
       archive_location: archive_location,
       notes: notes,
-    }).then(console.log('success'));
+    }).then(
+      clearFields()
+    );
   };
 
   const clearFields = () => {
