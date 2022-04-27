@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './style.css';
 import { Departments } from './components/departments/departments';
-import { Proposals } from './routes/view-proposals';
+import { ViewProposals } from './components/proposals/view-proposals';
 import { AddProposal } from './components/proposals/add-proposal';
 import { Menu, MenuItem } from 'semantic-ui-react';
 import { Title } from './components/title/title';
@@ -35,7 +35,7 @@ const App = () => {
       </Menu>
       <Routes>
         <Route path='/' element={<Dashboard />} />
-        <Route path='/proposals' element={<Proposals />} />
+        <Route path='/proposals' element={<ViewProposals />} />
         <Route path='/add-proposal' element={<AddProposal />}></Route>
         <Route path='/departments' element={<Departments />} />
         <Route path='/reporting' element={<Report />} />
