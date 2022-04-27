@@ -45,7 +45,7 @@ app.post('/addProposal', (req, res) => {
   const project_start = req.body.project_start;
   const project_end = req.body.project_end;
   const human_compliance = req.body.human_compliance;
-  const animal_compliance = req.body.animal_compliace;
+  const animal_compliance = req.body.animal_compliance;
   const recombinant_dna = req.body.recombinant_dna;
   const subcontractors = req.body.subcontractors;
   const index_number = req.body.index_number;
@@ -131,10 +131,15 @@ app.put('/update', (req, res) => {
   const investigator = req.body.investigator;
   const extension = req.body.extension;
   const email = req.body.email;
+  const department_number = req.body.department_number;
   const department_name = req.body.department_name;
   const unit = req.body.unit;
   const amount_reqested = req.body.amount_reqested; //MISSPELLED
   const pre_award_status = req.body.pre_award_status;
+  const date_submitted = req.body.date_submitted;
+  const date_of_notice = req.body.date_of_notice;
+  const project_start = req.body.project_start;
+  const project_end = req.body.project_end;
   const human_compliance = req.body.human_compliance;
   const animal_compliance = req.body.animal_compliance;
   const recombinant_dna = req.body.recombinant_dna;
@@ -156,9 +161,9 @@ app.put('/update', (req, res) => {
 
   db.query(
     'UPDATE Proposals SET title = ?, agency = ?,'+
-    ' funding_type = ?, cfda_number = ?, investigator = ?, extension = ?, email = ?, department_name = ?,'+
-    ' unit = ?, amount_reqested = ?, pre_award_status = ?, human_compliance = ?, animal_compliance = ?,' +
-    ' recombinant_dna = ?, subcontractors = ?, index_number = ?, amount_funded = ?, grant_type = ?,' +
+    ' funding_type = ?, cfda_number = ?, investigator = ?, extension = ?, email = ?, department_number = ?, department_name = ?, '+
+    ' unit = ?, amount_reqested = ?, pre_award_status = ?, date_submitted = ?, date_of_notice = ?, project_start = ?, project_end = ?, ' +
+    ' human_compliance = ?, animal_compliance = ?, recombinant_dna = ?, subcontractors = ?, index_number = ?, amount_funded = ?, grant_type = ?,' +
     ' category = ?, pre_award_poc = ?, post_award_poc = ?, contract_number = ?, indirect_cost = ?,' +
     ' internal_approval = ?, certification_assurance = ?, financial_interest = ?, rcr = ?, archive_location = ?,' +
     ' notes = ? WHERE proposal_number = ?',
@@ -170,15 +175,15 @@ app.put('/update', (req, res) => {
       investigator,
       extension,
       email,
-      // department_number: departmentNumber,
+      department_number,
       department_name,
       unit,
       amount_reqested, //MISSPELLED
       pre_award_status,
-      // date_submitted: dateSubmitted,
-      // date_of_notice: dateOfNotice,
-      // project_start: projectStart,
-      // project_end: projectEnd,
+      date_submitted,
+      date_of_notice,
+      project_start,
+      project_end,
       human_compliance,
       animal_compliance,
       recombinant_dna,

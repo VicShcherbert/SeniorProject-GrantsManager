@@ -84,8 +84,8 @@ margin-bottom: 50px;
 }
 
 #add-proposal {
-max-width: 30%;
-margin: auto;
+/* display: flex; */
+justify-content: center;
 }
 
 #add-proposal input, select{

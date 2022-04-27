@@ -20,12 +20,11 @@ export const ViewProposals = () => {
   const [proposalsPerPage, setProposalsPerPage] = useState(30);
   const [currentPage, setCurrentPage] = useState(1);
 
-
   useEffect(() => {
     Axios.get('http://localhost:3001/proposals').then((response) => {
       setList(response.data); //becasue response contains 'data'
     });
-  });
+  }, []);
 
   const changePage = (e, pageInfo) => {
     setCurrentPage(pageInfo.activePage);

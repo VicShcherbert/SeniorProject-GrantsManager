@@ -11,12 +11,12 @@ import {
 
 export const ViewDepartments = () => {
   const [departments, setList] = useState([]);
-
+  
   useEffect(() => {
     Axios.get('http://localhost:3001/get_departments').then((response) => {
-      setList(response.data); //becasue response contains 'data'
+      setList(response.data);
     });
-  });
+  }, []);
 
   return (
     <div className='departments-table'>

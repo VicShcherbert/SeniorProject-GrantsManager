@@ -3,20 +3,20 @@ import ReactDOM from 'react-dom/client';
 import { Link } from 'react-router-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './style.css';
-import { Departments } from './routes/departments';
+import { Departments } from './components/departments/departments';
 import { Proposals } from './routes/view-proposals';
-import { AddProposal } from './components/dashboard/add-proposal';
+import { AddProposal } from './components/proposals/add-proposal';
 import { Menu, MenuItem } from 'semantic-ui-react';
 import { Title } from './components/title/title';
 import { Dashboard } from './components/dashboard/dashboard';
-import { Report } from './components/dashboard/report';
+import { Report } from './components/report/report';
 
 //Yo what up
 const App = () => {
   return (
     <BrowserRouter>
       <Title />
-      <Menu>
+      <Menu compact style={{display: 'flex', justifyContent: 'center'}}>
         <MenuItem id='nav-link'>
           <Link to='/'>Dashboard</Link>
         </MenuItem>

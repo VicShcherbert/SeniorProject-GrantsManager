@@ -13,7 +13,7 @@ import {
 } from 'semantic-ui-react';
 
 export const UpdateModal = ({ proposal }) => {
-  console.log('Being reloaded again');
+  // console.log('Being reloaded again');
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(proposal.title);
   const [agency, setAgency] = useState(proposal.agency);
@@ -97,17 +97,19 @@ export const UpdateModal = ({ proposal }) => {
     text: element.name,
   }));
 
-  const departmentNumbers = departmentList.map((element) => ({
-    key: element.id,
-    value: element.id,
-    text: element.id,
-  }));
+  const dealWithNameNum = (value) => {
+    setDeptName(value);
+    for (var i = 0; i < departmentNames.length; i++) {
+      if (departmentNames[i].value === value)
+        setDeptNum(departmentNames[i].key);
+    }
+  };
 
   useEffect(() => {
     Axios.get('http://localhost:3001/get_departments').then((response) => {
       setDepartmentList(response.data); //becasue response contains 'data'
     });
-  });
+  }, []);
 
   const dealWithCancel = () => {
     setTitle(proposal.title);
@@ -117,7 +119,7 @@ export const UpdateModal = ({ proposal }) => {
     setInvestigator(proposal.investigator);
     setExtension(proposal.extension);
     setEmail(proposal.email);
-    // setDeptNum(proposal.department_number);
+    setDeptNum(proposal.department_number);
     setDeptName(proposal.department_name);
     setUnit(proposal.unit);
     setAmountRequested(
@@ -165,10 +167,6 @@ export const UpdateModal = ({ proposal }) => {
 
   const handleUpdate = (prop_number) => {
     var result = window.confirm('Are you sure you want to update?');
-    console.log(dateSubmitted);
-    console.log(dateOfNotice);
-    console.log(projectStart);
-    console.log(projectEnd);
     if (result && departmentList) {
       Axios.put('http://localhost:3001/update', {
         proposal_number: prop_number,
@@ -179,7 +177,7 @@ export const UpdateModal = ({ proposal }) => {
         investigator: investigator,
         extension: extension,
         email: email,
-        // department_number: departmentNumber,
+        department_number: departmentNumber,
         department_name: departmentName,
         unit: unit,
         amount_reqested: amountRequested, //MISEPEELEEDDD
@@ -207,14 +205,11 @@ export const UpdateModal = ({ proposal }) => {
         archive_location: archiveLocation,
         notes: notes,
       }).then((response) => {
-        console.log(response);
         alert('Entry has been updated');
-        setOpen(false);
-        // window.location.reload();
+        window.location.reload();
       });
     }
   };
-  //   console.log(title);
 
   return (
     <Modal
@@ -317,25 +312,14 @@ export const UpdateModal = ({ proposal }) => {
               type='text'
             />
           </Form.Field>
-          {/* <Form.Field>
-            <Header>Department Number</Header>
-            <Dropdown
-              placeholder='Select department number'
-              value={departmentNumber}
-              name='department_number'
-              onChange={(_, { value }) => setDeptNum(value)}
-              fluid
-              selection
-              options={departmentNumbers}
-            />
-          </Form.Field> */}
           <Form.Field>
             <Header>Department Name</Header>
             <Dropdown
               placeholder='Select department name'
               value={departmentName}
               name='department_name'
-              onChange={(_, { value }) => setDeptName(value)}
+              // onChange={(_, { value }) => setDeptName(value)}
+              onChange={(_, { value }) => dealWithNameNum(value)}
               fluid
               selection
               options={departmentNames}
