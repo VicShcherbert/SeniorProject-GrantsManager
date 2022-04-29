@@ -115,4 +115,15 @@ margin-top: 30px;
 margin-bottom: 30px;
 }
 
-
+#search-proposals {
+  max-width: 30%;
+  margin: auto;
+  }
+  
+  #search-proposals input, select{
+  margin-bottom: 30px;
+  }
+  
+  #search-proposals button {
+  margin-bottom: 30px;
+  }

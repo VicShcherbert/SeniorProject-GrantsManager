@@ -10,6 +10,7 @@ import { Menu, MenuItem } from 'semantic-ui-react';
 import { Title } from './components/title/title';
 import { Dashboard } from './components/dashboard/dashboard';
 import { Report } from './components/dashboard/report';
+import { Search } from './components/dashboard/search-proposals';
 
 //Yo what up
 const App = () => {
@@ -32,6 +33,9 @@ const App = () => {
         <MenuItem id='nav-link'>
           <Link to='/reporting'>Reporting</Link>
         </MenuItem>
+        <MenuItem id='nav-link'>
+          <Link to='/search-proposals'>Search</Link>
+        </MenuItem>
       </Menu>
       <Routes>
         <Route path='/' element={<Dashboard />} />
@@ -39,6 +43,7 @@ const App = () => {
         <Route path='/add-proposal' element={<AddProposal />}></Route>
         <Route path='/departments' element={<Departments />} />
         <Route path='/reporting' element={<Report />} />
+        <Route path='/search-proposals' element={<Search />} />
       </Routes>
     </BrowserRouter>
   );

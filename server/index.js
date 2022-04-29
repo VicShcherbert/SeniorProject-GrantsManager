@@ -25,6 +25,20 @@ app.get('/proposals', (req, res) => {
   });
 });
 
+app.get('/search', (req, res) => {
+    const searchTerm = req.body.searchTerm;
+  // const proposal_number = req.body.proposal_number;
+  // const title = req.body.title;
+  // const department_number = req.body.department_number;
+  // const department_name = req.body.department_name;
+  // const investigator = req.body.investigator;
+
+    db.query('SELECT * FROM Proposals WHERE proposal_number LIKE ? OR title LIKE ? OR department_number LIKE ? OR department_name LIKE ? OR investigator LIKE ?', ['%' + searchTerm + '%', '%' + searchTerm + '%', '%' + searchTerm + '%', '%' + searchTerm + '%', '%' + searchTerm + '%'], (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    });
+  });
+
 app.post('/addProposal', (req, res) => {
   const proposal_number = req.body.prop_num;
   const pre_proposal_number = req.body.pre_prop_num;
