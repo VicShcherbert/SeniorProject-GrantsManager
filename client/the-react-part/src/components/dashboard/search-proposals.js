@@ -1,24 +1,37 @@
 import React, { useState } from 'react';
-import { Form } from 'semantic-ui-react';
 import Axios from 'axios';
+import { Form } from 'semantic-ui-react';
+import '../../style.css';
 
 export const Search = () => {
-    const [searchTerm, searchQuery] = useState('');
-  // const [proposal_number, searchPropNum] = useState('');
-  // const [title, searchTitle] = useState('');
-  // const [investigator, searchInvestigator] = useState('');
-  // const [department_name, searchDeptName] = useState('');
-  // const [department_number, searchDeptNumber] = useState('');
+  const [proposal_number, setPropNum] = useState('');
+  const [title, setTitle] = useState('');
+  const [investigator, setInvestigator] = useState('');
+  const [department_name, setDeptName] = useState('');
+  const [department_number, setDeptNum] = useState(0);
+
+  const [list, setList] = useState([]);
+  const [proposalsPerPage, setProposalsPerPage] = useState(30);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // useEffect(() => {
+  //   Axios.get('http://localhost:3001/search').then((response) => {
+  //     setList(response.data); //becasue response contains 'data'
+  //   });
+  // });
 
   const search = () => {
-    Axios.get('http://localhost:3001/search', {
-        // proposal_number: proposal_number,
-        // title: title,
-        // department_number: department_number,
-        // department_name: department_name,
-        // investigator: investigator,
-        searchTerm: searchTerm,
-    }).then(console.log('success'));
+    console.log(proposal_number);
+    Axios.post('http://localhost:3001/search', {
+        proposal_number: proposal_number,
+        title: title,
+        department_number: department_number,
+        department_name: department_name,
+        investigator: investigator,
+    }).then((response) => {
+      console.log(response.data);
+      setList(response.data); //because response contains 'data'
+    });
   };
 
   return (
@@ -31,7 +44,7 @@ export const Search = () => {
             <input
               type='text'
               onChange={(event) => {
-                search(event.target.value);
+                setPropNum(event.target.value);
               }}
             />
 
@@ -39,7 +52,7 @@ export const Search = () => {
             <input
               type='text'
               onChange={(event) => {
-                search(event.target.value);
+                setTitle(event.target.value);
               }}
             />
 
@@ -47,7 +60,7 @@ export const Search = () => {
             <input
               type='text'
               onChange={(event) => {
-                search(event.target.value);
+                setInvestigator(event.target.value);
               }}
             />
 
@@ -55,15 +68,15 @@ export const Search = () => {
             <input
               type='number'
               onChange={(event) => {
-                search(event.target.value);
+                setDeptNum(event.target.value);
               }}
             />
 
-            <label>Deparment Name: </label>
+            <label>Department Name: </label>
             <input
               type='text'
               onChange={(event) => {
-                search(event.target.value);
+                setDeptName(event.target.value);
               }}
             />
 

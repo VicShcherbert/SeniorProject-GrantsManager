@@ -1,7 +1,7 @@
 import React from 'react'
-import { SearchProposals } from '../components/dashboard/search-proposals';
+import { Search } from '../components/dashboard/search-proposals';
 
-export const SearchProposals = () => {
+export const Search = () => {
     
     return(
         <div>

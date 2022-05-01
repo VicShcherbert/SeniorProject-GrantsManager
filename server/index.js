@@ -25,19 +25,44 @@ app.get('/proposals', (req, res) => {
   });
 });
 
-app.get('/search', (req, res) => {
-    const searchTerm = req.body.searchTerm;
-  // const proposal_number = req.body.proposal_number;
-  // const title = req.body.title;
-  // const department_number = req.body.department_number;
-  // const department_name = req.body.department_name;
-  // const investigator = req.body.investigator;
+app.post('/search', (req, res) => {
+  const proposal_number = req.body.proposal_number;
+  const title = req.body.title;
+  const department_number = req.body.department_number;
+  const department_name = req.body.department_name;
+  const investigator = req.body.investigator;
 
-    db.query('SELECT * FROM Proposals WHERE proposal_number LIKE ? OR title LIKE ? OR department_number LIKE ? OR department_name LIKE ? OR investigator LIKE ?', ['%' + searchTerm + '%', '%' + searchTerm + '%', '%' + searchTerm + '%', '%' + searchTerm + '%', '%' + searchTerm + '%'], (err, result) => {
-      if (err) console.log(err);
-      else res.send(result);
-    });
-  });
+  var sqlQuery = 'SELECT * FROM Proposals WHERE ';
+
+  if(proposal_number !== '')
+  {
+    sqlQuery += 'proposal_number = ' + proposal_number;
+  }
+  if(title !== '')
+  {
+    sqlQuery += ' OR title = ' + title;
+  }
+  if(department_number !== null && department_number !== 0)
+  {
+    sqlQuery += ' OR department_number = ' + department_number;
+  }
+  if(department_name !== '')
+  {
+    sqlQuery += ' OR department_name = ' + department_name;
+  }
+  if(investigator !== '')
+  {
+    sqlQuery += ' OR investigator = ' + investigator;
+  }
+console.log(req.body);
+    db.query(sqlQuery, (err, result) => {
+    if (err) console.log("Query failed. Query is: " + sqlQuery);
+    
+    // else console.log("We made it");
+    else res.send(result);
+  })
+});
+
 
 app.post('/addProposal', (req, res) => {
   const proposal_number = req.body.prop_num;
