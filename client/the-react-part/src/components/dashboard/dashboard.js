@@ -38,7 +38,7 @@ export const Dashboard = () => {
       getAmountFundedByType();
       setExecute(2);
     }
-  });
+  }, []);
 
   const renderPie = () => {
     if (fundsByType) {
