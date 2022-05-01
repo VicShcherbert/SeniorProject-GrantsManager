@@ -34,31 +34,63 @@ app.post('/search', (req, res) => {
 
   var sqlQuery = 'SELECT * FROM Proposals WHERE ';
 
+  //Search only proposal number
   if(proposal_number !== '')
   {
     sqlQuery += 'proposal_number = ' + proposal_number;
   }
-  if(title !== '')
+
+  //Search title
+  else if(title !== '')
   {
-    sqlQuery += ' OR title = ' + title;
+    sqlQuery += 'title LIKE \'%' + title + '%\'';
   }
-  if(department_number !== null && department_number !== 0)
+
+  //Search department number, department name, and investigator
+  else if(department_number !== null && department_number !== 0 && department_name !== '' && investigator !== '')
   {
-    sqlQuery += ' OR department_number = ' + department_number;
+    sqlQuery += 'department_number LIKE \'%' + department_number + '%\' AND department_name LIKE \'%' + department_name + '%\' AND investigator LIKE \'%' + investigator + '%\'';
   }
-  if(department_name !== '')
+
+  //Search department number and department name
+  else if(department_number !== null && department_number !== 0 && department_name !== '')
   {
-    sqlQuery += ' OR department_name = ' + department_name;
+    sqlQuery += 'department_number LIKE \'%' + department_number + '%\' AND department_name LIKE \'%' + department_name + '%\'';
   }
-  if(investigator !== '')
+
+  //Seach department number and investigator
+  else if(department_number !== null && department_number !== 0 && investigator !== '')
   {
-    sqlQuery += ' OR investigator = ' + investigator;
+    sqlQuery += 'department_number LIKE \'%' + department_number + '%\' AND investigator LIKE \'%' + investigator + '%\'';
   }
+
+  //Search department name and investigator
+  else if(department_name !== '' && investigator !== '')
+  {
+    sqlQuery += 'department_name  LIKE \'%' + department_name + '%\' AND investigator LIKE \'%' + investigator + '%\'';
+  }
+
+  //Search department number
+  else if(department_number !== null && department_number !== 0)
+  {
+    sqlQuery += 'department_number LIKE \'%' + department_number + '%\'';
+  }
+
+  //Search department name
+  else if(department_name !== '')
+  {
+    sqlQuery += 'department_name LIKE \'%' + department_name + '%\'';
+  }
+  
+  //Search investigator
+  else if(investigator !== '')
+  {
+    sqlQuery += 'investigator LIKE \'%' + investigator + '%\'';
+  }
+
 console.log(req.body);
     db.query(sqlQuery, (err, result) => {
     if (err) console.log("Query failed. Query is: " + sqlQuery);
-    
-    // else console.log("We made it");
     else res.send(result);
   })
 });
