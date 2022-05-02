@@ -9,8 +9,8 @@ import { AddProposal } from './components/proposals/add-proposal';
 import { Menu, MenuItem } from 'semantic-ui-react';
 import { Title } from './components/title/title';
 import { Dashboard } from './components/dashboard/dashboard';
-import { Report } from './components/dashboard/report';
-import { Search } from './components/dashboard/search-proposals';
+import { Report } from './components/report/report';
+import { Search } from './components/search/search-proposals';
 
 
 //Yo what up
