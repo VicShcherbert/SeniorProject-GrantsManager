@@ -98,7 +98,7 @@ export const Search = () => {
       </Form>
       <Segment basic style={{ maxWidth: "70%", margin: "auto" }}>
         <Header as="h1" textAlign="center">
-          Proposals
+          Search Results
         </Header>
         <Table celled>
           <TableHeader>
