@@ -11,10 +11,32 @@ import { Title } from './components/title/title';
 import { Dashboard } from './components/dashboard/dashboard';
 import { Report } from './components/report/report';
 import { Search } from './components/search/search-proposals';
-
+import { Login } from './components/login/login';
+import { Users } from './components/users/users';
 
 //Yo what up
 const App = () => {
+
+  const logout = () => {
+    sessionStorage.removeItem('greeting');
+    sessionStorage.removeItem('failed_login');
+    window.location.reload(false);
+  }
+
+  const userAccessMenuItem = () => {
+    if(sessionStorage.getItem('id') === '1'){
+      return (
+        <MenuItem id='nav-link'><Link to="/users">Users</Link></MenuItem>
+      )
+    }
+  }
+
+  if(!sessionStorage.getItem('greeting')){
+    return (
+      <Login />
+    )
+  }
+
   return (
     <BrowserRouter>
       <Title />
@@ -37,6 +59,8 @@ const App = () => {
         <MenuItem id='nav-link'>
           <Link to='/search-proposals'>Search</Link>
         </MenuItem>
+        {userAccessMenuItem()}
+        <MenuItem onClick={logout} id='nav-link'>Logout</MenuItem>
       </Menu>
       <Routes>
         <Route path='/' element={<Dashboard />} />
@@ -45,6 +69,7 @@ const App = () => {
         <Route path='/departments' element={<Departments />} />
         <Route path='/reporting' element={<Report />} />
         <Route path='/search-proposals' element={<Search />} />
+        <Route path="/users" element={<Users />} />
       </Routes>
     </BrowserRouter>
   );

@@ -49,7 +49,7 @@ max-width: 70%;
 margin: auto;
 }
 
-.departments-table {
+.departments-table, .users-table {
 max-width: 80%;
 float: left;
 margin-left: 20%;
@@ -96,34 +96,58 @@ margin-bottom: 30px;
 margin-bottom: 30px;
 }
 
-#add-department{
+#add-department, #add-user{
 max-width: 30%;
 margin: auto;
 float: right;
 margin-right: 20%;
 }
 
-#add-department-header {
+#add-department-header, #add-user-header {
 text-align: center;
 }
 
-#add-department button{
+#add-department button, #add-user button{
 margin-top: 30px;
 }
 
-#add-department input{
+#add-department input, #add-user input{
 margin-bottom: 30px;
 }
 
 #search-proposals {
-  max-width: 30%;
-  margin: auto;
-  }
-  
-  #search-proposals input, select{
-  margin-bottom: 30px;
-  }
-  
-  #search-proposals button {
-  margin-bottom: 30px;
-  }
+max-width: 30%;
+margin: auto;
+}
+
+#search-proposals input, select{
+margin-bottom: 30px;
+}
+
+#search-proposals button {
+margin-bottom: 30px;
+}
+
+#user-checkbox-label {
+margin: auto;
+margin-left: 20px;
+position: absolute;
+}
+
+#user-icon {
+  width: 100%;
+  margin: 100px 0 100px 0;
+  display: flex;
+  justify-content: center;
+}
+
+#google-login-button{
+  margin: 5em 40% 0 40%;
+  text-align: center;
+  max-width: 20%;
+}
+
+#google-login-button span[style] {
+  font-size: 25px;
+  font-weight: 800;
+}

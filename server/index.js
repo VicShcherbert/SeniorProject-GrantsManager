@@ -15,6 +15,28 @@ const db = mysql.createConnection({
   database: 'sys',
 });
 
+app.post('/google_login', (req, res) => {
+  db.query(`SELECT * FROM Users WHERE email='${req.body.email}'`, (err, result) => {
+    console.log(result);
+    if(err){
+      console.log(err);
+    }
+    else{
+      if(result[0]){
+        res.status(200)
+        res.json({
+          string: `Welcome ${result[0].name}!`,
+          id: result[0].id
+        });
+      }else{
+        res.status(204).json({
+          error:'User is not approved. Contact admin to correct this.'
+        });
+      }
+    }
+  });
+});
+
 app.get('/proposals', (req, res) => {
   db.query('SELECT * FROM Proposals ORDER BY proposal_number ASC;', (err, result) => {
     if (err) {
@@ -376,4 +398,24 @@ app.get('/get_amount_funded_by_type', (req, res) => {
       }
     );
   }
+});
+
+app.post('/add_user', (req, res) => {
+  const email = req.body.email;
+  const name = req.body.name;
+  const id = req.body.id;
+  db.query(
+    'INSERT INTO Users (email, name, id) VALUES (?, ?, ?);',
+    [email, name, id],
+    (err, result) => {
+      if (err) console.log(err);
+    }
+  );
+});
+
+app.get('/get_users', (req, res) => {
+  db.query('SELECT * FROM Users;', (err, result) => {
+    if (err) console.log(err);
+    else res.send(result);
+  });
 });
