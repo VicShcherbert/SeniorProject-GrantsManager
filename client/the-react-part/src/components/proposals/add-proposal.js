@@ -41,7 +41,11 @@ export const AddProposal = () => {
   const [amount_funded, setAmountFunded] = useState(0);
   const [grant_type, setGrantType] = useState('');
   const [category, setCategory] = useState('');
+  //Working on this
+  const [preAwardPOCList, setPreAwardPOCList] = useState([]);
   const [pre_award_poc, setPreAwardPOC] = useState('');
+  //Working on this
+  const [postAwardPOCList, setPostAwardPOCList] = useState([]);
   const [post_award_poc, setPostAwardPOC] = useState('');
   const [contract_number, setContractNumber] = useState(0);
   const [indirect_cost, setIndirectCost] = useState(0);
@@ -58,6 +62,20 @@ export const AddProposal = () => {
     text: element.name,
   }));
 
+  //Here
+  const preAwardPOCs = preAwardPOCList.map((element) => ({
+    key: element.id,
+    value: element.name,
+    text: element.name,
+  }));
+
+  //Here
+  const postAwardPOCs = postAwardPOCList.map((element) => ({
+    key: element.id,
+    value: element.name,
+    text: element.name,
+  }));
+
   const dealWithNameNum = (value) => {
     setDeptName(value);
     for (var i = 0; i < departmentNames.length; i++) {
@@ -66,9 +84,37 @@ export const AddProposal = () => {
     }
   };
 
+  const dealWithNameNumPreAwardPOC = (value) => {
+    setPreAwardPOC(value);
+    for (var i = 0; i < preAwardPOCs.length; i++) {
+      if (preAwardPOCs[i].value === value)
+        setPreAwardPOC(preAwardPOCs[i].key);
+    }
+  };
+
+  const dealWithNameNumPostAwardPOC = (value) => {
+    setPostAwardPOC(value);
+    for (var i = 0; i < postAwardPOCs.length; i++) {
+      if (postAwardPOCs[i].value === value)
+        setPostAwardPOC(postAwardPOCs[i].key);
+    }
+  };
+
   useEffect(() => {
     Axios.get('http://localhost:3001/get_departments').then((response) => {
-      setDepartmentList(response.data); //becasue response contains 'data'
+      setDepartmentList(response.data); //because response contains 'data'
+    });
+  }, []);
+
+  useEffect(() => {
+    Axios.get('http://localhost:3001/get_pre_award_POCs').then((response) => {
+      setPreAwardPOCList(response.data); //because response contains 'data'
+    });
+  }, []);
+
+  useEffect(() => {
+    Axios.get('http://localhost:3001/get_post_award_POCs').then((response) => {
+      setPostAwardPOCList(response.data); //because response contains 'data'
     });
   }, []);
 
@@ -143,7 +189,11 @@ export const AddProposal = () => {
     setAmountFunded(0);
     setGrantType('');
     setCategory('');
+    //Working on this:
+    setPreAwardPOCList([]);
     setPreAwardPOC('');
+    //Working on this:
+    setPostAwardPOCList([]);
     setPostAwardPOC('');
     setContractNumber(0);
     setIndirectCost(0);
@@ -611,64 +661,25 @@ export const AddProposal = () => {
         <Form.Field>
           <Header>Pre Award POC</Header>
           <Dropdown
-            placeholder='Select a person'
+            placeholder='Select Pre Award POC'
             value={pre_award_poc}
             name='pre_award_poc'
-            onChange={(_, { value }) => setPreAwardPOC(value)}
+            onChange={(_, { value }) => dealWithNameNumPreAwardPOC(value)}
             fluid
             selection
-            options={[
-              { key: 'none', value: '', text: 'None' },
-              {
-                key: 'charlene_alspach',
-                value: 'Charlene Alspach',
-                text: 'Charlene Alspach',
-              },
-              {
-                key: 'kristyl_riddle',
-                value: 'Kristyl Riddle',
-                text: 'Kristyl Riddle',
-              },
-              {
-                key: 'ruth_galm',
-                value: 'Ruth Galm',
-                text: 'Ruth Galm',
-              },
-            ]}
+            options={preAwardPOCs}
           />
         </Form.Field>
         <Form.Field>
           <Header>Post Award POC</Header>
           <Dropdown
-            placeholder='Select a person'
+            placeholder='Select Post Award POC'
             value={post_award_poc}
             name='post_award_poc'
-            onChange={(_, { value }) => setPostAwardPOC(value)}
+            onChange={(_, { value }) => dealWithNameNumPostAwardPOC(value)}
             fluid
             selection
-            options={[
-              { key: 'none', value: '', text: 'None' },
-              {
-                key: 'charlene_alspach',
-                value: 'Charlene Alspach',
-                text: 'Charlene Alspach',
-              },
-              {
-                key: 'danielle_desormier',
-                value: 'Danielle Desormier',
-                text: 'Danielle Desormier',
-              },
-              {
-                key: 'nancy_miller',
-                value: 'Nancy Miller',
-                text: 'Nancy Miller',
-              },
-              {
-                key: 'michelle_siedenburg',
-                value: 'Michelle Siedenburg',
-                text: 'Michelle Siedenburg',
-              },
-            ]}
+            options={postAwardPOCs}
           />
         </Form.Field>
         <Form.Field>

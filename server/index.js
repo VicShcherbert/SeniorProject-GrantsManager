@@ -311,6 +311,20 @@ app.get('/get_departments', (req, res) => {
   });
 });
 
+app.get('/get_pre_award_POCs', (req, res) => {
+  db.query('SELECT * FROM Pre_Award_Poc;', (err, result) => {
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.get('/get_post_award_POCs', (req, res) => {
+  db.query('SELECT * FROM Post_Award_Poc;', (err, result) => {
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
 app.listen(3001, () => {
   console.log('yo What up on port 3001');
 });
