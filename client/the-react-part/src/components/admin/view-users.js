@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios'; //when adding something to the database
 import {
   Icon,
+  Segment,
   Table,
   TableBody,
   TableCell,

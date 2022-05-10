@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Axios from 'axios'; //when adding something to the database
-import { Form, Radio } from 'semantic-ui-react';
+import { Form, Radio, Segment } from 'semantic-ui-react';
 
 export const AddUser = () => {
   
@@ -20,8 +20,8 @@ export const AddUser = () => {
   };
 
   return (
-    <div>
-      <h3 id='add-user-header'>Add a User</h3>
+    <div className='add-user'>
+      <h3 textAlign='center' id='add-user-header'>Add a User </h3>
       <Form id='add-user'>
         <label>Name:</label>
         <input

@@ -326,7 +326,7 @@ app.get('/get_post_award_POCs', (req, res) => {
 });
 
 app.listen(3001, () => {
-  console.log('yo What up on port 3001');
+  console.log('Server is running on port 3001');
 });
 
 let currentDate = new Date();
@@ -432,4 +432,26 @@ app.get('/get_users', (req, res) => {
     if (err) console.log(err);
     else res.send(result);
   });
+});
+
+app.post('/add_pre_award_poc', (req, res) => {
+  const name = req.body.name;
+  db.query(
+    'INSERT INTO Pre_Award_Poc (name) VALUES (?);',
+    [name],
+    (err, result) => {
+      if (err) console.log(err);
+    }
+  );
+});
+
+app.post('/add_post_award_poc', (req, res) => {
+  const name = req.body.name;
+  db.query(
+    'INSERT INTO Post_Award_Poc (name) VALUES (?);',
+    [name],
+    (err, result) => {
+      if (err) console.log(err);
+    }
+  );
 });

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import { Form } from "semantic-ui-react";
+import { Form, Accordion } from "semantic-ui-react";
 import "../../style.css";
 
 import {
@@ -96,6 +96,7 @@ export const Search = () => {
           </div>
         </div>
       </Form>
+
       <Segment basic style={{ maxWidth: "70%", margin: "auto" }}>
         <Header as="h1" textAlign="center">
           Search Results

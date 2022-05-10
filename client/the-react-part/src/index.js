@@ -12,7 +12,7 @@ import { Dashboard } from './components/dashboard/dashboard';
 import { Report } from './components/report/report';
 import { Search } from './components/search/search-proposals';
 import { Login } from './components/login/login';
-import { Users } from './components/users/users';
+import { Admin } from './components/admin/admin';
 
 //Yo what up
 const App = () => {
@@ -26,7 +26,7 @@ const App = () => {
   const userAccessMenuItem = () => {
     if(sessionStorage.getItem('id') === '1'){
       return (
-        <MenuItem id='nav-link'><Link to="/users">Users</Link></MenuItem>
+        <MenuItem id='nav-link'><Link to="/admin">Admin</Link></MenuItem>
       )
     }
   }
@@ -69,7 +69,7 @@ const App = () => {
         <Route path='/departments' element={<Departments />} />
         <Route path='/reporting' element={<Report />} />
         <Route path='/search-proposals' element={<Search />} />
-        <Route path="/users" element={<Users />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   );
