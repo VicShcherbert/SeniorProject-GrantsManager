@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'; //when adding something to the database
 import {
+  Header,
+  Segment,
   Table,
   TableBody,
   TableCell,
@@ -11,7 +13,7 @@ import {
 
 export const ViewDepartments = () => {
   const [departments, setList] = useState([]);
-  
+
   useEffect(() => {
     Axios.get('http://localhost:3001/get_departments').then((response) => {
       setList(response.data);
@@ -19,11 +21,16 @@ export const ViewDepartments = () => {
   }, []);
 
   return (
-    <div className='departments-table'>
+    <Segment basic style={{ maxWidth: '430px' }}>
+      <Header size='large' textAlign='center'>
+        Department List
+      </Header>
       <Table celled>
         <TableHeader>
-          <TableHeaderCell>ID</TableHeaderCell>
-          <TableHeaderCell>Name</TableHeaderCell>
+          <Table.Row>
+            <TableHeaderCell>ID</TableHeaderCell>
+            <TableHeaderCell>Name</TableHeaderCell>
+          </Table.Row>
         </TableHeader>
         <TableBody>
           {departments.map((department, key) => {
@@ -36,6 +43,6 @@ export const ViewDepartments = () => {
           })}
         </TableBody>
       </Table>
-    </div>
+    </Segment>
   );
 };

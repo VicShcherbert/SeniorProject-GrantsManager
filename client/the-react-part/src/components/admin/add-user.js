@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Axios from 'axios'; //when adding something to the database
-import { Form, Radio, Segment } from 'semantic-ui-react';
+
+import { Form, Header, Input, Label, Radio, Segment } from 'semantic-ui-react';
 
 export const AddUser = () => {
-  
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [id, setID] = useState(0);
@@ -13,10 +13,7 @@ export const AddUser = () => {
       email: email,
       id: id,
       name: name,
-    }).then(
-      console.log('success'), 
-      window.location.reload()
-    );
+    }).then(console.log('success'), window.location.reload());
   };
 
   return (
@@ -45,6 +42,6 @@ export const AddUser = () => {
 
         <Form.Button onClick={addUser}>Add User</Form.Button>
       </Form>
-    </div>
+    </Segment>
   );
 };

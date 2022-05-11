@@ -434,6 +434,7 @@ app.get('/get_users', (req, res) => {
   });
 });
 
+
 app.post('/add_pre_award_poc', (req, res) => {
   const name = req.body.name;
   db.query(
@@ -455,3 +456,21 @@ app.post('/add_post_award_poc', (req, res) => {
     }
   );
 });
+
+// Reporting Queries
+// currently static with the dates, change in future!!
+app.get('/get_cpp', (req, res) => {
+  db.query(
+    `SELECT grant_type, proposal_number, title, agency, funding_type, investigator, department_name, amount_reqested, date_submitted, pre_award_status, date_of_notice, amount_funded
+    FROM Proposals
+    WHERE date_of_notice>="2020-07-01" AND date_of_notice<= "2021-06-30" AND unit = "cpp"
+    ORDER BY grant_type, proposal_number ASC, date_of_notice ASC;
+    `, (err, result) => {
+      if (err) console.log(err);
+      else {
+        res.send(result);
+      }
+    });
+});
+// Looking to use separate queries for each unit, we'll see
+

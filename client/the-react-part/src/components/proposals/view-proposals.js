@@ -31,52 +31,66 @@ export const ViewProposals = () => {
   };
 
   return (
-    <Segment basic style={{ maxWidth: '70%', margin: 'auto' }}>
-      <Header as='h1' textAlign='center'>
+    <Segment basic>
+      <Header
+        size='huge'
+        textAlign='center'
+        style={{ marginTop: '5px', marginBottom: '25px' }}
+      >
         Proposals
       </Header>
-      <Pagination
-        activePage={currentPage}
-        totalPages={Math.ceil(list.length / proposalsPerPage)}
-        onPageChange={changePage}
-      />
-      <Table celled>
-        <TableHeader>
-          <TableHeaderCell>Proposal Number</TableHeaderCell>
-          <TableHeaderCell>Title</TableHeaderCell>
-          <TableHeaderCell>Agency</TableHeaderCell>
-          <TableHeaderCell>Funding Number</TableHeaderCell>
-          {/* <TableHeaderCell>CFDA Number</TableHeaderCell> */}
-          <TableHeaderCell>Investigator</TableHeaderCell>
-          <TableHeaderCell></TableHeaderCell>
-        </TableHeader>
-        <TableBody>
-          {list
-            .slice(
-              currentPage * proposalsPerPage - 1,
-              currentPage * proposalsPerPage + (proposalsPerPage + 1)
-            )
-            .map((proposal, key) => {
-              return (
-                <TableRow>
-                  <TableCell>{proposal.proposal_number}</TableCell>
-                  <TableCell>{proposal.title}</TableCell>
-                  <TableCell>{proposal.agency}</TableCell>
-                  <TableCell>{proposal.funding_type}</TableCell>
-                  {/* <TableCell>{proposal.cfda_number}</TableCell> */}
-                  <TableCell>{proposal.investigator}</TableCell>
-                  <TableCell>
-                    <UpdateModal proposal={proposal}/>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-        </TableBody>
-      </Table>
-      <Pagination
-        defaultActivePage={1}
-        totalPages={Math.ceil(list.length / proposalsPerPage)}
-      />
+      <Segment
+        basic
+        style={{
+          // display: 'flex',
+          // justifyContent: 'space-evenly',
+          maxWidth: '850px',
+          margin: '0 auto',
+        }}
+      >
+        <Pagination
+          activePage={currentPage}
+          totalPages={Math.ceil(list.length / proposalsPerPage)}
+          onPageChange={changePage}
+        />
+        <Table celled>
+          <TableHeader>
+            <TableHeaderCell>Proposal Number</TableHeaderCell>
+            <TableHeaderCell>Title</TableHeaderCell>
+            <TableHeaderCell>Agency</TableHeaderCell>
+            <TableHeaderCell>Funding Number</TableHeaderCell>
+            {/* <TableHeaderCell>CFDA Number</TableHeaderCell> */}
+            <TableHeaderCell>Investigator</TableHeaderCell>
+            <TableHeaderCell></TableHeaderCell>
+          </TableHeader>
+          <TableBody>
+            {list
+              .slice(
+                currentPage * proposalsPerPage - 1,
+                currentPage * proposalsPerPage + (proposalsPerPage + 1)
+              )
+              .map((proposal, key) => {
+                return (
+                  <TableRow>
+                    <TableCell>{proposal.proposal_number}</TableCell>
+                    <TableCell>{proposal.title}</TableCell>
+                    <TableCell>{proposal.agency}</TableCell>
+                    <TableCell>{proposal.funding_type}</TableCell>
+                    {/* <TableCell>{proposal.cfda_number}</TableCell> */}
+                    <TableCell>{proposal.investigator}</TableCell>
+                    <TableCell>
+                      <UpdateModal proposal={proposal} />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+          </TableBody>
+        </Table>
+        <Pagination
+          defaultActivePage={1}
+          totalPages={Math.ceil(list.length / proposalsPerPage)}
+        />
+      </Segment>
     </Segment>
   );
 };
