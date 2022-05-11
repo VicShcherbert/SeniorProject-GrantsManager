@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableHeaderCell,
   TableRow,
+  Segment
 } from 'semantic-ui-react';
 
 export const ViewUsers = () => {
@@ -28,7 +29,7 @@ export const ViewUsers = () => {
   }
 
   return (
-    <div className='users-table'>
+    <Segment basic style={{ width: '430px'}}>
       <Table celled>
         <TableHeader>
           <TableHeaderCell>Name</TableHeaderCell>
@@ -47,6 +48,6 @@ export const ViewUsers = () => {
           })}
         </TableBody>
       </Table>
-    </div>
+    </Segment>
   );
 };

@@ -50,9 +50,9 @@ margin: auto;
 }
 
 .departments-table, .users-table {
-max-width: 80%;
-float: left;
-margin-left: 20%;
+/* max-width: 80%; */
+/* float: left; */
+/* margin-left: 20%; */
 }
 
 .dashboard-container {
@@ -97,10 +97,10 @@ margin-bottom: 30px;
 }
 
 #add-department, #add-user{
-max-width: 30%;
-margin: auto;
-float: right;
-margin-right: 20%;
+/* max-width: 30%; */
+/* margin: auto; */
+/* float: left; */
+/* margin-right: 20%; */
 }
 
 #add-department-header, #add-user-header {
