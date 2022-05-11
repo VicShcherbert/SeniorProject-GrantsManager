@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios'; //when adding something to the database
 import {
   Icon,
-  Segment,
   Table,
   TableBody,
   TableCell,
   TableHeader,
   TableHeaderCell,
   TableRow,
-  Segment
 } from 'semantic-ui-react';
 
 export const ViewUsers = () => {
@@ -30,7 +28,7 @@ export const ViewUsers = () => {
   }
 
   return (
-    <Segment basic style={{ width: '430px'}}>
+    <div className='users-table'>
       <Table celled>
         <TableHeader>
           <TableHeaderCell>Name</TableHeaderCell>
@@ -49,6 +47,6 @@ export const ViewUsers = () => {
           })}
         </TableBody>
       </Table>
-    </Segment>
+    </div>
   );
 };

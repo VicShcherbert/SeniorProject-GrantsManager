@@ -42,6 +42,6 @@ export const AddUser = () => {
 
         <Form.Button onClick={addUser}>Add User</Form.Button>
       </Form>
-    </Segment>
+    </div>
   );
 };
