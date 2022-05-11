@@ -1,10 +1,12 @@
 import React from 'react';
+import {Reports} from './view-reports';
+import {Segment, Header} from 'semantic-ui-react';
 
 export const Report = () => {
-
   return (
-    <div>
-        <h2 id='page-title'>Reporting</h2>
-    </div>
+    <Segment basic>
+      <Header id='page-title'>Reporting</Header>
+      <Reports />
+    </Segment>
   );
 };
