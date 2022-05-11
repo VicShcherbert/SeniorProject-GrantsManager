@@ -1,5 +1,6 @@
 import React from 'react';
-import { Segment, Header } from 'semantic-ui-react';
+import {Reports} from './view-reports';
+import {Segment, Header} from 'semantic-ui-react';
 
 export const Report = () => {
   return (
@@ -20,7 +21,7 @@ export const Report = () => {
           margin: '0 auto',
         }}
       >
-        ADD STUFF HERE
+        <Reports />
       </Segment>
     </Segment>
   );
