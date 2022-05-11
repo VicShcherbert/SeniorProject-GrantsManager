@@ -6,11 +6,17 @@ import { AddPreAwardPOC } from './add-preaward-poc';
 import { AddPostAwardPOC } from './add-postaward-poc';
 import { ViewPreAwardPOCs } from './view-preaward-pocs';
 import { ViewPostAwardPOCs } from './view-postaward-pocs';
+import '../../style.css';
 
 export const Admin = () => {
   return (
     <Segment basic>
-      {/* <Header id='page-title'>Users</Header> */}
+      <Header textAlign='center' size='huge'>
+        Admin Portal
+      </Header>
+      <Segment basic>
+        <Divider horizontal>Users</Divider>
+      </Segment>
       <ViewUsers />
       <AddUser />
 
@@ -18,15 +24,17 @@ export const Admin = () => {
       <Segment basic>
         <Divider horizontal>Pre Award POC</Divider>
       </Segment>
-      <Accordion>
+        <br/>
         <ViewPreAwardPOCs />
+        <br/>
         <AddPreAwardPOC />
-      </Accordion>
       <Segment basic>
         <Divider horizontal>Post Award POC</Divider>
       </Segment>
-      <ViewPostAwardPOCs />
-      <AddPostAwardPOC />
-    </Segment>
+        <br/>
+        <ViewPostAwardPOCs />
+        <br/>
+        <AddPostAwardPOC />
+      </Segment>
   );
 };

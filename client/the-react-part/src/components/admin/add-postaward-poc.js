@@ -16,8 +16,8 @@ export const AddPostAwardPOC = () => {
   };
 
   return (
-    <div>
-      <h3 id='add-poc-header'>Add Post Award POC</h3>
+    <div className='add-post-award-poc'>
+      <h3 id='add-postaward-poc-header'>Add Post Award POC</h3>
       <Form id='add-postaward-poc'>
         <label>Name:</label>
         <input
@@ -26,7 +26,7 @@ export const AddPostAwardPOC = () => {
             setName(event.target.value);
           }}
         />
-        <Form.Button onClick={addPostAwardPOC}>Add User</Form.Button>
+        <Form.Button onClick={addPostAwardPOC}>Add Post-Award POC</Form.Button>
       </Form>
     </div>
   );

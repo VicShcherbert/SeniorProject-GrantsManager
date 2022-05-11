@@ -20,8 +20,8 @@ export const AddUser = () => {
   };
 
   return (
-    <div className='add-user'>
-      <h3 textAlign='center' id='add-user-header'>Add a User </h3>
+    <div className='add-user'><br/>
+      <h3 id='add-user-header'>Add a User </h3>
       <Form id='add-user'>
         <label>Name:</label>
         <input

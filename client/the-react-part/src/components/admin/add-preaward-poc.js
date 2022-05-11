@@ -16,8 +16,8 @@ export const AddPreAwardPOC = () => {
   };
 
   return (
-    <div>
-      <h3 id='add-poc-header'>Add Pre Award POC</h3>
+    <div className='add-pre-award-poc'>
+      <h3 id='add-preaward-poc-header'>Add Pre Award POC</h3>
       <Form id='add-preaward-poc'>
         <label>Name:</label>
         <input
