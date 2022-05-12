@@ -50,7 +50,7 @@ export const Reports = () => {
                                 <TableCell>{row.funding_type}</TableCell>
                                 <TableCell>{row.investigator}</TableCell>
                                 <TableCell>{row.department_name}</TableCell>
-                                <TableCell>{row.amount_reqested}</TableCell>
+                                <TableCell>{row.amount_requested}</TableCell>
                                 <TableCell>{row.date_submitted}</TableCell>
                                 <TableCell>{row.pre_award_status}</TableCell>
                                 <TableCell>{row.date_of_notice}</TableCell>
