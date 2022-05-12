@@ -10,7 +10,7 @@ import '../../style.css';
 
 export const Admin = () => {
   return (
-    <Segment basic>
+    <Segment basic style={{ justifyContent: 'space-evenly', maxWidth: '900px', margin: "0 auto" }}>
       <Header textAlign='center' size='huge'>
         Admin Portal
       </Header>

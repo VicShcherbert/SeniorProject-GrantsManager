@@ -28,7 +28,7 @@ export const UpdateModal = ({ proposal }) => {
 
   const [unit, setUnit] = useState(proposal.unit);
   const [amountRequested, setAmountRequested] = useState(
-    proposal.amount_reqested //MISSPEELLLLLLED
+    proposal.amount_requested //MISSPEELLLLLLED
   );
   const [preAwardStatus, setPreAwardStatus] = useState(
     proposal.pre_award_status
@@ -123,7 +123,7 @@ export const UpdateModal = ({ proposal }) => {
     setDeptName(proposal.department_name);
     setUnit(proposal.unit);
     setAmountRequested(
-      proposal.amount_reqested //MISSPEELLLLLLED
+      proposal.amount_requested //MISSPEELLLLLLED
     );
     setPreAwardStatus(proposal.pre_award_status);
 
@@ -180,7 +180,7 @@ export const UpdateModal = ({ proposal }) => {
         department_number: departmentNumber,
         department_name: departmentName,
         unit: unit,
-        amount_reqested: amountRequested, //MISEPEELEEDDD
+        amount_requested: amountRequested, //MISEPEELEEDDD
         pre_award_status: preAwardStatus,
         date_submitted: dateSubmitted,
         date_of_notice: dateOfNotice,

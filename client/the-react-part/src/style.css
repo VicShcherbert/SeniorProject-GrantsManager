@@ -57,7 +57,7 @@ margin-left: 20%;
 }
 
 .users-table{
-max-width: 90%;
+max-width: 100%;
 float: center;
 margin: auto;
 }
@@ -68,7 +68,7 @@ padding-bottom: 30px;
 }
 
 .pre-award-poc-table, .post-award-poc-table, .add-pre-award-poc, .add-post-award-poc{
-  max-width: 90%;
+  max-width: 100%;
   float: center;
   margin: auto;
 }
@@ -118,7 +118,7 @@ margin-right: 20%;
 }
 
 #add-user{
-  max-width: 90%;
+  max-width: 100%;
   margin: auto;
   float: center;
 }

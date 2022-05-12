@@ -206,10 +206,15 @@ export const AddProposal = () => {
   };
 
   return (
-    <Segment basic style={{ marginRight: '100px', marginLeft: '100px' }}>
-      <Header textAlign='center' size='huge'>
+    <Segment basic>
+      <Header
+        textAlign='center'
+        size='huge'
+        style={{ marginTop: '5px', marginBottom: '15px' }}
+      >
         Add a New Proposal
       </Header>
+      <Segment basic style={{ justifyContent: 'space-evenly', maxWidth: '700px', margin: "0 auto" }}>
       <Form>
         <Segment basic>
           <Divider horizontal>Main Information</Divider>
@@ -944,6 +949,7 @@ export const AddProposal = () => {
           </Button>
         </Segment>
       </Form>
+    </Segment>
     </Segment>
   );
 };
