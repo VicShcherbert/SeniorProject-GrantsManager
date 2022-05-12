@@ -304,6 +304,13 @@ app.put('/update', (req, res) => {
   );
 });
 
+app.post('/delete_proposal', (req,res) => {
+  db.query('DELETE FROM Proposals WHERE proposal_number = ' + proposal_number, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
 app.get('/get_departments', (req, res) => {
   db.query('SELECT * FROM Departments;', (err, result) => {
     if (err) console.log(err);

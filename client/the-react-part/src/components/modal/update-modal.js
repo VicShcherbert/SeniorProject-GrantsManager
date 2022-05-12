@@ -28,7 +28,7 @@ export const UpdateModal = ({ proposal }) => {
 
   const [unit, setUnit] = useState(proposal.unit);
   const [amountRequested, setAmountRequested] = useState(
-    proposal.amount_requested //MISSPEELLLLLLED
+    proposal.amount_requested
   );
   const [preAwardStatus, setPreAwardStatus] = useState(
     proposal.pre_award_status
@@ -123,7 +123,7 @@ export const UpdateModal = ({ proposal }) => {
     setDeptName(proposal.department_name);
     setUnit(proposal.unit);
     setAmountRequested(
-      proposal.amount_requested //MISSPEELLLLLLED
+      proposal.amount_requested
     );
     setPreAwardStatus(proposal.pre_award_status);
 
@@ -210,6 +210,18 @@ export const UpdateModal = ({ proposal }) => {
       });
     }
   };
+
+  const deleteProposal = (prop_number) => {
+    var result = window.confirm('Are you sure you want to update?');
+    if (result) {
+      Axios.post('http://localhost:3001/delete_proposal', {
+        proposal_number: prop_number,
+    }).then((response) => {
+      alert('Entry has been deleted');
+      window.location.reload();
+    });
+  }
+};
 
   return (
     <Modal
@@ -977,14 +989,17 @@ export const UpdateModal = ({ proposal }) => {
         </Form>
       </Modal.Content>
       <Modal.Actions>
-        <Button
-          color='orange'
+      <Button
+          color='green'
           onClick={() => handleUpdate(proposal.proposal_number)}
         >
           Update
         </Button>
-        <Button color='red' onClick={() => dealWithCancel()}>
+        <Button color='orange' onClick={() => dealWithCancel()}>
           Cancel
+        </Button>
+        <Button color='red' onClick={() => deleteProposal()}>
+          Delete
         </Button>
       </Modal.Actions>
     </Modal>
