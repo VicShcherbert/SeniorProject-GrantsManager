@@ -55,6 +55,7 @@ export const AddProposal = () => {
   const [rcr, setRCR] = useState('');
   const [archive_location, setArchiveLocation] = useState('');
   const [notes, setNotes] = useState('');
+  const [file, setFile] = useState({});
 
   const departmentNames = departmentList.map((element) => ({
     key: element.id,
@@ -203,6 +204,20 @@ export const AddProposal = () => {
     setRCR('');
     setArchiveLocation('');
     setNotes('');
+  };
+
+  const onFileChange = (event) => {
+    setFile({ file: event.target.files[0] });
+  };
+
+  const onFileUpload = () => {
+    const formData = new FormData();
+
+    // Update the formData object
+    formData.append('myFile', file, file.name);
+
+    // Details of the uploaded file
+    console.log(file);
   };
 
   return (
@@ -929,6 +944,11 @@ export const AddProposal = () => {
             type='text'
           />
         </Form.Field>
+
+        <div>
+            <input type='file' onChange={onFileChange} />
+            <button onClick={onFileUpload}>Upload!</button>
+          </div>
         <Segment basic style={{display: 'flex', justifyContent: 'right', paddingRight: '0px'}}>
           <Button
             type='submit'
