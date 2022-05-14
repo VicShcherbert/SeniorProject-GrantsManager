@@ -1,11 +1,13 @@
 import React from 'react';
-import { AddUser } from './add-user';
-import { ViewUsers } from './view-users';
+import { AddUser } from './users/add-user';
+import { ViewUsers } from './users/view-users';
 import {Segment, Header, Divider, Accordion} from 'semantic-ui-react';
-import { AddPreAwardPOC } from './add-preaward-poc';
-import { AddPostAwardPOC } from './add-postaward-poc';
-import { ViewPreAwardPOCs } from './view-preaward-pocs';
-import { ViewPostAwardPOCs } from './view-postaward-pocs';
+import { AddPreAwardPOC } from './poc/add-preaward-poc';
+import { AddPostAwardPOC } from './poc/add-postaward-poc';
+import { ViewPreAwardPOCs } from './poc/view-preaward-pocs';
+import { ViewPostAwardPOCs } from './poc/view-postaward-pocs';
+import { ViewDepartments } from './departments/view-departments';
+import { AddDepartment } from './departments/add-department';
 import '../../style.css';
 
 export const Admin = () => {
@@ -20,6 +22,11 @@ export const Admin = () => {
       <ViewUsers />
       <AddUser />
 
+      <Segment basic>
+        <Divider horizontal>Departments</Divider>
+      </Segment>
+      <ViewDepartments />
+      <AddDepartment />
       
       <Segment basic>
         <Divider horizontal>Pre Award POC</Divider>
