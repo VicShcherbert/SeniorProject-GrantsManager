@@ -4,9 +4,14 @@ const express = require('express');
 const app = express();
 const mysql = require('mysql');
 const cors = require('cors');
+// const exphbs = require('express-handlebars');
+const fileUpload = require('express-fileUpload');
 
 app.use(cors());
 app.use(express.json());
+app.use(fileUpload());
+// app.engine('hbs', exphbs({extname: '.hbs'}));
+// app.set('view engine', 'hbs');
 
 const db = mysql.createConnection({
   user: 'admin',
@@ -201,6 +206,22 @@ app.post('/addProposal', (req, res) => {
       if (err) console.log(err);
     }
   );
+});
+
+app.post('/upload', (req, res) => {
+  console.log('Hello from server');
+  // console.log(req.body.file);
+  if(!req.files || Object.keys(req.files).length === 0){
+    console.log('The error');
+    return res.status(400).send('No files');
+  }
+
+  const sampleFile = req.files.sampleFile;
+  // const fileName = req.files.fileName;
+  const uploadPath = __dirname + '/upload/' + sampleFile.name;
+
+  console.log(file);
+  console.log(fileName);
 });
 
 app.post('/add_department', (req, res) => {

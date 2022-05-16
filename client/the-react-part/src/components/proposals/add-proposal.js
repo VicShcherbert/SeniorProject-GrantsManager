@@ -51,7 +51,8 @@ export const AddProposal = () => {
   const [rcr, setRCR] = useState('');
   const [archive_location, setArchiveLocation] = useState('');
   const [notes, setNotes] = useState('');
-  const [file, setFile] = useState({});
+  const [file, setFile] = useState();
+  const [fileName, setFileName] = useState('');
 
   const departmentNames = departmentList.map((element) => ({
     key: element.id,
@@ -154,18 +155,42 @@ export const AddProposal = () => {
     setNotes('');
   };
 
-  const onFileChange = (event) => {
-    setFile({ file: event.target.files[0] });
+  const onFileChange = (e) => {
+    setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
   };
 
-  const onFileUpload = () => {
+  // const onFileUpload = () => {
+  //   console.log('Yo what haooends');
+  //   console.log(file);
+  //   console.log(fileName);
+  //   // const formData = new FormData();
+
+  //   // // Update the formData object
+  //   // formData.append('myFile', file, file.name);
+
+  //   // // Details of the uploaded file
+  //   // console.log(file);
+  // };
+
+  const onFileUpload = async (e) => {
     const formData = new FormData();
-
-    // Update the formData object
-    formData.append('myFile', file, file.name);
-
-    // Details of the uploaded file
-    console.log(file);
+    formData.append('file', file);
+    formData.append('fileName', fileName);
+    console.log(formData);
+    Axios.post('http://localhost:3001/upload', {
+      file: file,
+      fileName: fileName,
+    }).then(console.log('Done'));
+    // try {
+    //   const res = await axios.post(
+    //     "http://localhost:3000/upload",
+    //     formData
+    //   );
+    //   console.log(res);
+    // } catch (ex) {
+    //   console.log(ex);
+    // }
   };
 
   return (
@@ -177,7 +202,14 @@ export const AddProposal = () => {
       >
         Add a New Proposal
       </Header>
-      <Segment basic style={{ justifyContent: 'space-evenly', maxWidth: '700px', margin: "0 auto" }}>
+      <Segment
+        basic
+        style={{
+          justifyContent: 'space-evenly',
+          maxWidth: '700px',
+          margin: '0 auto',
+        }}
+      >
         <Form>
           <Segment basic>
             <Divider horizontal>Main Information</Divider>
@@ -931,10 +963,15 @@ export const AddProposal = () => {
               type='text'
             />
           </Form.Field>
-          <div>
-            <input type='file' onChange={onFileChange} />
-            <button onClick={onFileUpload}>Upload!</button>
-          </div>
+          <Segment>
+            {/* <input type='file' onChange={onFileChange} />
+            <button onClick={onFileUpload}>Upload!</button> */}
+            <Header>Upload something</Header>
+            <Form action='/upload' method='POST' encType='multipart/form-data'>
+              <Input type='file' name='sampleFile' accept='image/*' />
+              <Button type='submit'>Submit</Button>
+            </Form>
+          </Segment>
           <Segment
             basic
             style={{
