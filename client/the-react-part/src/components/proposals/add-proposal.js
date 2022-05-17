@@ -51,7 +51,7 @@ export const AddProposal = () => {
   const [rcr, setRCR] = useState('');
   const [archive_location, setArchiveLocation] = useState('');
   const [notes, setNotes] = useState('');
-  const [file, setFile] = useState();
+  const [file, setFile] = useState({});
   const [fileName, setFileName] = useState('');
 
   const departmentNames = departmentList.map((element) => ({
@@ -175,22 +175,14 @@ export const AddProposal = () => {
 
   const onFileUpload = async (e) => {
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('fileName', fileName);
-    console.log(formData);
-    Axios.post('http://localhost:3001/upload', {
-      file: file,
-      fileName: fileName,
-    }).then(console.log('Done'));
-    // try {
-    //   const res = await axios.post(
-    //     "http://localhost:3000/upload",
-    //     formData
-    //   );
-    //   console.log(res);
-    // } catch (ex) {
-    //   console.log(ex);
-    // }
+    formData.append('file', file, file.name);
+
+    // Axios.post('http://localhost:3001/upload', formData, {
+    //   headers: { 'Content-Type': 'multipart/form-data' },
+    // }).then(console.log('Done'));
+    Axios.post('http://localhost:3001/upload', formData).then(
+      console.log('Done')
+    );
   };
 
   return (
@@ -963,15 +955,16 @@ export const AddProposal = () => {
               type='text'
             />
           </Form.Field>
-          <Segment>
-            {/* <input type='file' onChange={onFileChange} />
-            <button onClick={onFileUpload}>Upload!</button> */}
+          <form action='http://localhost:3001/upload' method='POST' encType='multipart/form-data'>
+            <h3>Upload photo</h3>
+            <input type='file' name='sampleFile' accept='image/*' />
+            <input type='submit' />
+          </form>
+          {/* <Segment>
             <Header>Upload something</Header>
-            <Form action='/upload' method='POST' encType='multipart/form-data'>
-              <Input type='file' name='sampleFile' accept='image/*' />
-              <Button type='submit'>Submit</Button>
-            </Form>
-          </Segment>
+            <Input type='file' name='sampleFile' onChange={onFileChange} />
+            <Button onClick={onFileUpload}>Submit</Button>
+          </Segment> */}
           <Segment
             basic
             style={{
