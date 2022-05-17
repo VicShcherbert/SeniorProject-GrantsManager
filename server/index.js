@@ -131,7 +131,7 @@ app.post('/addProposal', (req, res) => {
   const department_number = req.body.department_number;
   const department_name = req.body.department_name;
   const unit = req.body.unit;
-  const amount_reqested = req.body.amount_requested;
+  const amount_requested = req.body.amount_requested;
   const pre_award_status = req.body.pre_award_status;
   const date_submitted = req.body.date_submitted;
   const date_of_notice = req.body.date_of_notice;
@@ -157,7 +157,7 @@ app.post('/addProposal', (req, res) => {
   const notes = req.body.notes;
 
   db.query(
-    'INSERT INTO Proposals (proposal_number, pre_proposal_number, title, agency, funding_type, cfda_number, investigator, extension, email, department_number, department_name, unit, amount_reqested, pre_award_status, date_submitted, date_of_notice, project_start, project_end, human_compliance, animal_compliance, recombinant_dna, subcontractors, index_number, amount_funded, grant_type, category, pre_award_poc, post_award_poc, contract_number, indirect_cost, internal_approval, certification_assurance, financial_interest, archive_location, rcr, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+    'INSERT INTO Proposals (proposal_number, pre_proposal_number, title, agency, funding_type, cfda_number, investigator, extension, email, department_number, department_name, unit, amount_requested, pre_award_status, date_submitted, date_of_notice, project_start, project_end, human_compliance, animal_compliance, recombinant_dna, subcontractors, index_number, amount_funded, grant_type, category, pre_award_poc, post_award_poc, contract_number, indirect_cost, internal_approval, certification_assurance, financial_interest, archive_location, rcr, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
     [
       proposal_number,
       pre_proposal_number,
@@ -171,7 +171,7 @@ app.post('/addProposal', (req, res) => {
       department_number,
       department_name,
       unit,
-      amount_reqested,
+      amount_requested,
       pre_award_status,
       date_submitted,
       date_of_notice,
@@ -227,7 +227,7 @@ app.put('/update', (req, res) => {
   const department_number = req.body.department_number;
   const department_name = req.body.department_name;
   const unit = req.body.unit;
-  const amount_reqested = req.body.amount_reqested; //MISSPELLED
+  const amount_requested = req.body.amount_requested;
   const pre_award_status = req.body.pre_award_status;
   const date_submitted = req.body.date_submitted;
   const date_of_notice = req.body.date_of_notice;
@@ -255,7 +255,7 @@ app.put('/update', (req, res) => {
   db.query(
     'UPDATE Proposals SET title = ?, agency = ?,'+
     ' funding_type = ?, cfda_number = ?, investigator = ?, extension = ?, email = ?, department_number = ?, department_name = ?, '+
-    ' unit = ?, amount_reqested = ?, pre_award_status = ?, date_submitted = ?, date_of_notice = ?, project_start = ?, project_end = ?, ' +
+    ' unit = ?, amount_requested = ?, pre_award_status = ?, date_submitted = ?, date_of_notice = ?, project_start = ?, project_end = ?, ' +
     ' human_compliance = ?, animal_compliance = ?, recombinant_dna = ?, subcontractors = ?, index_number = ?, amount_funded = ?, grant_type = ?,' +
     ' category = ?, pre_award_poc = ?, post_award_poc = ?, contract_number = ?, indirect_cost = ?,' +
     ' internal_approval = ?, certification_assurance = ?, financial_interest = ?, rcr = ?, archive_location = ?,' +
@@ -271,7 +271,7 @@ app.put('/update', (req, res) => {
       department_number,
       department_name,
       unit,
-      amount_reqested, //MISSPELLED
+      amount_requested,
       pre_award_status,
       date_submitted,
       date_of_notice,
