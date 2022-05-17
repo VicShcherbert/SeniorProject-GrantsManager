@@ -422,12 +422,13 @@ app.get('/get_users', (req, res) => {
 
 // Reporting Queries
 // currently static with the dates, change in future!!
-app.get('/get_cpp', (req, res) => {
+// per Kristyl's request, we have to be dynamic because "Unit" is likely to change at anytime in future. 
+app.get('/get_report', (req, res) => {
   db.query(
-    `SELECT grant_type, proposal_number, title, agency, funding_type, investigator, department_name, amount_reqested, date_submitted, pre_award_status, date_of_notice, amount_funded
+    `SELECT unit, grant_type, proposal_number, title, agency, funding_type, investigator, department_name, amount_requested, date_submitted, pre_award_status, date_of_notice, amount_funded
     FROM Proposals
-    WHERE date_of_notice>="2020-07-01" AND date_of_notice<= "2021-06-30" AND unit = "cpp"
-    ORDER BY grant_type, proposal_number ASC, date_of_notice ASC;
+    WHERE date_of_notice>="2020-07-01" AND date_of_notice<= "2021-06-30" AND pre_award_status != 'Pending'
+    ORDER BY unit, grant_type, proposal_number ASC, date_of_notice ASC;
     `, (err, result) => {
       if (err) console.log(err);
       else {
@@ -435,4 +436,30 @@ app.get('/get_cpp', (req, res) => {
       }
     });
 });
-// Looking to use separate queries for each unit, we'll see
+
+// Get list of units between the requested dates ***currently still static dates***
+app.get('/get_units', (req, res) => {
+  db.query(
+    `SELECT DISTINCT unit
+    FROM Proposals
+    WHERE date_of_notice>="2020-07-01" AND date_of_notice<= "2021-06-30" AND pre_award_status != 'Pending'`,
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    });
+});
+
+// Get amount requested, award amount for the given unit, grant_type ***currently still static dates***
+app.post('/get_amounts', (req, res) => {
+  const unit = req.body.unit;
+  const grantType = req.body.grant_type;
+  db.query(
+    `SELECT SUM(amount_requested) AS req, SUM(amount_funded) AS funded
+    FROM Proposals
+    WHERE date_of_notice>="2020-07-01" AND date_of_notice<= "2021-06-30" AND pre_award_status != 'Pending'
+    AND unit = ?
+    AND grant_type = ?`, [unit, grantType], (err, result) => {
+      if(err) console.log(err);
+      else res.send(result);
+    });
+});
