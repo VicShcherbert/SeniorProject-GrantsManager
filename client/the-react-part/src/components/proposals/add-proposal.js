@@ -11,6 +11,7 @@ import {
   Label,
   Segment,
 } from 'semantic-ui-react';
+import { gapi } from 'gapi-script';
 import '../../style.css';
 
 export const AddProposal = () => {
@@ -955,11 +956,13 @@ export const AddProposal = () => {
               type='text'
             />
           </Form.Field>
-          <form action='http://localhost:3001/upload' method='POST' encType='multipart/form-data'>
+          {/* <form action='http://localhost:3001/upload' method='POST' encType='multipart/form-data'>
             <h3>Upload photo</h3>
             <input type='file' name='sampleFile' accept='image/*' />
             <input type='submit' />
-          </form>
+          </form> */}
+
+
           {/* <Segment>
             <Header>Upload something</Header>
             <Input type='file' name='sampleFile' onChange={onFileChange} />
