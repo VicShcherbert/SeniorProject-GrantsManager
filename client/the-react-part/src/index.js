@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { Link } from 'react-router-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './style.css';
-import { Departments } from './components/departments/departments';
 import { ViewProposals } from './components/proposals/view-proposals';
 import { AddProposal } from './components/proposals/add-proposal';
 import { Menu, MenuItem, Segment } from 'semantic-ui-react';
@@ -12,7 +11,7 @@ import { Dashboard } from './components/dashboard/dashboard';
 import { Report } from './components/report/report';
 import { Search } from './components/search/search-proposals';
 import { Login } from './components/login/login';
-import { Users } from './components/users/users';
+import { Admin } from './components/admin/admin';
 import { Footer } from './components/footer';
 
 //Yo what up
@@ -27,7 +26,7 @@ const App = () => {
     if (sessionStorage.getItem('id') === '1') {
       return (
         <MenuItem id='nav-link'>
-          <Link to='/users'>Users</Link>
+          <Link to="/admin">Admin</Link>
         </MenuItem>
       );
     }
@@ -51,9 +50,6 @@ const App = () => {
           <Link to='/add-proposal'>Add Proposal</Link>
         </MenuItem>
         <MenuItem id='nav-link'>
-          <Link to='/departments'>Departments</Link>
-        </MenuItem>
-        <MenuItem id='nav-link'>
           <Link to='/reporting'>Reporting</Link>
         </MenuItem>
         <MenuItem id='nav-link'>
@@ -68,10 +64,9 @@ const App = () => {
         <Route path='/' element={<Dashboard />} />
         <Route path='/proposals' element={<ViewProposals />} />
         <Route path='/add-proposal' element={<AddProposal />}></Route>
-        <Route path='/departments' element={<Departments />} />
         <Route path='/reporting' element={<Report />} />
         <Route path='/search-proposals' element={<Search />} />
-        <Route path='/users' element={<Users />} />
+        <Route path='/admin' element={<Admin />} />
       </Routes>
       <Footer />
     </BrowserRouter>
