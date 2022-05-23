@@ -249,9 +249,30 @@ app.put('/update', (req, res) => {
   );
 });
 
+app.delete('/delete_proposal', (req,res) => {
+  db.query('DELETE FROM Proposals WHERE unique_id = ' + unique_id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
 app.get('/get_departments', (req, res) => {
   db.query('SELECT * FROM Departments;', (err, result) => {
     if (err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.get('/get_pre_award_POCs', (req, res) => {
+  db.query('SELECT * FROM Pre_Award_Poc;', (err, result) => {
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.get('/get_post_award_POCs', (req, res) => {
+  db.query('SELECT * FROM Post_Award_Poc;', (err, result) => {
+    if(err) console.log(err);
     else res.send(result);
   });
 });
@@ -394,6 +415,28 @@ app.get('/get_users', (req, res) => {
     if (err) console.log(err);
     else res.send(result);
   });
+});
+
+app.post('/add_pre_award_poc', (req, res) => {
+  const name = req.body.name;
+  db.query(
+    'INSERT INTO Pre_Award_Poc (name) VALUES (?);',
+    [name],
+    (err, result) => {
+      if (err) console.log(err);
+    }
+  );
+});
+
+app.post('/add_post_award_poc', (req, res) => {
+  const name = req.body.name;
+  db.query(
+    'INSERT INTO Post_Award_Poc (name) VALUES (?);',
+    [name],
+    (err, result) => {
+      if (err) console.log(err);
+    }
+  );
 });
 
 // Reporting Queries
