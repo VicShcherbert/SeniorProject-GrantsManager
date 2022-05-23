@@ -10,15 +10,13 @@ import {
   Pagination,
   Segment,
   Header,
-  Button,
-  Modal,
 } from 'semantic-ui-react';
 import { UpdateModal } from '../modal/update-modal';
 
 export const ViewProposals = () => {
   const [list, setList] = useState([]);
-  const [proposalsPerPage, setProposalsPerPage] = useState(30);
-  const [currentPage, setCurrentPage] = useState(1);
+  const proposalsPerPage = 25;
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
     Axios.get('http://localhost:3001/proposals').then((response) => {
@@ -27,7 +25,7 @@ export const ViewProposals = () => {
   }, []);
 
   const changePage = (e, pageInfo) => {
-    setCurrentPage(pageInfo.activePage);
+    setCurrentPage(pageInfo.activePage - 1);
   };
 
   return (
@@ -42,41 +40,40 @@ export const ViewProposals = () => {
       <Segment
         basic
         style={{
-          // display: 'flex',
-          // justifyContent: 'space-evenly',
-          maxWidth: '850px',
+          maxWidth: '050px',
           margin: '0 auto',
         }}
       >
         <Pagination
-          activePage={currentPage}
+          activePage={currentPage + 1}
           totalPages={Math.ceil(list.length / proposalsPerPage)}
           onPageChange={changePage}
         />
         <Table celled>
           <TableHeader>
-            <TableHeaderCell>Proposal Number</TableHeaderCell>
-            <TableHeaderCell>Title</TableHeaderCell>
-            <TableHeaderCell>Agency</TableHeaderCell>
-            <TableHeaderCell>Funding Number</TableHeaderCell>
-            {/* <TableHeaderCell>CFDA Number</TableHeaderCell> */}
-            <TableHeaderCell>Investigator</TableHeaderCell>
-            <TableHeaderCell></TableHeaderCell>
+          <TableRow>
+              <TableHeaderCell>ID</TableHeaderCell>
+              <TableHeaderCell>Proposal Number</TableHeaderCell>
+              <TableHeaderCell>Title</TableHeaderCell>
+              <TableHeaderCell>Agency</TableHeaderCell>
+              <TableHeaderCell>Funding Type</TableHeaderCell>
+              <TableHeaderCell>Investigator</TableHeaderCell>
+              <TableHeaderCell></TableHeaderCell>
+            </TableRow>
           </TableHeader>
           <TableBody>
             {list
               .slice(
-                currentPage * proposalsPerPage - 1,
-                currentPage * proposalsPerPage + (proposalsPerPage + 1)
+                currentPage * proposalsPerPage,
+                (currentPage * proposalsPerPage) + proposalsPerPage
               )
               .map((proposal, key) => {
                 return (
-                  <TableRow>
-                    <TableCell>{proposal.proposal_number}</TableCell>
+                  <TableRow key={proposal.unique_id}>
+                    <TableCell>{proposal.unique_id}</TableCell>
                     <TableCell>{proposal.title}</TableCell>
                     <TableCell>{proposal.agency}</TableCell>
                     <TableCell>{proposal.funding_type}</TableCell>
-                    {/* <TableCell>{proposal.cfda_number}</TableCell> */}
                     <TableCell>{proposal.investigator}</TableCell>
                     <TableCell>
                       <UpdateModal proposal={proposal} />
@@ -87,8 +84,9 @@ export const ViewProposals = () => {
           </TableBody>
         </Table>
         <Pagination
-          defaultActivePage={1}
+          activePage={currentPage + 1}
           totalPages={Math.ceil(list.length / proposalsPerPage)}
+          onPageChange={changePage}
         />
       </Segment>
     </Segment>
