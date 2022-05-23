@@ -417,7 +417,11 @@ export const AddProposal = () => {
             fluid
             selection
             options={[
-              { key: 'none', value: '', text: 'None' },
+              { 
+                key: 'none', 
+                value: '', 
+                text: 'None' 
+              },
               {
                 key: 'pending',
                 value: 'Pending',
@@ -428,14 +432,15 @@ export const AddProposal = () => {
                 value: 'Funded',
                 text: 'Funded',
               },
-              { key: 'not_funded', value: 'Not Funded', text: 'Not Funded' },
-              { key: 'additional', value: 'Additional', text: 'Additional' },
-              { key: 'awarded', value: 'Awarded', text: 'Awarded' },
-              { key: 'cash_value', value: 'Cash Value', text: 'Cash Value' },
-              {
-                key: 'pre_proposal',
-                value: 'Pre Proposal',
-                text: 'Pre Proposal',
+              { 
+                key: 'not_funded', 
+                value: 'Not Funded', 
+                text: 'Not Funded' 
+              },
+              { 
+                key: 'additional', 
+                value: 'Additional', 
+                text: 'Additional' 
               },
               {
                 key: 'invited',
@@ -446,31 +451,6 @@ export const AddProposal = () => {
                 key: 'not_invited',
                 value: 'Not Invited',
                 text: 'Not Invited',
-              },
-              {
-                key: 'no_cash_value',
-                value: 'No Cash Value',
-                text: 'No Cash Value',
-              },
-              {
-                key: 'reduced',
-                value: 'Reduced',
-                text: 'Reduced',
-              },
-              {
-                key: 'to_be_determined',
-                value: 'To Be Determined',
-                text: 'To Be Determined',
-              },
-              {
-                key: 'see_notes',
-                value: 'See Notes',
-                text: 'See Notes',
-              },
-              {
-                key: 'not_accepted',
-                value: 'Not Accepted',
-                text: 'Not Accepted',
               },
             ]}
           />

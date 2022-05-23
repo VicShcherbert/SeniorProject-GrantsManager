@@ -180,7 +180,7 @@ export const UpdateModal = ({ proposal }) => {
         department_number: departmentNumber,
         department_name: departmentName,
         unit: unit,
-        amount_requested: amountRequested, //MISEPEELEEDDD
+        amount_requested: amountRequested,
         pre_award_status: preAwardStatus,
         date_submitted: dateSubmitted,
         date_of_notice: dateOfNotice,
@@ -212,10 +212,10 @@ export const UpdateModal = ({ proposal }) => {
   };
 
   const deleteProposal = (prop_number) => {
-    var result = window.confirm('Are you sure you want to update?');
+    var result = window.confirm('Are you sure you want to delete?');
     if (result) {
-      Axios.post('http://localhost:3001/delete_proposal', {
-        proposal_number: prop_number,
+      Axios.delete('http://localhost:3001/delete_proposal', {
+        ,
     }).then((response) => {
       alert('Entry has been deleted');
       window.location.reload();
