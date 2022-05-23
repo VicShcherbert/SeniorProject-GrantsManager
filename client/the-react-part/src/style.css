@@ -49,15 +49,27 @@ max-width: 70%;
 margin: auto;
 }
 
-.departments-table, .users-table {
-/* max-width: 80%; */
-/* float: left; */
-/* margin-left: 20%; */
+.departments-table{
+max-width: 80%;
+float: left;
+margin-left: 20%;
+}
+  
+.users-table{
+max-width: 100%;
+float: center;
+margin: auto;
 }
 
 .dashboard-container {
 padding-top: 30px;
 padding-bottom: 30px;
+}
+
+.pre-award-poc-table, .post-award-poc-table, .add-pre-award-poc, .add-post-award-poc{
+max-width: 100%;
+float: center;
+margin: auto;
 }
 
 #nav-link {
@@ -96,11 +108,17 @@ margin-bottom: 30px;
 margin-bottom: 30px;
 }
 
-#add-department, #add-user{
-/* max-width: 30%; */
-/* margin: auto; */
-/* float: left; */
-/* margin-right: 20%; */
+#add-department{
+max-width: 30%;
+margin: auto;
+float: right;
+margin-right: 20%;
+}
+  
+#add-user{
+max-width: 100%;
+margin: auto;
+float: center;
 }
 
 #add-department-header, #add-user-header {

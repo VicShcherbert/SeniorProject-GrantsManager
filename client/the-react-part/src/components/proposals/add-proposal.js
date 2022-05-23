@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios'; //when adding something to the database
 import {
-  Modal,
   Button,
   Form,
   Header,
   Input,
   Dropdown,
   Divider,
-  Label,
   Segment,
+  TextArea,
 } from 'semantic-ui-react';
 import '../../style.css';
 
 export const AddProposal = () => {
+  const [unique_id, setUniqueId] = useState(0);
   const [prop_num, setPropNum] = useState('');
+  const [pre_prop, setPreProp] = useState(0);
   const [pre_prop_num, setPrePropNum] = useState(0);
   const [title, setTitle] = useState('');
   const [agency, setAgency] = useState('');
@@ -27,31 +28,36 @@ export const AddProposal = () => {
   const [department_name, setDeptName] = useState('');
   const [departmentList, setDepartmentList] = useState([]);
   const [unit, setUnit] = useState('');
-  const [amount_requested, setAmountRequested] = useState(0);
-  const [pre_award_status, setPreAwardStatus] = useState('');
-  const [date_submitted, setDateSubmitted] = useState('');
-  const [date_of_notice, setDateOfNotice] = useState('');
-  const [project_start, setProjectStart] = useState('');
-  const [project_end, setProjectEnd] = useState('');
-  const [human_compliance, setHumanCompliance] = useState('');
-  const [animal_compliance, setAnimalCompliance] = useState('');
-  const [recombinant_dna, setRecombinantDNA] = useState('');
-  const [subcontractors, setSubcontractors] = useState('');
-  const [index_number, setIndexNumber] = useState(0);
-  const [amount_funded, setAmountFunded] = useState(0);
-  const [grant_type, setGrantType] = useState('');
   const [category, setCategory] = useState('');
+  const [amount_requested, setAmountRequested] = useState(0);
+  const [date_submitted, setDateSubmitted] = useState('');
   const [pre_award_poc, setPreAwardPOC] = useState('');
-  const [post_award_poc, setPostAwardPOC] = useState('');
-  const [contract_number, setContractNumber] = useState(0);
-  const [indirect_cost, setIndirectCost] = useState(0);
   const [internal_approval, setInternalApproval] = useState('');
   const [certification_assurance, setCertificationAssurance] = useState('');
   const [financial_interest, setFinancialInterest] = useState('');
-  const [rcr, setRCR] = useState('');
-  const [archive_location, setArchiveLocation] = useState('');
   const [notes, setNotes] = useState('');
-  const [file, setFile] = useState({});
+  const [pre_award_status, setPreAwardStatus] = useState('');
+  const [date_of_notice, setDateOfNotice] = useState('');
+  const [amount_funded, setAmountFunded] = useState(0);
+  const [project_start, setProjectStart] = useState('');
+  const [project_end, setProjectEnd] = useState('');
+  const [grant_type, setGrantType] = useState('');
+  const [contract_number, setContractNumber] = useState(0);
+  const [indirect_cost, setIndirectCost] = useState(0);
+  const [sponsor_id, setSponsorId] = useState('');
+  const [index_number, setIndexNumber] = useState(0);
+  const [entered_sharepoint, setSharepoint] = useState('');
+  const [post_award_poc, setPostAwardPOC] = useState('');
+  const [irb, setIRB] = useState('');
+  const [iacuc, setIACUC] = useState('');
+  const [ibc, setIBC] = useState('');
+  const [rcr, setRCR] = useState('');
+  const [student_rcr_notes, setRCRNotes] = useState('');
+  const [subawards, setSubawards] = useState('');
+  const [subawardees, setSubawardees] = useState('');
+  const [subaward_contract_number, setSubawardContractNumber] = useState('');
+  const [subaward_notes, setSubawardNotes] = useState('');
+  const [files_id, setFilesId] = useState(0);
 
   const departmentNames = departmentList.map((element) => ({
     key: element.id,
@@ -71,11 +77,16 @@ export const AddProposal = () => {
     Axios.get('http://localhost:3001/get_departments').then((response) => {
       setDepartmentList(response.data); //becasue response contains 'data'
     });
+    Axios.get('http://localhost:3001/unique_id').then((response) => {
+      setUniqueId(response.data[0].unique_id + 1); //set the unique id as one more than the last proposal in database
+    });
   }, []);
 
   const addProposal = () => {
-    Axios.post('http://localhost:3001/addProposal', {
-      prop_num: prop_num,
+    Axios.post('http://localhost:3001/add_proposal', {
+      unique_id: unique_id,
+      prop_num: prop_num, 
+      pre_prop: pre_prop,
       pre_prop_num: pre_prop_num,
       title: title,
       agency: agency,
@@ -87,35 +98,42 @@ export const AddProposal = () => {
       department_number: department_number,
       department_name: department_name,
       unit: unit,
-      amount_requested: amount_requested,
-      pre_award_status: pre_award_status,
-      date_submitted: date_submitted,
-      date_of_notice: date_of_notice,
-      project_start: project_start,
-      project_end: project_end,
-      human_compliance: human_compliance,
-      animal_compliance: animal_compliance,
-      recombinant_dna: recombinant_dna,
-      subcontractors: subcontractors,
-      index_number: index_number,
-      amount_funded: amount_funded,
-      grant_type: grant_type,
       category: category,
+      amount_requested: amount_requested,
+      date_submitted: date_submitted,
       pre_award_poc: pre_award_poc,
-      post_award_poc: post_award_poc,
-      contract_number: contract_number,
-      indirect_cost: indirect_cost,
       internal_approval: internal_approval,
       certification_assurance: certification_assurance,
       financial_interest: financial_interest,
-      rcr: rcr,
-      archive_location: archive_location,
       notes: notes,
+      pre_award_status: pre_award_status,
+      date_of_notice: date_of_notice,
+      amount_funded: amount_funded,
+      project_start: project_start,
+      project_end: project_end,
+      grant_type: grant_type,
+      contract_number: contract_number,
+      indirect_cost: indirect_cost,
+      sponsor_id: sponsor_id,
+      index_number: index_number,
+      entered_sharepoint: entered_sharepoint,
+      post_award_poc: post_award_poc,
+      irb: irb,
+      iacuc: iacuc,
+      ibc: ibc,
+      rcr: rcr,
+      student_rcr_notes: student_rcr_notes,
+      subawards: subawards,
+      subawardees: subawardees,
+      subaward_contract_number: subaward_contract_number,
+      subaward_notes: subaward_notes,
+      files_id: files_id
     }).then(clearFields());
   };
 
   const clearFields = () => {
     setPropNum('');
+    setPreProp(0);
     setPrePropNum(0);
     setTitle('');
     setAgency('');
@@ -124,48 +142,480 @@ export const AddProposal = () => {
     setInvestigator('');
     setExtension(0);
     setEmail('');
-    setDeptNum('');
+    setDeptNum(0);
     setDeptName('');
     setDepartmentList([]);
     setUnit('');
-    setAmountRequested(0);
-    setPreAwardStatus('');
-    setDateSubmitted('');
-    setDateOfNotice('');
-    setProjectStart('');
-    setProjectEnd('');
-    setHumanCompliance('');
-    setAnimalCompliance('');
-    setRecombinantDNA('');
-    setSubcontractors('');
-    setIndexNumber(0);
-    setAmountFunded(0);
-    setGrantType('');
     setCategory('');
+    setAmountRequested(0);
+    setDateSubmitted('');
     setPreAwardPOC('');
-    setPostAwardPOC('');
-    setContractNumber(0);
-    setIndirectCost(0);
     setInternalApproval('');
     setCertificationAssurance('');
     setFinancialInterest('');
-    setRCR('');
-    setArchiveLocation('');
     setNotes('');
+    setPreAwardStatus('');
+    setDateOfNotice('');
+    setAmountFunded(0);
+    setProjectStart('');
+    setProjectEnd('');
+    setGrantType('');
+    setContractNumber(0);
+    setIndirectCost(0);
+    setSponsorId('');
+    setIndexNumber(0);
+    setSharepoint('');
+    setPostAwardPOC('');
+    setIRB('');
+    setIACUC('');
+    setIBC('');
+    setRCR('');
+    setRCRNotes('');
+    setSubawards('');
+    setSubawardees('');
+    setSubawardContractNumber('');
+    setSubawardNotes('');
   };
 
-  const onFileChange = (event) => {
-    setFile({ file: event.target.files[0] });
-  };
+  const awardAndContractSections = () => {
+    if((pre_award_status.includes('Funded') || pre_award_status.includes('Additional')) && !pre_award_status.includes('Not')){
+      return (
+        <div>
+          
+          <Segment basic>
+            <Divider horizontal>Award</Divider>
+          </Segment>
 
-  const onFileUpload = () => {
-    const formData = new FormData();
+          <Form.Field>
+            <Header>Amount Funded</Header>
+            <Input
+              placeholder='Amount Funded'
+              value={amount_funded}
+              name='amount_funded'
+              onChange={(_, { value }) => setAmountFunded(value)}
+              type='number'
+            />
+          </Form.Field>
 
-    // Update the formData object
-    formData.append('myFile', file, file.name);
+          <Form.Field>
+            <Header>Project Start</Header>
+            <Input
+              placeholder='Project Start'
+              value={project_start}
+              name='project_start'
+              type='date'
+              onChange={(_, { value }) => setProjectStart(value)}
+            />
+          </Form.Field>
 
-    // Details of the uploaded file
-    console.log(file);
+          <Form.Field>
+            <Header>Project End</Header>
+            <Input
+              placeholder='Project End'
+              value={project_end}
+              name='project_end'
+              type='date'
+              onChange={(_, { value }) => setProjectEnd(value)}
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>Grant Type</Header>
+            <Dropdown
+              placeholder='Select Grant Type'
+              value={grant_type}
+              name='grant_type'
+              onChange={(_, { value }) => setGrantType(value)}
+              fluid
+              selection
+              options={[
+                { 
+                  key: 'none', 
+                  value: '', 
+                  text: 'None' },
+                {
+                  key: 'contract',
+                  value: 'C - Contract',
+                  text: 'C - Contract',
+                },
+                {
+                  key: 'cooperative_agreement',
+                  value: 'CA - Cooperative Agreement',
+                  text: 'CA - Cooperative Agreement',
+                },
+                { 
+                  key: 'grant', 
+                  value: 'G - Grant', 
+                  text: 'G - Grant' 
+                },
+                {
+                  key: 'interagency_agreement',
+                  value: 'IA - Interagency Agreement',
+                  text: 'IA - Interagency Agreement',
+                },
+                {
+                  key: 'memorandum_of_agreement',
+                  value: 'MA - Memorandum of Agreement',
+                  text: 'MA - Memorandum of Agreement',
+                },
+                {
+                  key: 'purchase_order',
+                  value: 'PO - Purchase Order',
+                  text: 'PO - Purchase Order',
+                },
+                {
+                  key: 'subcontract',
+                  value: 'S - Subcontract',
+                  text: 'S - Subcontract',
+                }
+              ]}
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>Contract Number</Header>
+            <Input
+              placeholder='Contract Number'
+              value={contract_number}
+              name='contract_number'
+              onChange={(_, { value }) => setContractNumber(value)}
+              type='text'
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>Indirect Cost</Header>
+            <Input
+              placeholder='Indirect Cost'
+              value={indirect_cost}
+              name='indirect_cost'
+              onChange={(_, { value }) => setIndirectCost(value)}
+              type='number'
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>Sponsor ID</Header>
+            <Input
+              placeholder='Sponsor ID'
+              value={sponsor_id}
+              name='sponsor_id'
+              onChange={(_, { value }) => setSponsorId(value)}
+              type='text'
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>Index Number</Header>
+            <Input
+              placeholder='Index Number'
+              value={index_number}
+              name='index_number'
+              onChange={(_, { value }) => setIndexNumber(value)}
+              type='number'
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>Entered in Contracts Sharepoint</Header>
+            <Dropdown
+              placeholder='Entered in Sharepoint'
+              value={entered_sharepoint}
+              name='entered_sharepoint'
+              onChange={(_, { value }) => setSharepoint(value)}
+              fluid
+              selection
+              options={[
+                { 
+                  key: 'none', 
+                  value: '', 
+                  text: 'None' },
+                {
+                  key: 'not yet',
+                  value: 'Not Yet',
+                  text: 'Not Yet',
+                },
+                {
+                  key: 'uploaded',
+                  value: 'Uploaded',
+                  text: 'Uploaded',
+                },
+                {
+                  key: 'n/a',
+                  value: 'N/A',
+                  text: 'N/A',
+                },
+              ]}
+            />
+          </Form.Field>
+          
+          <Form.Field>
+            <Header>Post Award POC</Header>
+            <Dropdown
+              placeholder='Select a person'
+              value={post_award_poc}
+              name='post_award_poc'
+              onChange={(_, { value }) => setPostAwardPOC(value)}
+              fluid
+              selection
+              options={[
+                { 
+                  key: 'none', 
+                  value: '', 
+                  text: 'None' 
+                },
+                {
+                  key: 'nancy_miller',
+                  value: 'Nancy Miller',
+                  text: 'Nancy Miller',
+                },
+                {
+                  key: 'michelle_siedenburg',
+                  value: 'Michelle Siedenburg',
+                  text: 'Michelle Siedenburg',
+                },
+                {
+                  key: 'danielle_desormier',
+                  value: 'Danielle Desormier',
+                  text: 'Danielle Desormier',
+                }
+              ]}
+            />
+          </Form.Field>
+
+          <Segment basic>
+            <Divider horizontal>Compliance and Contracting</Divider>
+          </Segment>
+          
+          <Form.Field>
+            <Header>IRB Approval</Header>
+            <Dropdown
+              placeholder='IRB Approval'
+              value={irb}
+              name='irb'
+              onChange={(_, { value }) => setIRB(value)}
+              fluid
+              selection
+              options={[
+                { 
+                  key: 'none', 
+                  value: '', 
+                  text: 'None' 
+                },
+                {
+                  key: 'need',
+                  value: 'Need',
+                  text: 'Need',
+                },
+                {
+                  key: 'in_process',
+                  value: 'In Process',
+                  text: 'In Process',
+                },
+                {
+                  key: 'complete',
+                  value: 'Complete',
+                  text: 'Complete',
+                },
+                {
+                  key: 'n/a',
+                  value: 'N/A',
+                  text: 'N/A',
+                },
+              ]}
+            />
+          </Form.Field>
+          
+          <Form.Field>
+            <Header>IACUC Approval</Header>
+            <Dropdown
+              placeholder='IACUC Approval'
+              value={iacuc}
+              name='iacuc'
+              onChange={(_, { value }) => setIACUC(value)}
+              fluid
+              selection
+              options={[
+                { 
+                  key: 'none', 
+                  value: '', 
+                  text: 'None' 
+                },
+                {
+                  key: 'need',
+                  value: 'Need',
+                  text: 'Need',
+                },
+                {
+                  key: 'in_process',
+                  value: 'In Process',
+                  text: 'In Process',
+                },
+                {
+                  key: 'complete',
+                  value: 'Complete',
+                  text: 'Complete',
+                },
+                {
+                  key: 'n/a',
+                  value: 'N/A',
+                  text: 'N/A',
+                },
+              ]}
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>IBC Approval</Header>
+            <Dropdown
+              placeholder='IBC Approval'
+              value={ibc}
+              name='ibc'
+              onChange={(_, { value }) => setIBC(value)}
+              fluid
+              selection
+              options={[
+                { 
+                  key: 'none', 
+                  value: '', 
+                  text: 'None' 
+                },
+                {
+                  key: 'need',
+                  value: 'Need',
+                  text: 'Need',
+                },
+                {
+                  key: 'in_process',
+                  value: 'In Process',
+                  text: 'In Process',
+                },
+                {
+                  key: 'complete',
+                  value: 'Complete',
+                  text: 'Complete',
+                },
+                {
+                  key: 'n/a',
+                  value: 'N/A',
+                  text: 'N/A',
+                },
+              ]}
+            />
+          </Form.Field>
+          
+          <Form.Field>
+            <Header>Student RCR</Header>
+            <Dropdown
+              placeholder='Select RCR type'
+              value={rcr}
+              name='rcr'
+              onChange={(_, { value }) => setRCR(value)}
+              fluid
+              selection
+              options={[
+                { 
+                  key: 'none', 
+                  value: '', 
+                  text: 'None' },
+                {
+                  key: 'need',
+                  value: 'Need',
+                  text: 'Need',
+                },
+                {
+                  key: 'complete',
+                  value: 'Complete',
+                  text: 'Complete',
+                },
+                {
+                  key: 'n/a',
+                  value: 'N/A',
+                  text: 'N/A',
+                },
+              ]}
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>Student RCR Notes</Header>
+            <TextArea
+              placeholder='RCR Notes'
+              value={student_rcr_notes}
+              name='student_rcr_notes'
+              onChange={(_, { value }) => setRCRNotes(value)}
+              type='text'
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>Subawards</Header>
+            <Dropdown
+              placeholder='Subawards'
+              value={subawards}
+              name='subawards'
+              onChange={(_, { value }) => setSubawards(value)}
+              fluid
+              selection
+              options={[
+                { 
+                  key: 'none', 
+                  value: '', 
+                  text: 'None' },
+                {
+                  key: 'pending',
+                  value: 'Pending',
+                  text: 'Pending',
+                },
+                {
+                  key: 'complete',
+                  value: 'Complete',
+                  text: 'Complete',
+                },
+                {
+                  key: 'n/a',
+                  value: 'N/A',
+                  text: 'N/A',
+                },
+              ]}
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>Subawardees</Header>
+            <TextArea
+              placeholder='Subawardees'
+              value={subawardees}
+              name='subawardees'
+              onChange={(_, { value }) => setSubawardees(value)}
+              type='text'
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>Subawards Contract Number</Header>
+            <Input
+              placeholder='Contract Number'
+              value={subaward_contract_number}
+              name='subaward_contract_number'
+              onChange={(_, { value }) => setSubawardContractNumber(value)}
+              type='text'
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>Subaward Notes</Header>
+            <TextArea
+              placeholder='Notes'
+              value={subaward_notes}
+              name='subaward_notes'
+              onChange={(_, { value }) => setSubawardNotes(value)}
+              type='text'
+            />
+          </Form.Field>
+        </div>
+      )
+    }
   };
 
   return (
@@ -182,6 +632,34 @@ export const AddProposal = () => {
           <Segment basic>
             <Divider horizontal>Main Information</Divider>
           </Segment>
+
+          <Form.Field>
+            <Header>Proposal Number</Header>
+            <Input
+              placeholder='Proposal Number'
+              value={prop_num}
+              name='prop_num'
+              onChange={(_, { value }) => setPropNum(value)}
+              type='text'
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>Pre-Proposal</Header>
+            <Dropdown
+              placeholder='Pre-Proposal'
+              value={pre_prop}
+              name='pre_prop'
+              onChange={(_, { value }) => setPreProp(value)}
+              fluid
+              selection
+              options={[
+                { key: 'no', value: 0, text: 'No' },
+                { key: 'yes', value: 1, text: 'Yes' },
+              ]}
+            />
+          </Form.Field>
+
           <Form.Field>
             <Header>Title</Header>
             <Input
@@ -192,16 +670,7 @@ export const AddProposal = () => {
               type='text'
             />
           </Form.Field>
-          <Form.Field>
-            <Header>Proposal Number</Header>
-            <Input
-              placeholder='Proposal Number'
-              value={prop_num}
-              name='prop_num'
-              onChange={(_, { value }) => setPropNum(value)}
-              type='number'
-            />
-          </Form.Field>
+  
           <Form.Field>
             <Header>Agency</Header>
             <Input
@@ -212,6 +681,7 @@ export const AddProposal = () => {
               type='text'
             />
           </Form.Field>
+          
           <Form.Field>
             <Header>Funding Type</Header>
             <Dropdown
@@ -222,14 +692,14 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { key: 'none', value: '', text: 'None' },
                 { key: 'federal', value: 'federal', text: 'Federal' },
                 { key: 'state', value: 'state', text: 'State' },
-                { key: 'tribal', value: 'tribal', text: 'Tribal' },
+                { key: 'local', value: 'local', text: 'Local' },
                 { key: 'private', value: 'private', text: 'Private' },
               ]}
             />
           </Form.Field>
+
           <Form.Field>
             <Header>CFDA Number</Header>
             <Input
@@ -240,6 +710,7 @@ export const AddProposal = () => {
               type='number'
             />
           </Form.Field>
+
           <Form.Field>
             <Header>Investigator</Header>
             <Input
@@ -250,7 +721,8 @@ export const AddProposal = () => {
               type='text'
             />
           </Form.Field>
-          <Form.Field>
+
+          {/* <Form.Field>
             <Header>Extension</Header>
             <Input
               placeholder='Extension'
@@ -259,8 +731,9 @@ export const AddProposal = () => {
               onChange={(_, { value }) => setExtension(value)}
               type='number'
             />
-          </Form.Field>
-          <Form.Field>
+          </Form.Field> */}
+
+          {/* <Form.Field>
             <Header>Email</Header>
             <Input
               placeholder='Email'
@@ -269,9 +742,10 @@ export const AddProposal = () => {
               onChange={(_, { value }) => setEmail(value)}
               type='text'
             />
-          </Form.Field>
+          </Form.Field> */}
+
           <Form.Field>
-            <Header>Department Name</Header>
+            <Header>Department</Header>
             <Dropdown
               placeholder='Select department name'
               value={department_name}
@@ -282,6 +756,7 @@ export const AddProposal = () => {
               options={departmentNames}
             />
           </Form.Field>
+
           <Form.Field>
             <Header>Unit</Header>
             <Dropdown
@@ -292,7 +767,31 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { key: 'none', value: '', text: 'None' },
+                { 
+                  key: 'none', 
+                  value: '', 
+                  text: 'None' 
+                },
+                { 
+                  key: 'cahss', 
+                  value: 'CAHSS', 
+                  text: 'CAHSS' 
+                },
+                { 
+                  key: 'chsph', 
+                  value: 'CHSPH', 
+                  text: 'CHSPH' 
+                },
+                { 
+                  key: 'cpp', 
+                  value: 'CPP', 
+                  text: 'CPP' 
+                },
+                { 
+                  key: 'cstem', 
+                  value: 'CSTEM', 
+                  text: 'CSTEM' 
+                },
                 {
                   key: 'academic_affairs',
                   value: 'Academic Affairs',
@@ -300,37 +799,13 @@ export const AddProposal = () => {
                 },
                 {
                   key: 'business_finance',
-                  value: 'Business Finance',
-                  text: 'Business Finance',
-                },
-                { key: 'cahss', value: 'CAHSS', text: 'CAHSS' },
-                { key: 'cpp', value: 'CPP', text: 'CPP' },
-                { key: 'chsph', value: 'CHSPH', text: 'CHSPH' },
-                { key: 'cstem', value: 'CSTEM', text: 'CSTEM' },
+                  value: 'Business and Finance',
+                  text: 'Business and Finance',
+                },              
                 {
-                  key: 'diversity_inclusion',
-                  value: 'Diversity and Inclusion',
-                  text: 'Diversity and Inclusion',
-                },
-                {
-                  key: 'equal_opportunity',
-                  value: 'Equal Opportunity Affirm Action',
-                  text: 'Equal Opportunity Affirm Action',
-                },
-                {
-                  key: 'student_affairs',
-                  value: 'Student Affairs',
-                  text: 'Student Affairs',
-                },
-                {
-                  key: 'university_libraries',
-                  value: 'University Libraries',
-                  text: 'University Libraries',
-                },
-                {
-                  key: 'university_college',
-                  value: 'University College',
-                  text: 'University College',
+                  key: 'diversity_equity_inclusion',
+                  value: 'Diversity, Equity and Inclusion',
+                  text: 'Diversity, Equity and Inclusion',
                 },
                 {
                   key: 'presidents_office',
@@ -338,260 +813,19 @@ export const AddProposal = () => {
                   text: "President's Office",
                 },
                 {
-                  key: 'outreach_engagement',
-                  value: 'Outreach and Engagement',
-                  text: 'Outreach and Engagement',
+                  key: 'student_affairs',
+                  value: 'Student Affairs',
+                  text: 'Student Affairs',
+                },
+                {
+                  key: 'university_advancement',
+                  value: 'University Advancement',
+                  text: 'University Advancement',
                 },
               ]}
             />
           </Form.Field>
-          <Form.Field>
-            <Header>Amount Requested</Header>
-            <Input
-              placeholder='Amount Requested'
-              value={amount_requested}
-              name='amount_requested'
-              onChange={(_, { value }) => setAmountRequested(value)}
-              type='number'
-            />
-          </Form.Field>
-          <Form.Field>
-            <Header>Pre Award Status</Header>
-            <Dropdown
-              placeholder='Pre Award Status'
-              value={pre_award_status}
-              name='pre_award_status'
-              onChange={(_, { value }) => setPreAwardStatus(value)}
-              fluid
-              selection
-              options={[
-                { key: 'none', value: '', text: 'None' },
-                {
-                  key: 'pending',
-                  value: 'Pending',
-                  text: 'Pending',
-                },
-                {
-                  key: 'funded',
-                  value: 'Funded',
-                  text: 'Funded',
-                },
-                { key: 'not_funded', value: 'Not Funded', text: 'Not Funded' },
-                { key: 'additional', value: 'Additional', text: 'Additional' },
-                { key: 'awarded', value: 'Awarded', text: 'Awarded' },
-                { key: 'cash_value', value: 'Cash Value', text: 'Cash Value' },
-                {
-                  key: 'pre_proposal',
-                  value: 'Pre Proposal',
-                  text: 'Pre Proposal',
-                },
-                {
-                  key: 'invited',
-                  value: 'Invited',
-                  text: 'Invited',
-                },
-                {
-                  key: 'not_invited',
-                  value: 'Not Invited',
-                  text: 'Not Invited',
-                },
-                {
-                  key: 'no_cash_value',
-                  value: 'No Cash Value',
-                  text: 'No Cash Value',
-                },
-                {
-                  key: 'reduced',
-                  value: 'Reduced',
-                  text: 'Reduced',
-                },
-                {
-                  key: 'to_be_determined',
-                  value: 'To Be Determined',
-                  text: 'To Be Determined',
-                },
-                {
-                  key: 'see_notes',
-                  value: 'See Notes',
-                  text: 'See Notes',
-                },
-                {
-                  key: 'not_accepted',
-                  value: 'Not Accepted',
-                  text: 'Not Accepted',
-                },
-              ]}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Header>Date Submitted</Header>
-            <Input
-              placeholder='Date Submitted'
-              value={date_submitted}
-              name='date_submitted'
-              type='date'
-              onChange={(_, { value }) => setDateSubmitted(value)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Header>Date of Notice</Header>
-            <Input
-              placeholder='Date of Notice'
-              value={date_of_notice}
-              name='date_of_notice'
-              type='date'
-              onChange={(_, { value }) => setDateOfNotice(value)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Header>Project Start</Header>
-            <Input
-              placeholder='Project Start'
-              value={project_start}
-              name='project_start'
-              type='date'
-              onChange={(_, { value }) => setProjectStart(value)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Header>Project End</Header>
-            <Input
-              placeholder='Project End'
-              value={project_end}
-              name='project_end'
-              type='date'
-              onChange={(_, { value }) => setProjectEnd(value)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Header>Human Compliance</Header>
-            <Dropdown
-              placeholder='Select human compliance'
-              value={human_compliance}
-              name='human_compliance'
-              onChange={(_, { value }) => setHumanCompliance(value)}
-              fluid
-              selection
-              options={[
-                { key: 'none', value: '', text: 'None' },
-                { key: 'yes', value: 'Y', text: 'Y' },
-                { key: 'no', value: 'N', text: 'N' },
-              ]}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Header>Animal Compliance</Header>
-            <Dropdown
-              placeholder='Select animal compliance'
-              value={animal_compliance}
-              name='animal_compliance'
-              onChange={(_, { value }) => setAnimalCompliance(value)}
-              fluid
-              selection
-              options={[
-                { key: 'none', value: '', text: 'None' },
-                { key: 'yes', value: 'Y', text: 'Y' },
-                { key: 'no', value: 'N', text: 'N' },
-              ]}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Header>Recombinant DNA</Header>
-            <Dropdown
-              placeholder='Select recombinant DNA'
-              value={recombinant_dna}
-              name='recombinant_dna'
-              onChange={(_, { value }) => setRecombinantDNA(value)}
-              fluid
-              selection
-              options={[
-                { key: 'none', value: '', text: 'None' },
-                { key: 'yes', value: 'Y', text: 'Y' },
-                { key: 'no', value: 'N', text: 'N' },
-              ]}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Header>Subcontractors</Header>
-            <Dropdown
-              placeholder='Subcontractors'
-              value={subcontractors}
-              name='subcontractors'
-              onChange={(_, { value }) => setSubcontractors(value)}
-              fluid
-              selection
-              options={[
-                { key: 'none', value: '', text: 'None' },
-                { key: 'yes', value: 'Y', text: 'Y' },
-                { key: 'no', value: 'N', text: 'N' },
-              ]}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Header>Index Number</Header>
-            <Input
-              placeholder='Index Number'
-              value={index_number}
-              name='index_number'
-              onChange={(_, { value }) => setIndexNumber(value)}
-              type='number'
-            />
-          </Form.Field>
-          <Form.Field>
-            <Header>Amount Funded</Header>
-            <Input
-              placeholder='Amount Funded'
-              value={amount_funded}
-              name='amount_funded'
-              onChange={(_, { value }) => setAmountFunded(value)}
-              type='number'
-            />
-          </Form.Field>
-          <Form.Field>
-            <Header>Grant Type</Header>
-            <Dropdown
-              placeholder='Select Grant Type'
-              value={grant_type}
-              name='grant_type'
-              onChange={(_, { value }) => setGrantType(value)}
-              fluid
-              selection
-              options={[
-                { key: 'none', value: '', text: 'None' },
-                {
-                  key: 'contract',
-                  value: 'C - Contract',
-                  text: 'C - Contract',
-                },
-                { key: 'grant', value: 'G - Grant', text: 'G - Grant' },
-                {
-                  key: 'subcontract',
-                  value: 'S - Subcontract',
-                  text: 'S - Subcontract',
-                },
-                {
-                  key: 'interagency_agreement',
-                  value: 'IA - Interagency Agreement',
-                  text: 'IA - Interagency Agreement',
-                },
-                {
-                  key: 'cooperative_agreement',
-                  value: 'CA - Cooperative Agreement',
-                  text: 'CA - Cooperative Agreement',
-                },
-                {
-                  key: 'memorandum_of_agreement',
-                  value: 'MA - Memorandum of Agreement',
-                  text: 'MA - Memorandum of Agreement',
-                },
-                {
-                  key: 'purchase_order',
-                  value: 'PO - Purchase Order',
-                  text: 'PO - Purchase Order',
-                },
-              ]}
-            />
-          </Form.Field>
+
           <Form.Field>
             <Header>Category</Header>
             <Dropdown
@@ -605,27 +839,50 @@ export const AddProposal = () => {
                 { key: 'none', value: '', text: 'None' },
                 {
                   key: 'basic_research',
-                  value: 'B -Basic Research',
-                  text: 'B -Basic Research',
-                },
-                {
-                  key: 'non_research_other',
-                  value: 'N -Non-research/other',
-                  text: 'N -Non-research/other',
-                },
-                {
-                  key: 'experimental',
-                  value: 'E -Experimental',
-                  text: 'E -Experimental',
+                  value: 'Basic Research',
+                  text: 'Basic Research',
                 },
                 {
                   key: 'applied_research',
-                  value: 'A -Applied Research',
-                  text: 'A -Applied Research',
+                  value: 'Applied Research',
+                  text: 'Applied Research',
+                },
+                {
+                  key: 'experimental_research',
+                  value: 'Experimental Research',
+                  text: 'Experimental Research',
+                },
+                {
+                  key: 'not_research',
+                  value: 'Not Research',
+                  text: 'Not Research',
                 },
               ]}
             />
           </Form.Field>
+
+          <Form.Field>
+            <Header>Amount Requested</Header>
+            <Input
+              placeholder='Amount Requested'
+              value={amount_requested}
+              name='amount_requested'
+              onChange={(_, { value }) => setAmountRequested(value)}
+              type='number'
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>Date Submitted</Header>
+            <Input
+              placeholder='Date Submitted'
+              value={date_submitted}
+              name='date_submitted'
+              type='date'
+              onChange={(_, { value }) => setDateSubmitted(value)}
+            />
+          </Form.Field>
+
           <Form.Field>
             <Header>Pre Award POC</Header>
             <Dropdown
@@ -646,72 +903,11 @@ export const AddProposal = () => {
                   key: 'kristyl_riddle',
                   value: 'Kristyl Riddle',
                   text: 'Kristyl Riddle',
-                },
-                {
-                  key: 'ruth_galm',
-                  value: 'Ruth Galm',
-                  text: 'Ruth Galm',
-                },
+                }
               ]}
             />
           </Form.Field>
-          <Form.Field>
-            <Header>Post Award POC</Header>
-            <Dropdown
-              placeholder='Select a person'
-              value={post_award_poc}
-              name='post_award_poc'
-              onChange={(_, { value }) => setPostAwardPOC(value)}
-              fluid
-              selection
-              options={[
-                { key: 'none', value: '', text: 'None' },
-                {
-                  key: 'charlene_alspach',
-                  value: 'Charlene Alspach',
-                  text: 'Charlene Alspach',
-                },
-                {
-                  key: 'danielle_desormier',
-                  value: 'Danielle Desormier',
-                  text: 'Danielle Desormier',
-                },
-                {
-                  key: 'nancy_miller',
-                  value: 'Nancy Miller',
-                  text: 'Nancy Miller',
-                },
-                {
-                  key: 'michelle_siedenburg',
-                  value: 'Michelle Siedenburg',
-                  text: 'Michelle Siedenburg',
-                },
-              ]}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Header>Contract Number</Header>
-            <Input
-              placeholder='Contract Number'
-              value={contract_number}
-              name='contract_number'
-              onChange={(_, { value }) => setContractNumber(value)}
-              type='text'
-            />
-          </Form.Field>
-          <Form.Field>
-            <Header>Indirect Cost</Header>
-            <Input
-              placeholder='Indirect Cost'
-              value={indirect_cost}
-              name='indirect_cost'
-              onChange={(_, { value }) => setIndirectCost(value)}
-              type='number'
-            />
-          </Form.Field>
-          <Segment basic>
-            <Divider horizontal>Compliance Requirements</Divider>
-          </Segment>
+
           <Form.Field>
             <Header>Internal Approval</Header>
             <Dropdown
@@ -722,21 +918,19 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { key: 'none', value: '', text: 'None' },
-                {
-                  key: 'in_process',
-                  value: 'In Process',
-                  text: 'In Process',
-                },
+                { 
+                  key: 'none', 
+                  value: '', 
+                  text: 'None' },
                 {
                   key: 'need',
                   value: 'Need',
                   text: 'Need',
                 },
                 {
-                  key: 'na',
-                  value: 'NA',
-                  text: 'NA',
+                  key: 'requested',
+                  value: 'Requested',
+                  text: 'Requested',
                 },
                 {
                   key: 'complete',
@@ -744,23 +938,15 @@ export const AddProposal = () => {
                   text: 'Complete',
                 },
                 {
-                  key: 'see_pre_award_contact',
-                  value: 'See Pre Award Contact',
-                  text: 'See Pre Award Contact',
-                },
-                {
-                  key: 'not_funded',
-                  value: 'Not Funded',
-                  text: 'Not Funded',
-                },
-                {
-                  key: 'see_notes',
-                  value: 'See Notes',
-                  text: 'See Notes',
+                  key: 'n/a',
+                  value: 'N/A',
+                  text: 'N/A',
                 },
               ]}
             />
           </Form.Field>
+          <Form.Field>Internal Approval Forms Upload Here</Form.Field>
+
           <Form.Field>
             <Header>Certfication and Assurance</Header>
             <Dropdown
@@ -771,21 +957,19 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { key: 'none', value: '', text: 'None' },
-                {
-                  key: 'in_process',
-                  value: 'In Process',
-                  text: 'In Process',
-                },
+                { 
+                  key: 'none', 
+                  value: '', 
+                  text: 'None' },
                 {
                   key: 'need',
                   value: 'Need',
                   text: 'Need',
                 },
                 {
-                  key: 'na',
-                  value: 'NA',
-                  text: 'NA',
+                  key: 'requested',
+                  value: 'Requested',
+                  text: 'Requested',
                 },
                 {
                   key: 'complete',
@@ -793,25 +977,17 @@ export const AddProposal = () => {
                   text: 'Complete',
                 },
                 {
-                  key: 'see_pre_award_contact',
-                  value: 'See Pre Award Contact',
-                  text: 'See Pre Award Contact',
-                },
-                {
-                  key: 'not_funded',
-                  value: 'Not Funded',
-                  text: 'Not Funded',
-                },
-                {
-                  key: 'see_notes',
-                  value: 'See Notes',
-                  text: 'See Notes',
+                  key: 'n/a',
+                  value: 'N/A',
+                  text: 'N/A',
                 },
               ]}
             />
           </Form.Field>
+          <Form.Field>Certification and Assurance Forms Upload Here</Form.Field>
+
           <Form.Field>
-            <Header>Financial Interest</Header>
+            <Header>Conflict of Interest</Header>
             <Dropdown
               placeholder='Select financial interest type'
               value={financial_interest}
@@ -820,21 +996,19 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { key: 'none', value: '', text: 'None' },
-                {
-                  key: 'in_process',
-                  value: 'In Process',
-                  text: 'In Process',
-                },
+                { 
+                  key: 'none', 
+                  value: '', 
+                  text: 'None' },
                 {
                   key: 'need',
                   value: 'Need',
                   text: 'Need',
                 },
                 {
-                  key: 'na',
-                  value: 'NA',
-                  text: 'NA',
+                  key: 'requested',
+                  value: 'Requested',
+                  text: 'Requested',
                 },
                 {
                   key: 'complete',
@@ -842,99 +1016,85 @@ export const AddProposal = () => {
                   text: 'Complete',
                 },
                 {
-                  key: 'see_pre_award_contact',
-                  value: 'See Pre Award Contact',
-                  text: 'See Pre Award Contact',
-                },
-                {
-                  key: 'not_funded',
-                  value: 'Not Funded',
-                  text: 'Not Funded',
-                },
-                {
-                  key: 'see_notes',
-                  value: 'See Notes',
-                  text: 'See Notes',
+                  key: 'n/a',
+                  value: 'N/A',
+                  text: 'N/A',
                 },
               ]}
             />
           </Form.Field>
-          <Form.Field>
-            <Header>RCR</Header>
-            <Dropdown
-              placeholder='Select RCR type'
-              value={rcr}
-              name='rcr'
-              onChange={(_, { value }) => setRCR(value)}
-              fluid
-              selection
-              options={[
-                { key: 'none', value: '', text: 'None' },
-                {
-                  key: 'in_process',
-                  value: 'In Process',
-                  text: 'In Process',
-                },
-                {
-                  key: 'need',
-                  value: 'Need',
-                  text: 'Need',
-                },
-                {
-                  key: 'na',
-                  value: 'NA',
-                  text: 'NA',
-                },
-                {
-                  key: 'complete',
-                  value: 'Complete',
-                  text: 'Complete',
-                },
-                {
-                  key: 'see_pre_award_contact',
-                  value: 'See Pre Award Contact',
-                  text: 'See Pre Award Contact',
-                },
-                {
-                  key: 'not_funded',
-                  value: 'Not Funded',
-                  text: 'Not Funded',
-                },
-                {
-                  key: 'see_notes',
-                  value: 'See Notes',
-                  text: 'See Notes',
-                },
-              ]}
-            />
-          </Form.Field>
-          <Segment basic>
-            <Divider horizontal>Other</Divider>
-          </Segment>
-          <Form.Field>
-            <Header>Archive Location</Header>
-            <Input
-              placeholder='Archive Location'
-              value={archive_location}
-              name='archive_location'
-              onChange={(_, { value }) => setArchiveLocation(value)}
-              type='text'
-            />
-          </Form.Field>
+          <Form.Field>Conflict of Interest Forms Upload Here</Form.Field>
+
           <Form.Field>
             <Header>Notes</Header>
-            <Input
+            <TextArea
               placeholder='Notes'
               value={notes}
               name='notes'
               onChange={(_, { value }) => setNotes(value)}
-              type='text'
+              type='text-area'
             />
           </Form.Field>
-          <div>
-            <input type='file' onChange={onFileChange} />
-            <button onClick={onFileUpload}>Upload!</button>
-          </div>
+
+          <Form.Field>
+            <Header>Pre Award Status</Header> 
+            <Dropdown
+              placeholder='Pre Award Status'
+              value={pre_award_status}
+              name='pre_award_status'
+              onChange={(_, { value }) => setPreAwardStatus(value)}
+              fluid
+              selection
+              options={[
+                { 
+                  key: 'none', 
+                  value: '', 
+                  text: 'None' },
+                {
+                  key: 'pending',
+                  value: 'Pending',
+                  text: 'Pending',
+                },
+                {
+                  key: 'funded',
+                  value: 'Funded',
+                  text: 'Funded',
+                },
+                { 
+                  key: 'not_funded', 
+                  value: 'Not Funded', 
+                  text: 'Not Funded' },
+                { 
+                  key: 'additional', 
+                  value: 'Additional', 
+                  text: 'Additional' },
+                
+                {
+                  key: 'invited',
+                  value: 'Invited',
+                  text: 'Invited',
+                },
+                {
+                  key: 'not_invited',
+                  value: 'Not Invited',
+                  text: 'Not Invited',
+                },
+              ]}
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>Date of Notice</Header>
+            <Input
+              placeholder='Date of Notice'
+              value={date_of_notice}
+              name='date_of_notice'
+              type='date'
+              onChange={(_, { value }) => setDateOfNotice(value)}
+            />
+          </Form.Field>
+          {awardAndContractSections()}
+
           <Segment
             basic
             style={{

@@ -17,7 +17,6 @@ const db = mysql.createConnection({
 
 app.post('/google_login', (req, res) => {
   db.query(`SELECT * FROM Users WHERE email='${req.body.email}'`, (err, result) => {
-    console.log(result);
     if(err){
       console.log(err);
     }
@@ -38,12 +37,19 @@ app.post('/google_login', (req, res) => {
 });
 
 app.get('/proposals', (req, res) => {
-  db.query('SELECT * FROM Proposals ORDER BY proposal_number ASC;', (err, result) => {
+  db.query('SELECT * FROM Proposals ORDER BY unique_id DESC;', (err, result) => {
     if (err) {
       console.log(err);
     } else {
       res.send(result);
     }
+  });
+});
+
+app.get('/unique_id', (req, res) => {
+  db.query('SELECT MAX(unique_id) AS unique_id FROM Proposals;', (err, result) => {
+    if (err) console.log(err);
+    else res.send(result);
   });
 });
 
@@ -118,83 +124,52 @@ console.log(req.body);
 });
 
 
-app.post('/addProposal', (req, res) => {
-  const proposal_number = req.body.prop_num;
-  const pre_proposal_number = req.body.pre_prop_num;
-  const title = req.body.title;
-  const agency = req.body.agency;
-  const funding_type = req.body.fund_type;
-  const cfda_number = req.body.cfda;
-  const investigator = req.body.investigator;
-  const extension = req.body.extension;
-  const email = req.body.email;
-  const department_number = req.body.department_number;
-  const department_name = req.body.department_name;
-  const unit = req.body.unit;
-  const amount_requested = req.body.amount_requested;
-  const pre_award_status = req.body.pre_award_status;
-  const date_submitted = req.body.date_submitted;
-  const date_of_notice = req.body.date_of_notice;
-  const project_start = req.body.project_start;
-  const project_end = req.body.project_end;
-  const human_compliance = req.body.human_compliance;
-  const animal_compliance = req.body.animal_compliance;
-  const recombinant_dna = req.body.recombinant_dna;
-  const subcontractors = req.body.subcontractors;
-  const index_number = req.body.index_number;
-  const amount_funded = req.body.amount_funded;
-  const grant_type = req.body.grant_type;
-  const category = req.body.category;
-  const pre_award_poc = req.body.pre_award_poc;
-  const post_award_poc = req.body.post_award_poc;
-  const contract_number = req.body.contract_number;
-  const indirect_cost = req.body.indirect_cost;
-  const internal_approval = req.body.internal_approval;
-  const certification_assurance = req.body.certification_assurance;
-  const financial_interest = req.body.financial_interest;
-  const rcr = req.body.rcr;
-  const archive_location = req.body.archive_location;
-  const notes = req.body.notes;
-
+app.post('/add_proposal', (req, res) => {
   db.query(
-    'INSERT INTO Proposals (proposal_number, pre_proposal_number, title, agency, funding_type, cfda_number, investigator, extension, email, department_number, department_name, unit, amount_requested, pre_award_status, date_submitted, date_of_notice, project_start, project_end, human_compliance, animal_compliance, recombinant_dna, subcontractors, index_number, amount_funded, grant_type, category, pre_award_poc, post_award_poc, contract_number, indirect_cost, internal_approval, certification_assurance, financial_interest, archive_location, rcr, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+    'INSERT INTO Proposals (unique_id, proposal_number, pre_proposal, pre_proposal_number, title, agency, funding_type, cfda_number, investigator, department_number, department_name, unit, category, amount_requested, date_submitted, pre_award_poc, internal_approval, certification_assurance, financial_interest, notes, pre_award_status, date_of_notice, amount_funded, project_start, project_end, grant_type, contract_number, indirect_cost, sponsor_id, index_number, entered_sharepoint, post_award_poc, irb_approval, iacuc_approval, ibc_approval, student_rcr, rcr_notes, subawards, subawardees, subaward_contract_number, subaward_notes, files_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
     [
-      proposal_number,
-      pre_proposal_number,
-      title,
-      agency,
-      funding_type,
-      cfda_number,
-      investigator,
-      extension,
-      email,
-      department_number,
-      department_name,
-      unit,
-      amount_requested,
-      pre_award_status,
-      date_submitted,
-      date_of_notice,
-      project_start,
-      project_end,
-      human_compliance,
-      animal_compliance,
-      recombinant_dna,
-      subcontractors,
-      index_number,
-      amount_funded,
-      grant_type,
-      category,
-      pre_award_poc,
-      post_award_poc,
-      contract_number,
-      indirect_cost,
-      internal_approval,
-      certification_assurance,
-      financial_interest,
-      archive_location,
-      rcr,
-      notes,
+      req.body.unique_id,
+      req.body.prop_num,
+      req.body.pre_prop,
+      req.body.pre_prop_num,
+      req.body.title,
+      req.body.agency,
+      req.body.fund_type,
+      req.body.cfda,
+      req.body.investigator,
+      req.body.department_number,
+      req.body.department_name,
+      req.body.unit,
+      req.body.category,
+      req.body.amount_requested,
+      req.body.date_submitted,
+      req.body.pre_award_poc,
+      req.body.internal_approval,
+      req.body.certification_assurance,
+      req.body.financial_interest,
+      req.body.notes,
+      req.body.pre_award_status,
+      req.body.date_of_notice,
+      req.body.amount_funded,
+      req.body.project_start,
+      req.body.project_end,
+      req.body.grant_type,
+      req.body.contract_number,
+      req.body.indirect_cost,
+      req.body.sponsor_id,
+      req.body.index_number,
+      req.body.entered_sharepoint,
+      req.body.post_award_poc,
+      req.body.irb,
+      req.body.iacuc,
+      req.body.ibc,
+      req.body.rcr,
+      req.body.student_rcr_notes,
+      req.body.subawards,
+      req.body.subawardees,
+      req.body.subaward_contract_number,
+      req.body.subaward_notes,
+      req.files_id
     ],
     (err, result) => {
       console.log('Made it');
@@ -208,7 +183,7 @@ app.post('/add_department', (req, res) => {
   const id = req.body.id;
   db.query(
     'INSERT INTO Departments (id, name) VALUES (?, ?);',
-    [id, name],
+    [req.body.id, req.body.name],
     (err, result) => {
       if (err) console.log(err);
     }
@@ -216,86 +191,56 @@ app.post('/add_department', (req, res) => {
 });
 
 app.put('/update', (req, res) => {
-  const proposal_number = req.body.proposal_number;
-  const title = req.body.title;
-  const agency = req.body.agency;
-  const funding_type = req.body.funding_type;
-  const cfda_number = req.body.cfda_number;
-  const investigator = req.body.investigator;
-  const extension = req.body.extension;
-  const email = req.body.email;
-  const department_number = req.body.department_number;
-  const department_name = req.body.department_name;
-  const unit = req.body.unit;
-  const amount_requested = req.body.amount_requested;
-  const pre_award_status = req.body.pre_award_status;
-  const date_submitted = req.body.date_submitted;
-  const date_of_notice = req.body.date_of_notice;
-  const project_start = req.body.project_start;
-  const project_end = req.body.project_end;
-  const human_compliance = req.body.human_compliance;
-  const animal_compliance = req.body.animal_compliance;
-  const recombinant_dna = req.body.recombinant_dna;
-  const subcontractors = req.body.subcontractors;
-  const index_number = req.body.index_number;
-  const amount_funded = req.body.amount_funded;
-  const grant_type = req.body.grant_type;
-  const category = req.body.category;
-  const pre_award_poc = req.body.pre_award_poc;
-  const post_award_poc = req.body.post_award_poc;
-  const contract_number = req.body.contract_number;
-  const indirect_cost = req.body.indirect_cost;
-  const internal_approval = req.body.internal_approval;
-  const certification_assurance = req.body.certification_assurance;
-  const financial_interest = req.body.financial_interest;
-  const rcr = req.body.rcr;
-  const archive_location = req.body.archive_location;
-  const notes = req.body.notes;
-
   db.query(
-    'UPDATE Proposals SET title = ?, agency = ?,'+
-    ' funding_type = ?, cfda_number = ?, investigator = ?, extension = ?, email = ?, department_number = ?, department_name = ?, '+
-    ' unit = ?, amount_requested = ?, pre_award_status = ?, date_submitted = ?, date_of_notice = ?, project_start = ?, project_end = ?, ' +
-    ' human_compliance = ?, animal_compliance = ?, recombinant_dna = ?, subcontractors = ?, index_number = ?, amount_funded = ?, grant_type = ?,' +
-    ' category = ?, pre_award_poc = ?, post_award_poc = ?, contract_number = ?, indirect_cost = ?,' +
-    ' internal_approval = ?, certification_assurance = ?, financial_interest = ?, rcr = ?, archive_location = ?,' +
-    ' notes = ? WHERE proposal_number = ?',
+    'UPDATE Proposals SET proposal_number = ?, pre_proposal = ?, pre_proposal_number = ?, title = ?, agency = ?, funding_type = ?, ' +
+    'cfda_number = ?, investigator = ?, department_number = ?, department_name = ?, unit = ?, category = ?, amount_requested = ?, date_submitted = ?, ' +
+    'pre_award_poc = ?, internal_approval = ?, certification_assurance = ?, financial_interest = ?, notes = ?, pre_award_status = ?, date_of_notice = ?, ' +
+    'amount_funded = ?, project_start = ?, project_end = ?, grant_type = ?, contract_number = ?, indirect_cost = ?, sponsor_id = ?, index_number = ?, ' +
+    'entered_sharepoint = ?, post_award_poc = ?, irb_approval = ?, iacuc_approval = ?, ibc_approval = ?, student_rcr = ?, rcr_notes = ?, subawards = ?, ' +
+    'subawardees = ?, subaward_contract_number = ?, subaward_notes = ?, files_id = ? WHERE unique_id = ?',
     [
-      title,
-      agency,
-      funding_type,
-      cfda_number,
-      investigator,
-      extension,
-      email,
-      department_number,
-      department_name,
-      unit,
-      amount_requested,
-      pre_award_status,
-      date_submitted,
-      date_of_notice,
-      project_start,
-      project_end,
-      human_compliance,
-      animal_compliance,
-      recombinant_dna,
-      subcontractors,
-      index_number,
-      amount_funded,
-      grant_type,
-      category,
-      pre_award_poc,
-      post_award_poc,
-      contract_number,
-      indirect_cost,
-      internal_approval,
-      certification_assurance,
-      financial_interest,
-      rcr,
-      archive_location,
-      notes,
-      proposal_number,
+      req.body.prop_num,
+      req.body.pre_prop,
+      req.body.pre_prop_num,
+      req.body.title,
+      req.body.agency,
+      req.body.fund_type,
+      req.body.cfda,
+      req.body.investigator,
+      req.body.department_number,
+      req.body.department_name,
+      req.body.unit,
+      req.body.category,
+      req.body.amount_requested,
+      req.body.date_submitted,
+      req.body.pre_award_poc,
+      req.body.internal_approval,
+      req.body.certification_assurance,
+      req.body.financial_interest,
+      req.body.notes,
+      req.body.pre_award_status,
+      req.body.date_of_notice,
+      req.body.amount_funded,
+      req.body.project_start,
+      req.body.project_end,
+      req.body.grant_type,
+      req.body.contract_number,
+      req.body.indirect_cost,
+      req.body.sponsor_id,
+      req.body.index_number,
+      req.body.entered_sharepoint,
+      req.body.post_award_poc,
+      req.body.irb,
+      req.body.iacuc,
+      req.body.ibc,
+      req.body.rcr,
+      req.body.student_rcr_notes,
+      req.body.subawards,
+      req.body.subawardees,
+      req.body.subaward_contract_number,
+      req.body.subaward_notes,
+      req.files_id,
+      req.body.unique_id,
     ],
     (err, result) => {
       if (err) console.log(err);
@@ -304,9 +249,30 @@ app.put('/update', (req, res) => {
   );
 });
 
+app.delete('/delete_proposal', (req,res) => {
+  db.query('DELETE FROM Proposals WHERE unique_id = ' + unique_id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
 app.get('/get_departments', (req, res) => {
   db.query('SELECT * FROM Departments;', (err, result) => {
     if (err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.get('/get_pre_award_POCs', (req, res) => {
+  db.query('SELECT * FROM Pre_Award_Poc;', (err, result) => {
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.get('/get_post_award_POCs', (req, res) => {
+  db.query('SELECT * FROM Post_Award_Poc;', (err, result) => {
+    if(err) console.log(err);
     else res.send(result);
   });
 });
@@ -357,9 +323,39 @@ app.get('/get_amount_funded', (req, res) => {
     );
   } else {
     db.query(
-      `SELECT count(amount_funded) AS total 
+      `SELECT sum(amount_funded) AS total 
               FROM Proposals 
               WHERE date_submitted>="${currentYear}-07-01" 
+                AND (pre_award_status="Funded" 
+                OR pre_award_status="Additional");`,
+      (err, result) => {
+        if (err) console.log(err);
+        else res.send(result);
+      }
+    );
+  }
+});
+
+app.get('/get_past_amount_funded', (req, res) => {
+  if (currentMonth > 7) {
+    db.query(
+      `SELECT sum(amount_funded) AS total 
+              FROM Proposals 
+              WHERE date_submitted<"${currentYear}-07-01" 
+                AND date_submitted>"${currentYear - 1}-06-30" 
+                AND (pre_award_status="Funded" 
+                OR pre_award_status="Additional");`,
+      (err, result) => {
+        if (err) console.log(err);
+        else res.send(result);
+      }
+    );
+  } else {
+    db.query(
+      `SELECT sum(amount_funded) AS total 
+              FROM Proposals 
+              WHERE date_submitted<"${currentYear - 1}-07-01" 
+                AND date_submitted>"${currentYear - 2}-06-30" 
                 AND (pre_award_status="Funded" 
                 OR pre_award_status="Additional");`,
       (err, result) => {
@@ -375,8 +371,9 @@ app.get('/get_amount_funded_by_type', (req, res) => {
     db.query(
       `SELECT grant_type, sum(amount_funded) AS sum
               FROM Proposals
-              WHERE date_submitted>="2018-07-01" 
-                AND date_submitted<="2022-06-30"
+              WHERE date_submitted>="${currentYear - 3}-07-01" 
+                AND date_submitted<="${currentYear}-06-30"
+                AND grant_type<>""
               GROUP BY grant_type;`,
       (err, result) => {
         if (err) console.log(err);
@@ -389,8 +386,8 @@ app.get('/get_amount_funded_by_type', (req, res) => {
     db.query(
       `SELECT grant_type, sum(amount_funded) AS sum
               FROM Proposals
-              WHERE date_submitted>="${currentYear - 1}-07-01" 
-                AND date_submitted<="${currentYear}-06-30"
+              WHERE date_submitted>="${currentYear}-07-01"
+                AND grant_type<>""
               GROUP BY grant_type;`,
       (err, result) => {
         if (err) console.log(err);
@@ -418,6 +415,28 @@ app.get('/get_users', (req, res) => {
     if (err) console.log(err);
     else res.send(result);
   });
+});
+
+app.post('/add_pre_award_poc', (req, res) => {
+  const name = req.body.name;
+  db.query(
+    'INSERT INTO Pre_Award_Poc (name) VALUES (?);',
+    [name],
+    (err, result) => {
+      if (err) console.log(err);
+    }
+  );
+});
+
+app.post('/add_post_award_poc', (req, res) => {
+  const name = req.body.name;
+  db.query(
+    'INSERT INTO Post_Award_Poc (name) VALUES (?);',
+    [name],
+    (err, result) => {
+      if (err) console.log(err);
+    }
+  );
 });
 
 // Reporting Queries
