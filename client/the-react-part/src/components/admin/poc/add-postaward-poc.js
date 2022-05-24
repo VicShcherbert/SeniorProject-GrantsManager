@@ -17,7 +17,6 @@ export const AddPostAwardPOC = () => {
 
   return (
     <div className='add-post-award-poc'>
-      <h3 id='add-postaward-poc-header'>Add Post Award POC</h3>
       <Form id='add-postaward-poc'>
         <label>Name:</label>
         <input

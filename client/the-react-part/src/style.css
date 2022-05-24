@@ -50,9 +50,9 @@ margin: auto;
 }
 
 .departments-table{
-max-width: 80%;
-float: left;
-margin-left: 20%;
+max-width: 100%;
+float: center;
+margin: auto;
 }
   
 .users-table{
@@ -66,7 +66,7 @@ padding-top: 30px;
 padding-bottom: 30px;
 }
 
-.pre-award-poc-table, .post-award-poc-table, .add-pre-award-poc, .add-post-award-poc{
+.pre-award-poc-table, .post-award-poc-table, .add-pre-award-poc, .add-post-award-poc, .add-department{
 max-width: 100%;
 float: center;
 margin: auto;
@@ -108,12 +108,12 @@ margin-bottom: 30px;
 margin-bottom: 30px;
 }
 
-#add-department{
+/* #add-department{
 max-width: 30%;
 margin: auto;
 float: right;
 margin-right: 20%;
-}
+} */
   
 #add-user{
 max-width: 100%;

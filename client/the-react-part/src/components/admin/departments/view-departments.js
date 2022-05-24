@@ -21,10 +21,7 @@ export const ViewDepartments = () => {
   }, []);
 
   return (
-    <Segment basic style={{ maxWidth: '430px' }}>
-      <Header size='large' textAlign='center'>
-        Department List
-      </Header>
+      <div className='departments-table'>
       <Table celled>
         <TableHeader>
           <Table.Row>
@@ -43,6 +40,6 @@ export const ViewDepartments = () => {
           })}
         </TableBody>
       </Table>
-    </Segment>
+      </div>
   );
 };

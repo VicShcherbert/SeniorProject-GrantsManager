@@ -21,7 +21,6 @@ export const ViewPostAwardPOCs = () => {
 
   return (
     <div className='post-award-poc-table'>
-        <h3 id='add-poc-header'>Post Award POCs</h3>
       <Table celled>
         <TableHeader>
           <TableHeaderCell>Name</TableHeaderCell>
