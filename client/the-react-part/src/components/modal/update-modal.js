@@ -205,7 +205,7 @@ export const UpdateModal = ({ proposal }) => {
     var result = window.confirm('Are you sure you want to delete?');
     if (result) {
       Axios.delete('http://localhost:3001/delete_proposal', {
-        unique_id: unique_id,
+        data: {unique_id: unique_id},
       }).then((response) => {
         alert('Entry has been deleted');
         window.location.reload();
