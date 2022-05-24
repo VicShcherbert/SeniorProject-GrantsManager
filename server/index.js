@@ -277,8 +277,15 @@ app.get('/get_post_award_POCs', (req, res) => {
   });
 });
 
+app.get('/get_units', (req, res) => {
+  db.query('SELECT * FROM Units ORDER BY id asc;', (err, result) => {
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
 app.listen(3001, () => {
-  console.log('yo What up on port 3001');
+  console.log('Server is running on port 3001');
 });
 
 let currentDate = new Date();
@@ -432,6 +439,17 @@ app.post('/add_post_award_poc', (req, res) => {
   const name = req.body.name;
   db.query(
     'INSERT INTO Post_Award_Poc (name) VALUES (?);',
+    [name],
+    (err, result) => {
+      if (err) console.log(err);
+    }
+  );
+});
+
+app.post('/add_unit', (req, res) => {
+  const name = req.body.name;
+  db.query(
+    'INSERT INTO Units (name) VALUES (?);',
     [name],
     (err, result) => {
       if (err) console.log(err);

@@ -28,9 +28,11 @@ export const AddProposal = () => {
   const [department_name, setDeptName] = useState('');
   const [departmentList, setDepartmentList] = useState([]);
   const [unit, setUnit] = useState('');
+  const [unitList, setUnitList] = useState([]);
   const [category, setCategory] = useState('');
   const [amount_requested, setAmountRequested] = useState(0);
   const [date_submitted, setDateSubmitted] = useState('');
+  const [preAwardPOCList, setPreAwardPOCList] = useState([]);
   const [pre_award_poc, setPreAwardPOC] = useState('');
   const [internal_approval, setInternalApproval] = useState('');
   const [certification_assurance, setCertificationAssurance] = useState('');
@@ -47,6 +49,7 @@ export const AddProposal = () => {
   const [sponsor_id, setSponsorId] = useState('');
   const [index_number, setIndexNumber] = useState(0);
   const [entered_sharepoint, setSharepoint] = useState('');
+  const [postAwardPOCList, setPostAwardPOCList] = useState([]);
   const [post_award_poc, setPostAwardPOC] = useState('');
   const [irb, setIRB] = useState('');
   const [iacuc, setIACUC] = useState('');
@@ -65,11 +68,53 @@ export const AddProposal = () => {
     text: element.name,
   }));
 
+  const preAwardPOCs = preAwardPOCList.map((element) => ({
+    key: element.id,
+    value: element.name,
+    text: element.name,
+  }));
+
+  const postAwardPOCs = postAwardPOCList.map((element) => ({
+    key: element.id,
+    value: element.name,
+    text: element.name,
+  }));
+
+  const units = unitList.map((element) => ({
+    key: element.id,
+    value: element.name,
+    text: element.name,
+  }));
+
   const dealWithNameNum = (value) => {
     setDeptName(value);
     for (var i = 0; i < departmentNames.length; i++) {
       if (departmentNames[i].value === value)
         setDeptNum(departmentNames[i].key);
+    }
+  };
+
+  const dealWithNameNumPreAwardPOC = (value) => {
+    setPreAwardPOC(value);
+    for (var i = 0; i < preAwardPOCs.length; i++) {
+      if (preAwardPOCs[i].value === value)
+        setPreAwardPOC(preAwardPOCs[i].key);
+    }
+  };
+
+  const dealWithNameNumPostAwardPOC = (value) => {
+    setPostAwardPOC(value);
+    for (var i = 0; i < postAwardPOCs.length; i++) {
+      if (postAwardPOCs[i].value === value)
+        setPostAwardPOC(postAwardPOCs[i].key);
+    }
+  };
+
+  const dealWithNameNumUnits = (value) => {
+    setUnit(value);
+    for (var i = 0; i < units.length; i++) {
+      if (units[i].value === value)
+        setPostAwardPOC(units[i].key);
     }
   };
 
@@ -79,6 +124,24 @@ export const AddProposal = () => {
     });
     Axios.get('http://localhost:3001/unique_id').then((response) => {
       setUniqueId(response.data[0].unique_id + 1); //set the unique id as one more than the last proposal in database
+    });
+  }, []);
+
+  useEffect(() => {
+    Axios.get('http://localhost:3001/get_pre_award_POCs').then((response) => {
+      setPreAwardPOCList(response.data); //because response contains 'data'
+    });
+  }, []);
+
+  useEffect(() => {
+    Axios.get('http://localhost:3001/get_post_award_POCs').then((response) => {
+      setPostAwardPOCList(response.data); //because response contains 'data'
+    });
+  }, []);
+
+  useEffect(() => {
+    Axios.get('http://localhost:3001/get_units').then((response) => {
+      setUnitList(response.data); //because response contains 'data'
     });
   }, []);
 
@@ -146,10 +209,12 @@ export const AddProposal = () => {
     setDeptName('');
     setDepartmentList([]);
     setUnit('');
+    setUnitList([]);
     setCategory('');
     setAmountRequested(0);
     setDateSubmitted('');
     setPreAwardPOC('');
+    setPreAwardPOCList([]);
     setInternalApproval('');
     setCertificationAssurance('');
     setFinancialInterest('');
@@ -166,6 +231,7 @@ export const AddProposal = () => {
     setIndexNumber(0);
     setSharepoint('');
     setPostAwardPOC('');
+    setPostAwardPOCList([]);
     setIRB('');
     setIACUC('');
     setIBC('');
@@ -350,38 +416,17 @@ export const AddProposal = () => {
           </Form.Field>
           
           <Form.Field>
-            <Header>Post Award POC</Header>
-            <Dropdown
-              placeholder='Select a person'
-              value={post_award_poc}
-              name='post_award_poc'
-              onChange={(_, { value }) => setPostAwardPOC(value)}
-              fluid
-              selection
-              options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' 
-                },
-                {
-                  key: 'nancy_miller',
-                  value: 'Nancy Miller',
-                  text: 'Nancy Miller',
-                },
-                {
-                  key: 'michelle_siedenburg',
-                  value: 'Michelle Siedenburg',
-                  text: 'Michelle Siedenburg',
-                },
-                {
-                  key: 'danielle_desormier',
-                  value: 'Danielle Desormier',
-                  text: 'Danielle Desormier',
-                }
-              ]}
-            />
-          </Form.Field>
+          <Header>Post Award POC</Header>
+          <Dropdown
+            placeholder='Select Post Award POC'
+            value={post_award_poc}
+            name='post_award_poc'
+            onChange={(_, { value }) => dealWithNameNumPostAwardPOC(value)}
+            fluid
+            selection
+            options={postAwardPOCs}
+          />
+        </Form.Field>
 
           <Segment basic>
             <Divider horizontal>Compliance and Contracting</Divider>
@@ -758,73 +803,17 @@ export const AddProposal = () => {
           </Form.Field>
 
           <Form.Field>
-            <Header>Unit</Header>
-            <Dropdown
-              placeholder='Select unit'
-              value={unit}
-              name='unit'
-              onChange={(_, { value }) => setUnit(value)}
-              fluid
-              selection
-              options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' 
-                },
-                { 
-                  key: 'cahss', 
-                  value: 'CAHSS', 
-                  text: 'CAHSS' 
-                },
-                { 
-                  key: 'chsph', 
-                  value: 'CHSPH', 
-                  text: 'CHSPH' 
-                },
-                { 
-                  key: 'cpp', 
-                  value: 'CPP', 
-                  text: 'CPP' 
-                },
-                { 
-                  key: 'cstem', 
-                  value: 'CSTEM', 
-                  text: 'CSTEM' 
-                },
-                {
-                  key: 'academic_affairs',
-                  value: 'Academic Affairs',
-                  text: 'Academic Affairs',
-                },
-                {
-                  key: 'business_finance',
-                  value: 'Business and Finance',
-                  text: 'Business and Finance',
-                },              
-                {
-                  key: 'diversity_equity_inclusion',
-                  value: 'Diversity, Equity and Inclusion',
-                  text: 'Diversity, Equity and Inclusion',
-                },
-                {
-                  key: 'presidents_office',
-                  value: "President's Office",
-                  text: "President's Office",
-                },
-                {
-                  key: 'student_affairs',
-                  value: 'Student Affairs',
-                  text: 'Student Affairs',
-                },
-                {
-                  key: 'university_advancement',
-                  value: 'University Advancement',
-                  text: 'University Advancement',
-                },
-              ]}
-            />
-          </Form.Field>
+          <Header>Unit</Header>
+          <Dropdown
+            placeholder='Select Unit'
+            value={unit}
+            name='unit'
+            onChange={(_, { value }) => dealWithNameNumUnits(value)}
+            fluid
+            selection
+            options={units}
+          />
+        </Form.Field>
 
           <Form.Field>
             <Header>Category</Header>
@@ -884,29 +873,17 @@ export const AddProposal = () => {
           </Form.Field>
 
           <Form.Field>
-            <Header>Pre Award POC</Header>
-            <Dropdown
-              placeholder='Select a person'
-              value={pre_award_poc}
-              name='pre_award_poc'
-              onChange={(_, { value }) => setPreAwardPOC(value)}
-              fluid
-              selection
-              options={[
-                { key: 'none', value: '', text: 'None' },
-                {
-                  key: 'charlene_alspach',
-                  value: 'Charlene Alspach',
-                  text: 'Charlene Alspach',
-                },
-                {
-                  key: 'kristyl_riddle',
-                  value: 'Kristyl Riddle',
-                  text: 'Kristyl Riddle',
-                }
-              ]}
-            />
-          </Form.Field>
+          <Header>Pre Award POC</Header>
+          <Dropdown
+            placeholder='Select Pre Award POC'
+            value={pre_award_poc}
+            name='pre_award_poc'
+            onChange={(_, { value }) => dealWithNameNumPreAwardPOC(value)}
+            fluid
+            selection
+            options={preAwardPOCs}
+          />
+        </Form.Field>
 
           <Form.Field>
             <Header>Internal Approval</Header>

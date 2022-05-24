@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'; //when adding something to the database
 import {
+  Icon,
   Table,
   TableBody,
   TableCell,
@@ -9,26 +10,26 @@ import {
   TableRow,
 } from 'semantic-ui-react';
 
-export const ViewPostAwardPOCs = () => {
-  const [post_award_poc, setList] = useState([]);
+export const ViewUnits = () => {
+  const [unit, setList] = useState([]);
   
   useEffect(() => {
-    Axios.get('http://localhost:3001/get_post_award_POCs').then((response) => {
+    Axios.get('http://localhost:3001/get_units').then((response) => {
       setList(response.data);
     });
   }, []);
 
   return (
-    <div className='post-award-poc-table'>
+    <div className='unit-table'>
       <Table celled>
         <TableHeader>
-          <TableHeaderCell>Name</TableHeaderCell>
+          <TableHeaderCell>Unit</TableHeaderCell>
         </TableHeader>
         <TableBody>
-          {post_award_poc.map((post_award_poc, key) => {
+          {unit.map((unit, key) => {
             return (
               <TableRow>
-                <TableCell>{post_award_poc.name}</TableCell>
+                <TableCell>{unit.name}</TableCell>
               </TableRow>
             );
           })}

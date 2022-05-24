@@ -8,6 +8,8 @@ import { ViewPreAwardPOCs } from './poc/view-preaward-pocs';
 import { ViewPostAwardPOCs } from './poc/view-postaward-pocs';
 import { ViewDepartments } from './departments/view-departments';
 import { AddDepartment } from './departments/add-department';
+import { ViewUnits } from './unit/view-units';
+import { AddUnit } from './unit/add-unit';
 import '../../style.css';
 
 export const Admin = () => {
@@ -42,6 +44,14 @@ export const Admin = () => {
         <ViewPostAwardPOCs />
         <br/>
         <AddPostAwardPOC />
+
+      <Segment basic>
+        <Divider horizontal><h3>Units</h3></Divider>
+      </Segment>
+        <br/>
+        <ViewUnits />
+        <br/>
+        <AddUnit />
       </Segment>
   );
 };
