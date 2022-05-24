@@ -250,7 +250,7 @@ app.put('/update', (req, res) => {
 });
 
 app.delete('/delete_proposal', (req,res) => {
-  db.query('DELETE FROM Proposals WHERE unique_id = ' + unique_id, (err, result) =>{
+  db.query('DELETE FROM Proposals WHERE unique_id = ' + req.body.unique_id, (err, result) =>{
     if(err) console.log(err);
     else res.send(result);
   });

@@ -146,7 +146,7 @@ export const UpdateModal = ({ proposal }) => {
     setProjectEnd(projectEndNew);
   };
 
-  const handleUpdate = (prop_number) => {
+  const handleUpdate = (unique_id) => {
     var result = window.confirm('Are you sure you want to update?');
     if (result && departmentList) {
       Axios.put('http://localhost:3001/update', {
@@ -196,6 +196,18 @@ export const UpdateModal = ({ proposal }) => {
         files_id: files_id
       }).then((response) => {
         alert('Entry has been updated');
+        window.location.reload();
+      });
+    }
+  };
+
+  const deleteProposal = (unique_id) => {
+    var result = window.confirm('Are you sure you want to delete?');
+    if (result) {
+      Axios.delete('http://localhost:3001/delete_proposal', {
+        unique_id: unique_id,
+      }).then((response) => {
+        alert('Entry has been deleted');
         window.location.reload();
       });
     }
@@ -1131,14 +1143,17 @@ export const UpdateModal = ({ proposal }) => {
         </Form>
       </Modal.Content>
       <Modal.Actions>
-        <Button
+      <Button
           color='green'
-          onClick={() => handleUpdate(proposal.proposal_number)}
+          onClick={() => handleUpdate(proposal.unique_id)}
         >
           Update
         </Button>
-        <Button onClick={() => dealWithCancel()}>
+        <Button color='orange' onClick={() => dealWithCancel()}>
           Cancel
+        </Button>
+        <Button color='red' onClick={() => deleteProposal(proposal.unique_id)}>
+          Delete
         </Button>
       </Modal.Actions>
     </Modal>
