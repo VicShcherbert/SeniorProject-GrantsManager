@@ -22,7 +22,6 @@ export const AddProposal = () => {
   const [fund_type, setFundingType] = useState('');
   const [cfda, setCFDANumber] = useState(0);
   const [investigator, setInvestigator] = useState('');
-  const [extension, setExtension] = useState(0);
   const [email, setEmail] = useState('');
   const [department_number, setDeptNum] = useState(0);
   const [department_name, setDeptName] = useState('');
@@ -156,7 +155,6 @@ export const AddProposal = () => {
       fund_type: fund_type,
       cfda: cfda,
       investigator: investigator,
-      extension: extension,
       email: email,
       department_number: department_number,
       department_name: department_name,
@@ -203,7 +201,6 @@ export const AddProposal = () => {
     setFundingType('');
     setCFDANumber(0);
     setInvestigator('');
-    setExtension(0);
     setEmail('');
     setDeptNum(0);
     setDeptName('');
@@ -767,18 +764,7 @@ export const AddProposal = () => {
             />
           </Form.Field>
 
-          {/* <Form.Field>
-            <Header>Extension</Header>
-            <Input
-              placeholder='Extension'
-              value={extension}
-              name='extension'
-              onChange={(_, { value }) => setExtension(value)}
-              type='number'
-            />
-          </Form.Field> */}
-
-          {/* <Form.Field>
+          <Form.Field>
             <Header>Email</Header>
             <Input
               placeholder='Email'
@@ -787,7 +773,7 @@ export const AddProposal = () => {
               onChange={(_, { value }) => setEmail(value)}
               type='text'
             />
-          </Form.Field> */}
+          </Form.Field>
 
           <Form.Field>
             <Header>Department</Header>

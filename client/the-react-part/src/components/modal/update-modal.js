@@ -24,7 +24,6 @@ export const UpdateModal = ({ proposal }) => {
   const [fund_type, setFundingType] = useState(proposal.funding_type);
   const [cfda, setCFDANumber] = useState(proposal.cfda_number);
   const [investigator, setInvestigator] = useState(proposal.investigator);
-  const [extension, setExtension] = useState(proposal.extension);
   const [email, setEmail] = useState(proposal.email);
   const [department_number, setDeptNum] = useState(proposal.department_number);
   const [department_name, setDeptName] = useState(proposal.department_name);
@@ -106,7 +105,6 @@ export const UpdateModal = ({ proposal }) => {
     setFundingType(proposal.funding_type);
     setCFDANumber(proposal.cfda_number);
     setInvestigator(proposal.investigator);
-    setExtension(proposal.extension);
     setEmail(proposal.email);
     setDeptNum(proposal.department_number);
     setDeptName(proposal.department_name);
@@ -159,7 +157,6 @@ export const UpdateModal = ({ proposal }) => {
         fund_type: fund_type,
         cfda: cfda,
         investigator: investigator,
-        extension: extension,
         email: email,
         department_number: department_number,
         department_name: department_name,
@@ -768,18 +765,7 @@ export const UpdateModal = ({ proposal }) => {
             />
           </Form.Field>
 
-          {/* <Form.Field>
-            <Header>Extension</Header>
-            <Input
-              placeholder='Extension'
-              value={extension}
-              name='extension'
-              onChange={(_, { value }) => setExtension(value)}
-              type='number'
-            />
-          </Form.Field> */}
-
-          {/* <Form.Field>
+          <Form.Field>
             <Header>Email</Header>
             <Input
               placeholder='Email'
@@ -788,7 +774,7 @@ export const UpdateModal = ({ proposal }) => {
               onChange={(_, { value }) => setEmail(value)}
               type='text'
             />
-          </Form.Field> */}
+          </Form.Field>
 
           <Form.Field>
             <Header>Department</Header>
