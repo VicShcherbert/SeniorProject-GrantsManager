@@ -173,7 +173,6 @@ app.post('/add_proposal', (req, res) => {
       req.files_id
     ],
     (err, result) => {
-      console.log('Made it');
       if (err) console.log(err);
     }
   );
@@ -259,21 +258,21 @@ app.delete('/delete_proposal', (req,res) => {
 });
 
 app.get('/get_departments', (req, res) => {
-  db.query('SELECT * FROM Departments;', (err, result) => {
+  db.query('SELECT * FROM Departments ORDER BY id asc;', (err, result) => {
     if (err) console.log(err);
     else res.send(result);
   });
 });
 
 app.get('/get_pre_award_POCs', (req, res) => {
-  db.query('SELECT * FROM Pre_Award_Poc;', (err, result) => {
+  db.query('SELECT * FROM Pre_Award_Poc ORDER BY name asc;', (err, result) => {
     if(err) console.log(err);
     else res.send(result);
   });
 });
 
 app.get('/get_post_award_POCs', (req, res) => {
-  db.query('SELECT * FROM Post_Award_Poc;', (err, result) => {
+  db.query('SELECT * FROM Post_Award_Poc ORDER BY name asc;', (err, result) => {
     if(err) console.log(err);
     else res.send(result);
   });
