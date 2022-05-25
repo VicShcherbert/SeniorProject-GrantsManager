@@ -5,5 +5,5 @@ var d = new Date();
 var fullYear = d.getFullYear();
 
 export const Footer = () => (
-  <Segment textAlign='center' inverted color='grey'>Awesome Team | {fullYear}</Segment>
+  <Segment textAlign='center' inverted color='grey'>Office of Grants and Research Development | {fullYear}</Segment>
 );
