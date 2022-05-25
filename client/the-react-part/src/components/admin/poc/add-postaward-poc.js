@@ -25,7 +25,7 @@ export const AddPostAwardPOC = () => {
             setName(event.target.value);
           }}
         />
-        <Form.Button onClick={addPostAwardPOC}>Add Post-Award POC</Form.Button>
+        <Form.Button color = 'green' onClick={addPostAwardPOC}>Add Post-Award POC</Form.Button>
       </Form>
     </div>
   );
