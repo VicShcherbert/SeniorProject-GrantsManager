@@ -126,7 +126,7 @@ console.log(req.body);
 
 app.post('/add_proposal', (req, res) => {
   db.query(
-    'INSERT INTO Proposals (unique_id, proposal_number, pre_proposal, pre_proposal_number, title, agency, funding_type, cfda_number, investigator, department_number, department_name, unit, category, amount_requested, date_submitted, pre_award_poc, internal_approval, certification_assurance, financial_interest, notes, pre_award_status, date_of_notice, amount_funded, project_start, project_end, grant_type, contract_number, indirect_cost, sponsor_id, index_number, entered_sharepoint, post_award_poc, irb_approval, iacuc_approval, ibc_approval, student_rcr, rcr_notes, subawards, subawardees, subaward_contract_number, subaward_notes, files_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+    'INSERT INTO Proposals (unique_id, proposal_number, pre_proposal, pre_proposal_number, title, agency, funding_type, cfda_number, investigator, email, department_number, department_name, unit, category, amount_requested, date_submitted, pre_award_poc, internal_approval, certification_assurance, financial_interest, notes, pre_award_status, date_of_notice, amount_funded, project_start, project_end, grant_type, contract_number, indirect_cost, sponsor_id, index_number, entered_sharepoint, post_award_poc, irb_approval, iacuc_approval, ibc_approval, student_rcr, rcr_notes, subawards, subawardees, subaward_contract_number, subaward_notes, files_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
     [
       req.body.unique_id,
       req.body.prop_num,
@@ -137,6 +137,7 @@ app.post('/add_proposal', (req, res) => {
       req.body.fund_type,
       req.body.cfda,
       req.body.investigator,
+      req.body.email,
       req.body.department_number,
       req.body.department_name,
       req.body.unit,
@@ -193,7 +194,7 @@ app.post('/add_department', (req, res) => {
 app.put('/update', (req, res) => {
   db.query(
     'UPDATE Proposals SET proposal_number = ?, pre_proposal = ?, pre_proposal_number = ?, title = ?, agency = ?, funding_type = ?, ' +
-    'cfda_number = ?, investigator = ?, department_number = ?, department_name = ?, unit = ?, category = ?, amount_requested = ?, date_submitted = ?, ' +
+    'cfda_number = ?, investigator = ?, email = ?, department_number = ?, department_name = ?, unit = ?, category = ?, amount_requested = ?, date_submitted = ?, ' +
     'pre_award_poc = ?, internal_approval = ?, certification_assurance = ?, financial_interest = ?, notes = ?, pre_award_status = ?, date_of_notice = ?, ' +
     'amount_funded = ?, project_start = ?, project_end = ?, grant_type = ?, contract_number = ?, indirect_cost = ?, sponsor_id = ?, index_number = ?, ' +
     'entered_sharepoint = ?, post_award_poc = ?, irb_approval = ?, iacuc_approval = ?, ibc_approval = ?, student_rcr = ?, rcr_notes = ?, subawards = ?, ' +
@@ -207,6 +208,7 @@ app.put('/update', (req, res) => {
       req.body.fund_type,
       req.body.cfda,
       req.body.investigator,
+      req.body.email,
       req.body.department_number,
       req.body.department_name,
       req.body.unit,
