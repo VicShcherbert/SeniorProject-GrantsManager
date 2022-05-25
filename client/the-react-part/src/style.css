@@ -72,6 +72,13 @@ float: center;
 margin: auto;
 }
 
+.footer{
+  position: relative;
+  bottom: 0px;
+  width: 100%;
+  top: 200px;
+ }
+
 #nav-link {
 font-size: 16px;
 }
