@@ -8,6 +8,7 @@ import {
   TableHeaderCell,
   TableRow,
 } from 'semantic-ui-react';
+import { PostAwardModal } from '../../modal/post-award-modal';
 
 export const ViewPostAwardPOCs = () => {
   const [post_award_poc, setList] = useState([]);
@@ -29,6 +30,9 @@ export const ViewPostAwardPOCs = () => {
             return (
               <TableRow>
                 <TableCell>{post_award_poc.name}</TableCell>
+                <TableCell>
+                    <PostAwardModal poc={post_award_poc} />
+                </TableCell>
               </TableRow>
             );
           })}

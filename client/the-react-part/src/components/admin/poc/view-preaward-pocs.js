@@ -31,8 +31,8 @@ export const ViewPreAwardPOCs = () => {
               <TableRow>
                 <TableCell>{pre_award_poc.name}</TableCell>
                 <TableCell>
-                      <PreAwardModal poc={pre_award_poc} />
-                    </TableCell>
+                    <PreAwardModal poc={pre_award_poc} />
+                </TableCell>
               </TableRow>
               
             );

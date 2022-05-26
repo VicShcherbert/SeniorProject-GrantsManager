@@ -10,14 +10,14 @@ import {
     Segment,
   } from 'semantic-ui-react';
 
-  export const PreAwardModal = ({ poc }) => {
+  export const PostAwardModal = ({ poc }) => {
     const [open, setOpen] = useState(false);
     const [name, setPoc] = useState(poc.name);
 
     const handleUpdate = (id) => {
         var result = window.confirm('Are you sure you want to update?');
         if (result) {
-          Axios.put('http://localhost:3001/update_pre_award_poc', {
+          Axios.put('http://localhost:3001/update_post_award_poc', {
             name: name,
             id: id
           }).then((response) => {
@@ -35,7 +35,7 @@ import {
     const deletePoc = (id) => {
         var result = window.confirm('Are you sure you want to delete?');
         if (result) {
-          Axios.delete('http://localhost:3001/delete_pre_award_poc', {
+          Axios.delete('http://localhost:3001/delete_post_award_poc', {
             data: {id: id},
           }).then((response) => {
             alert('Entry has been deleted');
@@ -55,7 +55,7 @@ import {
             <Modal.Content>  
                 <Form>
                 <Segment basic>
-                    <Divider horizontal>Pre Award POC</Divider>
+                    <Divider horizontal>Post Award POC</Divider>
                 </Segment>
         
                 <Form.Field>
