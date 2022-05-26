@@ -278,6 +278,54 @@ app.get('/get_post_award_POCs', (req, res) => {
   });
 });
 
+//HERE
+////////
+////////
+////////
+app.put('/update_pre_award_poc', (req, res) => {
+  db.query(
+    'UPDATE Pre_Award_Poc SET name = ? WHERE id = ?',
+    [
+      req.body.name,
+      req.body.id,
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
+app.put('/update_post_award_poc', (req, res) => {
+  db.query(
+    'UPDATE Post_Award_Poc SET name = ? WHERE id = ?',
+    [
+      req.body.name,
+      req.body.id,
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
+app.delete('/delete_pre_award_poc', (req,res) => {
+  db.query('DELETE FROM Pre_Award_Poc WHERE id = ' + req.body.id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.delete('/delete_post_award_poc', (req,res) => {
+  db.query('DELETE FROM Post_Award_Poc WHERE id = ' + req.body.id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+
+
 app.get('/get_units', (req, res) => {
   db.query('SELECT * FROM Units ORDER BY id asc;', (err, result) => {
     if(err) console.log(err);

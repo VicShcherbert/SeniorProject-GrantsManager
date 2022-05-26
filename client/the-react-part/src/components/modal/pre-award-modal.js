@@ -6,22 +6,21 @@ import {
     Form,
     Header,
     Input,
-    Dropdown,
     Divider,
     Label,
     Segment,
-    TextArea,
   } from 'semantic-ui-react';
 
   export const PreAwardModal = ({ poc }) => {
     const [open, setOpen] = useState(false);
     const [name, setPoc] = useState(poc.name);
 
-    const handleUpdate = (poc) => {
+    const handleUpdate = (id) => {
         var result = window.confirm('Are you sure you want to update?');
         if (result) {
           Axios.put('http://localhost:3001/update_pre_award_poc', {
-            name: name
+            name: name,
+            id: id
           }).then((response) => {
             alert('Entry has been updated');
             window.location.reload();
@@ -29,29 +28,35 @@ import {
         }
     };
 
+    const dealWithCancel = () => {
+        setPoc(poc.name);
+        setOpen(false);
+    };
+
+    const deletePoc = (id) => {
+        var result = window.confirm('Are you sure you want to delete?');
+        if (result) {
+          Axios.delete('http://localhost:3001/delete_pre_award_poc', {
+            data: {id: id},
+          }).then((response) => {
+            alert('Entry has been deleted');
+            window.location.reload();
+          });
+        }
+      };
+
     return (
         <Modal
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
           open={open}
-          trigger={<Button color='grey'>View</Button>}
+          trigger={<Button color='grey'>Edit</Button>}
         >
             <Modal.Header>Testing</Modal.Header>
-            <Modal.Content>
-                {proposal.unique_id ? (
-                <Label size='large'>
-                    Proposal ID: {proposal.unique_id}
-                </Label>
-                ) : null}
-                {proposal.pre_proposal_number ? (
-                <Label size='large'>
-                    Pre-Proposal Number: {proposal.pre_proposal_number}
-                </Label>
-                ) : null}
-                
+            <Modal.Content>  
                 <Form>
                 <Segment basic>
-                    <Divider horizontal>Main Information</Divider>
+                    <Divider horizontal>Pre Award POC</Divider>
                 </Segment>
         
                 <Form.Field>
@@ -69,14 +74,14 @@ import {
             <Modal.Actions>
                 <Button
                     color='green'
-                    onClick={() => handleUpdate(proposal.unique_id)}
+                    onClick={() => handleUpdate(poc.id)}
                     >
                     Update
                     </Button>
                     <Button color='orange' onClick={() => dealWithCancel()}>
                     Cancel
                     </Button>
-                    <Button color='red' onClick={() => deleteProposal(proposal.unique_id)}>
+                    <Button color='red' onClick={() => deletePoc(poc.id)}>
                     Delete
                 </Button>
             </Modal.Actions>

@@ -8,6 +8,7 @@ import {
   TableHeaderCell,
   TableRow,
 } from 'semantic-ui-react';
+import { PreAwardModal } from '../../modal/pre-award-modal';
 
 export const ViewPreAwardPOCs = () => {
   const [pre_award_poc, setList] = useState([]);
@@ -29,7 +30,11 @@ export const ViewPreAwardPOCs = () => {
             return (
               <TableRow>
                 <TableCell>{pre_award_poc.name}</TableCell>
+                <TableCell>
+                      <PreAwardModal poc={pre_award_poc} />
+                    </TableCell>
               </TableRow>
+              
             );
           })}
         </TableBody>
