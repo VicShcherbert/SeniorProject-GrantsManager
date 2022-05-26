@@ -23,7 +23,10 @@ export const ViewPreAwardPOCs = () => {
     <div className='pre-award-poc-table'>
       <Table celled>
         <TableHeader>
-          <TableHeaderCell>Name</TableHeaderCell>
+          <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell></TableHeaderCell>
+          </TableRow>
         </TableHeader>
         <TableBody>
           {pre_award_poc.map((pre_award_poc, key) => {

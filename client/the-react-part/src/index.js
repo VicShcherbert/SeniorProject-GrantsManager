@@ -13,8 +13,12 @@ import { Search } from './components/search/search-proposals';
 import { Login } from './components/login/login';
 import { Admin } from './components/admin/admin';
 import { Footer } from './components/footer';
+import { AiOutlineDashboard, AiOutlineUnorderedList, AiOutlineFileAdd, AiOutlineSearch } from 'react-icons/ai';
+import { BsGraphUp } from 'react-icons/bs';
+import { MdOutlineAdminPanelSettings } from 'react-icons/md';
+import { RiLogoutBoxRLine } from 'react-icons/ri';
+import { IconContext } from 'react-icons/lib';
 
-//Yo what up
 const App = () => {
   const logout = () => {
     sessionStorage.removeItem('greeting');
@@ -26,6 +30,7 @@ const App = () => {
     if (sessionStorage.getItem('id') === '1') {
       return (
         <MenuItem id='nav-link'>
+          <MdOutlineAdminPanelSettings color= '#5e90c5' size= '1.5em'/>
           <Link to="/admin">Admin</Link>
         </MenuItem>
       );
@@ -39,27 +44,35 @@ const App = () => {
   return (
     <BrowserRouter>
       <Title />
+      <IconContext.Provider value = {{ color: '#5e90c5', size: '1.5em' }}>
       <Menu compact style={{ display: 'flex', justifyContent: 'center' }}>
         <MenuItem id='nav-link'>
-          <Link to='/'>Dashboard</Link>
+          <AiOutlineDashboard />
+          <Link to='/'>Dashboard </Link>
         </MenuItem>
         <MenuItem id='nav-link'>
+          <AiOutlineUnorderedList />
           <Link to='/proposals'>Proposals</Link>
         </MenuItem>
         <MenuItem id='nav-link'>
+          <AiOutlineFileAdd />
           <Link to='/add-proposal'>Add Proposal</Link>
         </MenuItem>
         <MenuItem id='nav-link'>
+          <BsGraphUp />
           <Link to='/reporting'>Reporting</Link>
         </MenuItem>
         <MenuItem id='nav-link'>
+          <AiOutlineSearch />
           <Link to='/search-proposals'>Search</Link>
         </MenuItem>
         {userAccessMenuItem()}
         <MenuItem onClick={logout} id='nav-link'>
+          <RiLogoutBoxRLine />
           Logout
         </MenuItem>
       </Menu>
+      </IconContext.Provider>
       <Routes>
         <Route path='/' element={<Dashboard />} />
         <Route path='/proposals' element={<ViewProposals />} />

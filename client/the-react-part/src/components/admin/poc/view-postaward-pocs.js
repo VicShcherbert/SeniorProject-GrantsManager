@@ -23,7 +23,10 @@ export const ViewPostAwardPOCs = () => {
     <div className='post-award-poc-table'>
       <Table celled>
         <TableHeader>
-          <TableHeaderCell>Name</TableHeaderCell>
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell></TableHeaderCell>
+        </TableRow>
         </TableHeader>
         <TableBody>
           {post_award_poc.map((post_award_poc, key) => {
