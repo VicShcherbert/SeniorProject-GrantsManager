@@ -77,11 +77,15 @@ margin: auto;
   bottom: 0px;
   width: 100%;
   top: 200px;
- }
+}
 
+#icon{
+  width: 100%;
+}
 #nav-link {
 font-size: 16px;
 color: #5e90c5;
+display: block;
 }
 
 #dashboard-stat {

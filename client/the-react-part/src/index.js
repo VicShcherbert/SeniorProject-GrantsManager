@@ -30,7 +30,7 @@ const App = () => {
     if (sessionStorage.getItem('id') === '1') {
       return (
         <MenuItem id='nav-link'>
-          <MdOutlineAdminPanelSettings color= '#5e90c5' size= '1.5em'/>
+          <div id='icon'><MdOutlineAdminPanelSettings id='icon'/></div>
           <Link to="/admin">Admin</Link>
         </MenuItem>
       );
@@ -47,28 +47,28 @@ const App = () => {
       <IconContext.Provider value = {{ color: '#5e90c5', size: '1.5em' }}>
       <Menu compact style={{ display: 'flex', justifyContent: 'center' }}>
         <MenuItem id='nav-link'>
-          <AiOutlineDashboard />
+          <div id='icon'><AiOutlineDashboard id='icon'/></div>
           <Link to='/'>Dashboard </Link>
         </MenuItem>
         <MenuItem id='nav-link'>
-          <AiOutlineUnorderedList />
+          <div id='icon'><AiOutlineUnorderedList id='icon'/></div>
           <Link to='/proposals'>Proposals</Link>
         </MenuItem>
         <MenuItem id='nav-link'>
-          <AiOutlineFileAdd />
+          <div id='icon'><AiOutlineFileAdd id='icon'/></div>
           <Link to='/add-proposal'>Add Proposal</Link>
         </MenuItem>
         <MenuItem id='nav-link'>
-          <BsGraphUp />
+          <div id='icon'><BsGraphUp id='icon'/></div>
           <Link to='/reporting'>Reporting</Link>
         </MenuItem>
         <MenuItem id='nav-link'>
-          <AiOutlineSearch />
+          <div id='icon'><AiOutlineSearch id='icon'/></div>
           <Link to='/search-proposals'>Search</Link>
         </MenuItem>
         {userAccessMenuItem()}
         <MenuItem onClick={logout} id='nav-link'>
-          <RiLogoutBoxRLine />
+          <div id='icon'><RiLogoutBoxRLine id='icon'/></div>
           Logout
         </MenuItem>
       </Menu>

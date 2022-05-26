@@ -310,6 +310,20 @@ app.put('/update_post_award_poc', (req, res) => {
   );
 });
 
+app.put('/update_unit', (req, res) => {
+  db.query(
+    'UPDATE Unit SET name = ? WHERE id = ?',
+    [
+      req.body.name,
+      req.body.id,
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
 app.delete('/delete_pre_award_poc', (req,res) => {
   db.query('DELETE FROM Pre_Award_Poc WHERE id = ' + req.body.id, (err, result) =>{
     if(err) console.log(err);
@@ -319,6 +333,13 @@ app.delete('/delete_pre_award_poc', (req,res) => {
 
 app.delete('/delete_post_award_poc', (req,res) => {
   db.query('DELETE FROM Post_Award_Poc WHERE id = ' + req.body.id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.delete('/delete_unit', (req,res) => {
+  db.query('DELETE FROM Unit WHERE id = ' + req.body.id, (err, result) =>{
     if(err) console.log(err);
     else res.send(result);
   });

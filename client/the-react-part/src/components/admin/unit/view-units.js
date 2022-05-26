@@ -9,6 +9,7 @@ import {
   TableHeaderCell,
   TableRow,
 } from 'semantic-ui-react';
+import { UnitModal } from '../../modal/unit-modal';
 
 export const ViewUnits = () => {
   const [unit, setList] = useState([]);
@@ -23,13 +24,19 @@ export const ViewUnits = () => {
     <div className='unit-table'>
       <Table celled>
         <TableHeader>
-          <TableHeaderCell>Unit</TableHeaderCell>
+        <TableRow>
+            <TableHeaderCell>Unit</TableHeaderCell>
+            <TableHeaderCell></TableHeaderCell>
+        </TableRow>
         </TableHeader>
         <TableBody>
           {unit.map((unit, key) => {
             return (
               <TableRow>
                 <TableCell>{unit.name}</TableCell>
+                <TableCell>
+                    <UnitModal unit={unit} />
+                </TableCell>
               </TableRow>
             );
           })}
