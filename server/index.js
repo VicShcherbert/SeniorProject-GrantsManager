@@ -312,7 +312,7 @@ app.put('/update_post_award_poc', (req, res) => {
 
 app.put('/update_unit', (req, res) => {
   db.query(
-    'UPDATE Unit SET name = ? WHERE id = ?',
+    'UPDATE Units SET name = ? WHERE id = ?',
     [
       req.body.name,
       req.body.id,
@@ -339,12 +339,33 @@ app.delete('/delete_post_award_poc', (req,res) => {
 });
 
 app.delete('/delete_unit', (req,res) => {
-  db.query('DELETE FROM Unit WHERE id = ' + req.body.id, (err, result) =>{
+  db.query('DELETE FROM Units WHERE id = ' + req.body.id, (err, result) =>{
     if(err) console.log(err);
     else res.send(result);
   });
 });
 
+app.put('/update_department', (req, res) => {
+  db.query(
+    'UPDATE Departments SET name = ?, id = ? WHERE unique_id = ?',
+    [
+      req.body.name,
+      req.body.id,
+      req.body.unique_id
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
+app.delete('/delete_department', (req,res) => {
+  db.query('DELETE FROM Departments WHERE unique_id = ' + req.body.unique_id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
 
 
 app.get('/get_units', (req, res) => {

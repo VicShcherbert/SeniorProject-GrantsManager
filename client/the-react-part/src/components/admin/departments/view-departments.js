@@ -10,6 +10,7 @@ import {
   TableHeaderCell,
   TableRow,
 } from 'semantic-ui-react';
+import { DepartmentModal } from '../../modal/department-modal';
 
 export const ViewDepartments = () => {
   const [departments, setList] = useState([]);
@@ -27,6 +28,7 @@ export const ViewDepartments = () => {
           <Table.Row>
             <TableHeaderCell>ID</TableHeaderCell>
             <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell></TableHeaderCell>
           </Table.Row>
         </TableHeader>
         <TableBody>
@@ -35,6 +37,9 @@ export const ViewDepartments = () => {
               <TableRow>
                 <TableCell>{department.id}</TableCell>
                 <TableCell>{department.name}</TableCell>
+                <TableCell>
+                    <DepartmentModal department={department} />
+                </TableCell>
               </TableRow>
             );
           })}
