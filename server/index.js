@@ -278,10 +278,6 @@ app.get('/get_post_award_POCs', (req, res) => {
   });
 });
 
-//HERE
-////////
-////////
-////////
 app.put('/update_pre_award_poc', (req, res) => {
   db.query(
     'UPDATE Pre_Award_Poc SET name = ? WHERE id = ?',
@@ -367,6 +363,28 @@ app.delete('/delete_department', (req,res) => {
   });
 });
 
+app.put('/update_user', (req, res) => {
+  db.query(
+    'UPDATE Users SET name = ?, email = ?, id = ? WHERE unique_id = ?',
+    [
+      req.body.name,
+      req.body.email,
+      req.body.id,
+      req.body.unique_id
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
+app.delete('/delete_user', (req,res) => {
+  db.query('DELETE FROM Users WHERE unique_id = ' + req.body.unique_id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
 
 app.get('/get_units', (req, res) => {
   db.query('SELECT * FROM Units ORDER BY id asc;', (err, result) => {

@@ -9,6 +9,7 @@ import {
   TableHeaderCell,
   TableRow,
 } from 'semantic-ui-react';
+import { UserModal } from '../../modal/user-modal';
 
 export const ViewUsers = () => {
   const [users, setList] = useState([]);
@@ -34,6 +35,7 @@ export const ViewUsers = () => {
           <TableHeaderCell>Name</TableHeaderCell>
           <TableHeaderCell>Email</TableHeaderCell>
           <TableHeaderCell>Administrator</TableHeaderCell>
+          <TableHeaderCell></TableHeaderCell>
         </TableHeader>
         <TableBody>
           {users.map((user, key) => {
@@ -42,6 +44,9 @@ export const ViewUsers = () => {
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{getUserAccess(user.id)}</TableCell>
+                <TableCell>
+                    <UserModal user={user} />
+                </TableCell>
               </TableRow>
             );
           })}

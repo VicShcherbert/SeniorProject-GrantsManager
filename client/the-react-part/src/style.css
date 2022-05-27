@@ -49,7 +49,7 @@ max-width: 70%;
 margin: auto;
 }
 
-.departments-table{
+.departments-table, .add-department{
 max-width: 100%;
 float: center;
 margin: auto;
@@ -61,12 +61,18 @@ float: center;
 margin: auto;
 }
 
+.unit-table, .add-unit{
+  max-width: 100%;
+  float: center;
+  margin: auto;
+}
+
 .dashboard-container {
 padding-top: 30px;
 padding-bottom: 30px;
 }
 
-.pre-award-poc-table, .post-award-poc-table, .add-pre-award-poc, .add-post-award-poc, .add-department, .add-unit{
+.pre-award-poc-table, .post-award-poc-table, .add-pre-award-poc, .add-post-award-poc{
 max-width: 100%;
 float: center;
 margin: auto;
