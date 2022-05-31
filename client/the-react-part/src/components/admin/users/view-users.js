@@ -35,7 +35,7 @@ export const ViewUsers = () => {
           <TableHeaderCell>Name</TableHeaderCell>
           <TableHeaderCell>Email</TableHeaderCell>
           <TableHeaderCell>Administrator</TableHeaderCell>
-          <TableHeaderCell></TableHeaderCell>
+          <TableHeaderCell width = "1"></TableHeaderCell>
         </TableHeader>
         <TableBody>
           {users.map((user, key) => {
