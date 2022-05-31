@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Axios from 'axios'; //when adding something to the database
+import Axios from 'axios';
 import {
   Button,
   Form,
@@ -121,6 +121,7 @@ export const AddProposal = () => {
     Axios.get('http://localhost:3001/get_departments').then((response) => {
       setDepartmentList(response.data); //becasue response contains 'data'
     });
+    
     Axios.get('http://localhost:3001/unique_id').then((response) => {
       setUniqueId(response.data[0].unique_id + 1); //set the unique id as one more than the last proposal in database
     });
