@@ -28,7 +28,7 @@ export const ViewDepartments = () => {
           <Table.Row>
             <TableHeaderCell>ID</TableHeaderCell>
             <TableHeaderCell>Name</TableHeaderCell>
-            <TableHeaderCell></TableHeaderCell>
+            <TableHeaderCell width = "1"></TableHeaderCell>
           </Table.Row>
         </TableHeader>
         <TableBody>

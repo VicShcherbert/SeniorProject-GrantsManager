@@ -61,7 +61,13 @@ float: center;
 margin: auto;
 }
 
-.unit-table, .add-unit{
+/* .unit-table{
+  display: "flex";
+  justify-content: "center";
+  align-items: "center"; 
+} */
+
+.add-unit{
   max-width: 100%;
   float: center;
   margin: auto;

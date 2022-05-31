@@ -26,7 +26,7 @@ export const ViewUnits = () => {
         <TableHeader>
         <TableRow>
             <TableHeaderCell>Unit</TableHeaderCell>
-            <TableHeaderCell></TableHeaderCell>
+            <TableHeaderCell width = "1"></TableHeaderCell>
         </TableRow>
         </TableHeader>
         <TableBody>

@@ -25,7 +25,7 @@ export const ViewPreAwardPOCs = () => {
         <TableHeader>
           <TableRow>
             <TableHeaderCell>Name</TableHeaderCell>
-            <TableHeaderCell></TableHeaderCell>
+            <TableHeaderCell width = "1"></TableHeaderCell>
           </TableRow>
         </TableHeader>
         <TableBody>
