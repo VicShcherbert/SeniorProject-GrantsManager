@@ -14,7 +14,11 @@ import { useForm, Controller } from 'react-hook-form';
 import '../../style.css';
 
 export const AddProposal = () => {
-  const { control, handleSubmit } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       prop_num: '',
       title: '',
@@ -25,7 +29,52 @@ export const AddProposal = () => {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
+    console.log(data.title);
+    // Аxios.post('http://localhost:3001/add_proposal', {
+    //   unique_id: unique_id,
+    //   prop_num: prop_num,
+    //   pre_prop: pre_prop,
+    //   pre_prop_num: pre_prop_num,
+    //   title: title,
+    //   agency: agency,
+    //   fund_type: fund_type,
+    //   cfda: cfda,
+    //   investigator: investigator,
+    //   email: email,
+    //   department_number: department_number,
+    //   department_name: department_name,
+    //   unit: unit,
+    //   category: category,
+    //   amount_requested: amount_requested,
+    //   date_submitted: date_submitted,
+    //   pre_award_poc: pre_award_poc,
+    //   internal_approval: internal_approval,
+    //   certification_assurance: certification_assurance,
+    //   financial_interest: financial_interest,
+    //   notes: notes,
+    //   pre_award_status: pre_award_status,
+    //   date_of_notice: date_of_notice,
+    //   amount_funded: amount_funded,
+    //   project_start: project_start,
+    //   project_end: project_end,
+    //   grant_type: grant_type,
+    //   contract_number: contract_number,
+    //   indirect_cost: indirect_cost,
+    //   sponsor_id: sponsor_id,
+    //   index_number: index_number,
+    //   entered_sharepoint: entered_sharepoint,
+    //   post_award_poc: post_award_poc,
+    //   irb: irb,
+    //   iacuc: iacuc,
+    //   ibc: ibc,
+    //   rcr: rcr,
+    //   student_rcr_notes: student_rcr_notes,
+    //   subawards: subawards,
+    //   subawardees: subawardees,
+    //   subaward_contract_number: subaward_contract_number,
+    //   subaward_notes: subaward_notes,
+    //   files_id: files_id,
+    // }).then(clearFields());
   };
 
   const [unique_id, setUniqueId] = useState(0);
@@ -689,16 +738,17 @@ export const AddProposal = () => {
       >
         Add a New Proposal
       </Header>
-      <Segment>
+      <Segment basic style={{ justifyContent: 'space-evenly', maxWidth: '700px', margin: "0 auto" }}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name='prop_num'
             control={control}
             rules={{
+              required: true,
               pattern: {
-                value:
-                  /[a-zA-Z\d]/,
-                message: 'Entered proposal number does not match proposal number format',
+                value: /^[^$%#@*&^]*$/,
+                message:
+                  'Proposal number required! Make sure there are no extra characters',
               },
             }}
             render={({ field }) => (
@@ -708,10 +758,22 @@ export const AddProposal = () => {
               </Form.Field>
             )}
           />
+          {errors.prop_num && (
+            <Segment color='red' basic>
+              {errors.prop_num.message}
+            </Segment>
+          )}
           <Controller
             name='title'
             control={control}
-            rules={{ required: true, maxLength: 5 }}
+            rules={{
+              required: true,
+              pattern: {
+                value: /^[^$%#@*&^]*$/,
+                message:
+                  'The title is required! Ensure there are no extra unneccessary characters',
+              },
+            }}
             render={({ field }) => (
               <Form.Field>
                 <Header>Title</Header>
@@ -719,9 +781,21 @@ export const AddProposal = () => {
               </Form.Field>
             )}
           />
+          {errors.title && (
+            <Segment color='red' basic>
+              {errors.title.message}
+            </Segment>
+          )}
           <Controller
             name='agency'
             control={control}
+            rules={{
+              pattern: {
+                value: /^[^$%#@*&^\d]*$/,
+                message:
+                  'Entered agency name does not match the format. Ensure there are no extra characters and numbers',
+              },
+            }}
             render={({ field }) => (
               <Form.Field>
                 <Header>Agency</Header>
@@ -729,9 +803,22 @@ export const AddProposal = () => {
               </Form.Field>
             )}
           />
+          {errors.agency && (
+            <Segment color='red' basic>
+              {errors.agency.message}
+            </Segment>
+          )}
           <Controller
             name='investigator'
             control={control}
+            rules={{
+              required: true,
+              pattern: {
+                value: /^[^$%#@*&^\d]*$/,
+                message:
+                  'Investigator required! Ensure there are no extra characters and numbers',
+              },
+            }}
             render={({ field }) => (
               <Form.Field>
                 <Header>Investigator</Header>
@@ -739,6 +826,11 @@ export const AddProposal = () => {
               </Form.Field>
             )}
           />
+          {errors.investigator && (
+            <Segment color='red' basic>
+              {errors.investigator.message}
+            </Segment>
+          )}
           <Controller
             name='email'
             control={control}
@@ -756,6 +848,11 @@ export const AddProposal = () => {
               </Form.Field>
             )}
           />
+          {errors.email && (
+            <Segment color='red' basic>
+              {errors.email.message}
+            </Segment>
+          )}
           <Button type='submit'>Hit me</Button>
         </Form>
       </Segment>
