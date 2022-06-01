@@ -34,7 +34,7 @@ export const AddDepartment = () => {
             }}
           />
         </Form.Field>
-        <Form.Button onClick={addDepartment}>Add Department</Form.Button>
+        <Form.Button color = 'green' onClick={addDepartment}>Add Department</Form.Button>
       </Form>
       </div>
   );

@@ -25,7 +25,7 @@ export const AddPreAwardPOC = () => {
             setName(event.target.value);
           }}
         />
-        <Form.Button onClick={addPreAwardPOC}>Add Pre-Award POC</Form.Button>
+        <Form.Button color = 'green' onClick={addPreAwardPOC}>Add Pre-Award POC</Form.Button>
       </Form>
     </div>
   );

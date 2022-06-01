@@ -173,7 +173,6 @@ app.post('/add_proposal', (req, res) => {
       req.files_id
     ],
     (err, result) => {
-      console.log('Made it');
       if (err) console.log(err);
     }
   );
@@ -259,21 +258,129 @@ app.delete('/delete_proposal', (req,res) => {
 });
 
 app.get('/get_departments', (req, res) => {
-  db.query('SELECT * FROM Departments;', (err, result) => {
+  db.query('SELECT * FROM Departments ORDER BY id asc;', (err, result) => {
     if (err) console.log(err);
     else res.send(result);
   });
 });
 
 app.get('/get_pre_award_POCs', (req, res) => {
-  db.query('SELECT * FROM Pre_Award_Poc;', (err, result) => {
+  db.query('SELECT * FROM Pre_Award_Poc ORDER BY name asc;', (err, result) => {
     if(err) console.log(err);
     else res.send(result);
   });
 });
 
 app.get('/get_post_award_POCs', (req, res) => {
-  db.query('SELECT * FROM Post_Award_Poc;', (err, result) => {
+  db.query('SELECT * FROM Post_Award_Poc ORDER BY name asc;', (err, result) => {
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.put('/update_pre_award_poc', (req, res) => {
+  db.query(
+    'UPDATE Pre_Award_Poc SET name = ? WHERE id = ?',
+    [
+      req.body.name,
+      req.body.id,
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
+app.put('/update_post_award_poc', (req, res) => {
+  db.query(
+    'UPDATE Post_Award_Poc SET name = ? WHERE id = ?',
+    [
+      req.body.name,
+      req.body.id,
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
+app.put('/update_unit', (req, res) => {
+  db.query(
+    'UPDATE Units SET name = ? WHERE id = ?',
+    [
+      req.body.name,
+      req.body.id,
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
+app.delete('/delete_pre_award_poc', (req,res) => {
+  db.query('DELETE FROM Pre_Award_Poc WHERE id = ' + req.body.id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.delete('/delete_post_award_poc', (req,res) => {
+  db.query('DELETE FROM Post_Award_Poc WHERE id = ' + req.body.id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.delete('/delete_unit', (req,res) => {
+  db.query('DELETE FROM Units WHERE id = ' + req.body.id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.put('/update_department', (req, res) => {
+  db.query(
+    'UPDATE Departments SET name = ?, id = ? WHERE unique_id = ?',
+    [
+      req.body.name,
+      req.body.id,
+      req.body.unique_id
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
+app.delete('/delete_department', (req,res) => {
+  db.query('DELETE FROM Departments WHERE unique_id = ' + req.body.unique_id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.put('/update_user', (req, res) => {
+  db.query(
+    'UPDATE Users SET name = ?, email = ?, id = ? WHERE unique_id = ?',
+    [
+      req.body.name,
+      req.body.email,
+      req.body.id,
+      req.body.unique_id
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
+app.delete('/delete_user', (req,res) => {
+  db.query('DELETE FROM Users WHERE unique_id = ' + req.body.unique_id, (err, result) =>{
     if(err) console.log(err);
     else res.send(result);
   });

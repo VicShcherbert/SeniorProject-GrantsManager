@@ -27,10 +27,7 @@ export const Search = () => {
   const [investigator, setInvestigator] = useState('');
   const [department_name, setDeptName] = useState('');
   const [department_number, setDeptNum] = useState(0);
-
   const [list, setList] = useState([]);
-  const [proposalsPerPage, setProposalsPerPage] = useState(30);
-  const [currentPage, setCurrentPage] = useState(1);
 
   const search = () => {
     Axios.post('http://localhost:3001/search', {
@@ -43,10 +40,6 @@ export const Search = () => {
       console.log(response.data);
       setList(response.data); //because response contains 'data'
     });
-  };
-
-  const changePage = (e, pageInfo) => {
-    setCurrentPage(pageInfo.activePage);
   };
 
   return (
@@ -121,9 +114,6 @@ export const Search = () => {
           <Form.Button onClick={search}>Search</Form.Button>
         </Form>
 
-        <Header size="large" textAlign='center'>
-          Search Results
-        </Header>
         {list.length > 0 ? (
           <Segment basic>
             <Table celled>
@@ -133,7 +123,6 @@ export const Search = () => {
                   <TableHeaderCell>Title</TableHeaderCell>
                   <TableHeaderCell>Agency</TableHeaderCell>
                   <TableHeaderCell>Funding Number</TableHeaderCell>
-                  {/* <TableHeaderCell>CFDA Number</TableHeaderCell> */}
                   <TableHeaderCell>Investigator</TableHeaderCell>
                   <TableHeaderCell></TableHeaderCell>
                 </TableRow>
@@ -146,7 +135,6 @@ export const Search = () => {
                       <TableCell>{proposal.title}</TableCell>
                       <TableCell>{proposal.agency}</TableCell>
                       <TableCell>{proposal.funding_type}</TableCell>
-                      {/* <TableCell>{proposal.cfda_number}</TableCell> */}
                       <TableCell>{proposal.investigator}</TableCell>
                       <TableCell>
                         <UpdateModal proposal={proposal} />

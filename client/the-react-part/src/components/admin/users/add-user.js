@@ -39,7 +39,7 @@ export const AddUser = () => {
           }}/>
         <label id='user-checkbox-label'>Administrator Privileges</label>
 
-        <Form.Button onClick={addUser}>Add User</Form.Button>
+        <Form.Button color = 'green' onClick={addUser}>Add User</Form.Button>
       </Form>
     </div>
   );

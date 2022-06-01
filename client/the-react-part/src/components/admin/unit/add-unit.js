@@ -25,7 +25,7 @@ export const AddUnit = () => {
             setName(event.target.value);
           }}
         />
-        <Form.Button onClick={addUnit}>Add Unit</Form.Button>
+        <Form.Button color = 'green' onClick={addUnit}>Add Unit</Form.Button>
       </Form>
     </div>
   );
