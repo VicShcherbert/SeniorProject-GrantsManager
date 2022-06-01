@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Axios from 'axios'; //when adding something to the database
+import Axios from 'axios';
 import { Form } from 'semantic-ui-react';
 
 export const AddPostAwardPOC = () => {

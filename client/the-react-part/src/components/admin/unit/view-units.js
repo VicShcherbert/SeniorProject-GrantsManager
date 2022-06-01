@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Axios from 'axios'; //when adding something to the database
+import Axios from 'axios';  
 import {
-  Icon,
   Table,
   TableBody,
   TableCell,

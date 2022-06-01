@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Axios from 'axios'; //when adding something to the database
+import Axios from 'axios';  
 
-import { Form, Header, Input, Label, Radio, Segment } from 'semantic-ui-react';
+import { Form, Radio } from 'semantic-ui-react';
 
 export const AddUser = () => {
   const [email, setEmail] = useState('');

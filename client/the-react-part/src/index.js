@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Link } from 'react-router-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './style.css';
 import { ViewProposals } from './components/proposals/view-proposals';
@@ -29,9 +28,9 @@ const App = () => {
   const userAccessMenuItem = () => {
     if (sessionStorage.getItem('id') === '1') {
       return (
-        <MenuItem id='nav-link'>
+        <MenuItem onClick={event =>  window.location.href='/admin'} id='nav-link'>
           <div id='icon'><MdOutlineAdminPanelSettings id='icon'/></div>
-          <Link to="/admin">Admin</Link>
+          Admin
         </MenuItem>
       );
     }
@@ -46,25 +45,25 @@ const App = () => {
       <Title />
       <IconContext.Provider value = {{ color: '#5e90c5', size: '1.5em' }}>
       <Menu compact style={{ display: 'flex', justifyContent: 'center' }}>
-        <MenuItem id='nav-link'>
+        <MenuItem onClick={event =>  window.location.href='/'} id='nav-link'>
           <div id='icon'><AiOutlineDashboard id='icon'/></div>
-          <Link to='/'>Dashboard </Link>
+          Dashboard
         </MenuItem>
-        <MenuItem id='nav-link'>
+        <MenuItem onClick={event =>  window.location.href='/proposals'} id='nav-link'>
           <div id='icon'><AiOutlineUnorderedList id='icon'/></div>
-          <Link to='/proposals'>Proposals</Link>
+          Proposals
         </MenuItem>
-        <MenuItem id='nav-link'>
+        <MenuItem onClick={event =>  window.location.href='/add-proposal'} id='nav-link'>
           <div id='icon'><AiOutlineFileAdd id='icon'/></div>
-          <Link to='/add-proposal'>Add Proposal</Link>
+          Add Proposal
         </MenuItem>
-        <MenuItem id='nav-link'>
+        <MenuItem onClick={event =>  window.location.href='/reporting'} id='nav-link'>
           <div id='icon'><BsGraphUp id='icon'/></div>
-          <Link to='/reporting'>Reporting</Link>
+          Reporting
         </MenuItem>
-        <MenuItem id='nav-link'>
+        <MenuItem onClick={event =>  window.location.href='/search-proposals'} id='nav-link'>
           <div id='icon'><AiOutlineSearch id='icon'/></div>
-          <Link to='/search-proposals'>Search</Link>
+          Search
         </MenuItem>
         {userAccessMenuItem()}
         <MenuItem onClick={logout} id='nav-link'>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Axios from 'axios'; //when adding something to the database
-import { Form, Header, Segment, Input } from 'semantic-ui-react';
+import Axios from 'axios';
+import { Form, Header, Input } from 'semantic-ui-react';
 
 export const AddDepartment = () => {
   const [name, setName] = useState('');
