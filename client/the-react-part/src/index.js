@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './style.css';
 import { ViewProposals } from './components/proposals/view-proposals';
 import { AddProposal } from './components/proposals/add-proposal';
-import { Menu, MenuItem, Segment } from 'semantic-ui-react';
+import { Menu, MenuItem } from 'semantic-ui-react';
 import { Title } from './components/title/title';
 import { Dashboard } from './components/dashboard/dashboard';
 import { Report } from './components/report/report';
