@@ -1,8 +1,11 @@
 /*
 * Index.js provides routing to different pages, including paths for the separate tabs within the application.
+*
 * UserAccessMenuItem verifies if current user has an id of '1', which denotes admin privilege.
 * If user has admin privilege, they will have access to the admin screen. Otherwise, user will have id of 0, and
-* will not have access to admin screen. NOTE: unique_id within Users table in the database is not equivalent to id. 
+* will not have access to admin screen. 
+*
+* NOTE: unique_id within Users table in the database is not equivalent to id. 
 * ID denotes user privilege, whereas unique_id is a means to keep a user from deleting themselves from the databse
 * (this has not yet been implimented, and users currently can delete themselves from the database).
 */
@@ -96,7 +99,5 @@ const App = () => {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
   <App />
-  // </React.StrictMode>
 );

@@ -56,7 +56,7 @@ export const ViewProposals = () => {
           margin: '0 auto',
         }}
       >
-        <Pagination
+        <Pagination 
           activePage={currentPage + 1}
           totalPages={Math.ceil(list.length / proposalsPerPage)}
           onPageChange={changePage}
