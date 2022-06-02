@@ -126,7 +126,7 @@ console.log(req.body);
 
 app.post('/add_proposal', (req, res) => {
   db.query(
-    'INSERT INTO Proposals (unique_id, proposal_number, pre_proposal, pre_proposal_number, title, agency, funding_type, cfda_number, investigator, department_number, department_name, unit, category, amount_requested, date_submitted, pre_award_poc, internal_approval, certification_assurance, financial_interest, notes, pre_award_status, date_of_notice, amount_funded, project_start, project_end, grant_type, contract_number, indirect_cost, sponsor_id, index_number, entered_sharepoint, post_award_poc, irb_approval, iacuc_approval, ibc_approval, student_rcr, rcr_notes, subawards, subawardees, subaward_contract_number, subaward_notes, files_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+    'INSERT INTO Proposals (unique_id, proposal_number, pre_proposal, pre_proposal_number, title, agency, funding_type, cfda_number, investigator, email, department_number, department_name, unit, category, amount_requested, date_submitted, pre_award_poc, internal_approval, certification_assurance, financial_interest, notes, pre_award_status, date_of_notice, amount_funded, project_start, project_end, grant_type, contract_number, indirect_cost, sponsor_id, index_number, entered_sharepoint, post_award_poc, irb_approval, iacuc_approval, ibc_approval, student_rcr, rcr_notes, subawards, subawardees, subaward_contract_number, subaward_notes, files_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
     [
       req.body.unique_id,
       req.body.prop_num,
@@ -137,6 +137,7 @@ app.post('/add_proposal', (req, res) => {
       req.body.fund_type,
       req.body.cfda,
       req.body.investigator,
+      req.body.email,
       req.body.department_number,
       req.body.department_name,
       req.body.unit,
@@ -172,7 +173,6 @@ app.post('/add_proposal', (req, res) => {
       req.files_id
     ],
     (err, result) => {
-      console.log('Made it');
       if (err) console.log(err);
     }
   );
@@ -193,7 +193,7 @@ app.post('/add_department', (req, res) => {
 app.put('/update', (req, res) => {
   db.query(
     'UPDATE Proposals SET proposal_number = ?, pre_proposal = ?, pre_proposal_number = ?, title = ?, agency = ?, funding_type = ?, ' +
-    'cfda_number = ?, investigator = ?, department_number = ?, department_name = ?, unit = ?, category = ?, amount_requested = ?, date_submitted = ?, ' +
+    'cfda_number = ?, investigator = ?, email = ?, department_number = ?, department_name = ?, unit = ?, category = ?, amount_requested = ?, date_submitted = ?, ' +
     'pre_award_poc = ?, internal_approval = ?, certification_assurance = ?, financial_interest = ?, notes = ?, pre_award_status = ?, date_of_notice = ?, ' +
     'amount_funded = ?, project_start = ?, project_end = ?, grant_type = ?, contract_number = ?, indirect_cost = ?, sponsor_id = ?, index_number = ?, ' +
     'entered_sharepoint = ?, post_award_poc = ?, irb_approval = ?, iacuc_approval = ?, ibc_approval = ?, student_rcr = ?, rcr_notes = ?, subawards = ?, ' +
@@ -207,6 +207,7 @@ app.put('/update', (req, res) => {
       req.body.fund_type,
       req.body.cfda,
       req.body.investigator,
+      req.body.email,
       req.body.department_number,
       req.body.department_name,
       req.body.unit,
@@ -250,35 +251,150 @@ app.put('/update', (req, res) => {
 });
 
 app.delete('/delete_proposal', (req,res) => {
-  db.query('DELETE FROM Proposals WHERE unique_id = ' + unique_id, (err, result) =>{
+  db.query('DELETE FROM Proposals WHERE unique_id = ' + req.body.unique_id, (err, result) =>{
     if(err) console.log(err);
     else res.send(result);
   });
 });
 
 app.get('/get_departments', (req, res) => {
-  db.query('SELECT * FROM Departments;', (err, result) => {
+  db.query('SELECT * FROM Departments ORDER BY id asc;', (err, result) => {
     if (err) console.log(err);
     else res.send(result);
   });
 });
 
 app.get('/get_pre_award_POCs', (req, res) => {
-  db.query('SELECT * FROM Pre_Award_Poc;', (err, result) => {
+  db.query('SELECT * FROM Pre_Award_Poc ORDER BY name asc;', (err, result) => {
     if(err) console.log(err);
     else res.send(result);
   });
 });
 
 app.get('/get_post_award_POCs', (req, res) => {
-  db.query('SELECT * FROM Post_Award_Poc;', (err, result) => {
+  db.query('SELECT * FROM Post_Award_Poc ORDER BY name asc;', (err, result) => {
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.put('/update_pre_award_poc', (req, res) => {
+  db.query(
+    'UPDATE Pre_Award_Poc SET name = ? WHERE id = ?',
+    [
+      req.body.name,
+      req.body.id,
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
+app.put('/update_post_award_poc', (req, res) => {
+  db.query(
+    'UPDATE Post_Award_Poc SET name = ? WHERE id = ?',
+    [
+      req.body.name,
+      req.body.id,
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
+app.put('/update_unit', (req, res) => {
+  db.query(
+    'UPDATE Units SET name = ? WHERE id = ?',
+    [
+      req.body.name,
+      req.body.id,
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
+app.delete('/delete_pre_award_poc', (req,res) => {
+  db.query('DELETE FROM Pre_Award_Poc WHERE id = ' + req.body.id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.delete('/delete_post_award_poc', (req,res) => {
+  db.query('DELETE FROM Post_Award_Poc WHERE id = ' + req.body.id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.delete('/delete_unit', (req,res) => {
+  db.query('DELETE FROM Units WHERE id = ' + req.body.id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.put('/update_department', (req, res) => {
+  db.query(
+    'UPDATE Departments SET name = ?, id = ? WHERE unique_id = ?',
+    [
+      req.body.name,
+      req.body.id,
+      req.body.unique_id
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
+app.delete('/delete_department', (req,res) => {
+  db.query('DELETE FROM Departments WHERE unique_id = ' + req.body.unique_id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.put('/update_user', (req, res) => {
+  db.query(
+    'UPDATE Users SET name = ?, email = ?, id = ? WHERE unique_id = ?',
+    [
+      req.body.name,
+      req.body.email,
+      req.body.id,
+      req.body.unique_id
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    }
+  );
+});
+
+app.delete('/delete_user', (req,res) => {
+  db.query('DELETE FROM Users WHERE unique_id = ' + req.body.unique_id, (err, result) =>{
+    if(err) console.log(err);
+    else res.send(result);
+  });
+});
+
+app.get('/get_units', (req, res) => {
+  db.query('SELECT * FROM Units ORDER BY id asc;', (err, result) => {
     if(err) console.log(err);
     else res.send(result);
   });
 });
 
 app.listen(3001, () => {
-  console.log('yo What up on port 3001');
+  console.log('Server is running on port 3001');
 });
 
 let currentDate = new Date();
@@ -432,6 +548,17 @@ app.post('/add_post_award_poc', (req, res) => {
   const name = req.body.name;
   db.query(
     'INSERT INTO Post_Award_Poc (name) VALUES (?);',
+    [name],
+    (err, result) => {
+      if (err) console.log(err);
+    }
+  );
+});
+
+app.post('/add_unit', (req, res) => {
+  const name = req.body.name;
+  db.query(
+    'INSERT INTO Units (name) VALUES (?);',
     [name],
     (err, result) => {
       if (err) console.log(err);

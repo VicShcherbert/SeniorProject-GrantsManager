@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Axios from 'axios'; //when adding something to the database
+import Axios from 'axios';  
 
-import { Form, Header, Input, Label, Radio, Segment } from 'semantic-ui-react';
+import { Form, Radio } from 'semantic-ui-react';
 
 export const AddUser = () => {
   const [email, setEmail] = useState('');
@@ -18,7 +18,6 @@ export const AddUser = () => {
 
   return (
     <div className='add-user'><br/>
-      <h3 id='add-user-header'>Add a User </h3>
       <Form id='add-user'>
         <label>Name:</label>
         <input
@@ -40,7 +39,7 @@ export const AddUser = () => {
           }}/>
         <label id='user-checkbox-label'>Administrator Privileges</label>
 
-        <Form.Button onClick={addUser}>Add User</Form.Button>
+        <Form.Button color = 'green' onClick={addUser}>Add User</Form.Button>
       </Form>
     </div>
   );

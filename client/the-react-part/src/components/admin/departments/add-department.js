@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Axios from 'axios'; //when adding something to the database
-import { Form, Header, Segment, Input } from 'semantic-ui-react';
+import Axios from 'axios';
+import { Form, Header, Input } from 'semantic-ui-react';
 
 export const AddDepartment = () => {
   const [name, setName] = useState('');
@@ -14,10 +14,7 @@ export const AddDepartment = () => {
   };
 
   return (
-    <Segment basic style={{ width: '350px', margin: '0px' }}>
-      <Header size='large' textAlign='center'>
-        Add a Department
-      </Header>
+    <div className='add-department'><br/>
       <Form>
         <Form.Field>
           <Header>ID:</Header>
@@ -37,8 +34,8 @@ export const AddDepartment = () => {
             }}
           />
         </Form.Field>
-        <Form.Button onClick={addDepartment}>Add Department</Form.Button>
+        <Form.Button color = 'green' onClick={addDepartment}>Add Department</Form.Button>
       </Form>
-    </Segment>
+      </div>
   );
 };

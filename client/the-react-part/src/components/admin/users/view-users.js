@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Axios from 'axios'; //when adding something to the database
+import Axios from 'axios';  
 import {
   Icon,
   Table,
@@ -9,6 +9,7 @@ import {
   TableHeaderCell,
   TableRow,
 } from 'semantic-ui-react';
+import { UserModal } from '../../modal/user-modal';
 
 export const ViewUsers = () => {
   const [users, setList] = useState([]);
@@ -34,6 +35,7 @@ export const ViewUsers = () => {
           <TableHeaderCell>Name</TableHeaderCell>
           <TableHeaderCell>Email</TableHeaderCell>
           <TableHeaderCell>Administrator</TableHeaderCell>
+          <TableHeaderCell width = "1"></TableHeaderCell>
         </TableHeader>
         <TableBody>
           {users.map((user, key) => {
@@ -42,6 +44,9 @@ export const ViewUsers = () => {
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{getUserAccess(user.id)}</TableCell>
+                <TableCell>
+                    <UserModal user={user} />
+                </TableCell>
               </TableRow>
             );
           })}

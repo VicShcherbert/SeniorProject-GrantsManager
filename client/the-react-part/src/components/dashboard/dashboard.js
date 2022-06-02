@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Segment } from 'semantic-ui-react';
-import Axios from 'axios'; //when adding something to the database
-import { VictoryPie, VictoryLegend, VictoryLabel, VictoryContainer, Portal } from 'victory';
+import Axios from 'axios';  
+import { VictoryPie, VictoryLegend } from 'victory';
 
 export const Dashboard = () => {
   const [proposalCount, setProposalCount] = useState(0);
