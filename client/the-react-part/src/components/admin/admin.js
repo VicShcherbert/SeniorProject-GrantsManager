@@ -1,3 +1,8 @@
+/*
+* Admin.js 
+*
+*/
+
 import React from 'react';
 import { AddUser } from './users/add-user';
 import { ViewUsers } from './users/view-users';

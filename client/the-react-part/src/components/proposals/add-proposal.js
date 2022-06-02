@@ -1,3 +1,12 @@
+/*
+* Add-proposal.js adds a proposals to the database.
+*
+* NOTE: department, pre-award poc, post-award poc, and units are put into lists from their respective SQL tables.
+* This allows drop down lists to be populated by database records rather than hard coded values.
+*
+* NOTE: Per client's request, Award and Contract section is only displayed if pre-award status is 'funded' or 'additional'.
+*/
+
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import {
@@ -119,7 +128,7 @@ export const AddProposal = () => {
 
   useEffect(() => {
     Axios.get('http://localhost:3001/get_departments').then((response) => {
-      setDepartmentList(response.data); //becasue response contains 'data'
+      setDepartmentList(response.data); //because response contains 'data'
     });
     
     Axios.get('http://localhost:3001/unique_id').then((response) => {

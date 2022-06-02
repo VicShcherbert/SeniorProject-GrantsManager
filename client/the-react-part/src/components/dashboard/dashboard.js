@@ -1,3 +1,11 @@
+/*
+* Dashboard.js provides total proposals submitted for the current fiscal year, total funds awarded for the 
+* current and previous fiscal years, and a percentage based pie chart of the distribution of funds awarded by type
+* for the current fiscal year (using VictoryPie and VictoryLegend).
+*
+* Logic for sql queries can be found within the 'index.js' file in the 'server' directory.
+*/
+
 import React, { useEffect, useState } from 'react';
 import { Segment } from 'semantic-ui-react';
 import Axios from 'axios';  

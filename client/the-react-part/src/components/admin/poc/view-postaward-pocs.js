@@ -1,3 +1,10 @@
+/*
+* View-postaward-pocs.js makes a get request to view all post award pocs within the Post_Award_Poc table in the SQL database.
+* The SQL query can be found in index.js within the 'server' directory of the application.
+*
+* PostAwardModal is called from post-award-modal.js to provide update and delete methods.
+*/
+
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import {

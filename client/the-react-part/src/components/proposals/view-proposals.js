@@ -1,3 +1,15 @@
+/*
+* View-proposals.js makes a get request to view all proposals within the Proposals table in the SQL database.
+* The SQL query can be found in index.js within the 'server' directory of the application.
+*
+* There is a limit of 25 proposals per page, with six basic fields listed. The list is organized by in descending order
+* of unique_id, which is an auto-incrementing value within the sql database.
+*
+* To view all details of a give proposal orto  make changes, user may select 'view' which calls the update modal.
+*
+* UpdateModal is called from update-modal.js to provide update and delete methods.
+*/
+
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';  
 import {
@@ -20,7 +32,7 @@ export const ViewProposals = () => {
 
   useEffect(() => {
     Axios.get('http://localhost:3001/proposals').then((response) => {
-      setList(response.data); //becasue response contains 'data'
+      setList(response.data);
     });
   }, []);
 

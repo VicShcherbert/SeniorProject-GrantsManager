@@ -1,3 +1,8 @@
+/*
+* Add-preaward-poc.js makes a post request to add a post award poc to the Pre_Award_Poc table in the SQL database.
+* The SQL query can be found in index.js within the 'server' directory of the application. 
+*/
+
 import React, { useState } from 'react';
 import Axios from 'axios';
 import { Form } from 'semantic-ui-react';

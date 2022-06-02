@@ -1,3 +1,8 @@
+/*
+* Add-department.js makes a post request to add a department to the Departments table in the SQL database.
+* The SQL query can be found in index.js within the 'server' directory of the application. 
+*/
+
 import React, { useState } from 'react';
 import Axios from 'axios';
 import { Form, Header, Input } from 'semantic-ui-react';
