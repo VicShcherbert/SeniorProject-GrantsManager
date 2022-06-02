@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Axios from 'axios';
 import { 
     Table,
@@ -6,36 +6,54 @@ import {
     TableCell,
     TableHeader,
     TableHeaderCell,
-    TableRow
+    TableRow,
+    Form,
+    Segment,
+    Input,
+    Header
  } from 'semantic-ui-react';
+ // import '../../style.css';
 
 export const Reports = () => {
-    // get reports, units using Axios
     const [getReport, setReport] = useState([]);
     const [getUnits, setUnits] = useState([]);
-    const [getAmounts, setAmounts] = useState([]);
+   
+    // get start, end dates for proposal
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+   
+    const [grantTypes, setGrantTypes] = useState([]);
+    const [testReq, setTestReq] = useState(0);
+    const [testFund, setTestFund] = useState(0);
 
-    useEffect(() => {
-        Axios.get('http://localhost:3001/get_report').then((response) => {
-            setReport(response.data);
-        });
-    }, []);
-
-    useEffect(() => {
-        Axios.get('http://localhost:3001/get_units').then((response) => {
+    // get reports, units using Axios
+    function setInfo(){
+        // Get all proposals, units from given time period
+        Axios.post('http://localhost:3001/get_units', {
+            startDate: startDate,
+            endDate: endDate
+        }).then((response) => {
             setUnits(response.data);
         });
-    }, []);
 
-    useEffect(() => {
-        Axios.post('http://localhost:3001/get_amounts', {
-            unit: 'CHSPH',
-            grant_type: 'G - Grant'
+        Axios.post('http://localhost:3001/get_unit_totals', {
+            unit: 'Academic Affairs',
+            startDate: startDate,
+            endDate: endDate
         }).then((response) => {
-            setAmounts(response.data);
+            setTestReq(response.data[0].req);
+            setTestFund(response.data[0].funded);
+        })
+
+        Axios.post('http://localhost:3001/get_report', {
+            startDate: startDate,
+            endDate: endDate
+        }).then((response) => {
+            setReport(response.data);
         });
-    }, []);
-    
+
+    } // end setInfo 
+
 
     // For each unit, have a bold row at top of page declaring Unit and number of awards for that unit
 
@@ -46,9 +64,46 @@ export const Reports = () => {
     //              Display row
     //          Display Amount Requested, Award Amount for that grant type
 
+    var currUnit = '';
+    var prevUnit = '';
+
     return (
-        <div className='reports-table'>
-            {getAmounts.map((row)=>{return(<p>Requested = {row.req}, Funded = {row.funded}</p>)})}
+        <Segment basic>
+            <Segment basic
+            style={{
+                justifyContent: 'space-evently',
+                width: '175px',
+                margin: '0 auto'
+            }}>
+                <Form>
+                    <Form.Field>
+                        <Form.Field>
+                            <label>Start Date:</label>
+                            <Input
+                                placeholder='Start Date'
+                                value={startDate}
+                                name='startDate'
+                                type='date'
+                                onChange={(_, { value }) => setStartDate(value)}
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <label>End Date:</label>
+                            <Input
+                                placeholder='End Date'
+                                value={endDate}
+                                name='endDate'
+                                type='date'
+                                onChange={(_, { value }) => setEndDate(value)}
+                            />
+                        </Form.Field>
+                    </Form.Field>
+
+                    <Form.Button onClick={setInfo} width="16">Generate Report</Form.Button>
+                </Form>
+            </Segment>
+            {getReport.length > 0 ? (
+            <Segment basic>
             <Table striped>
                 <TableHeader>
                     <TableRow><TableHeaderCell colSpan='13' textAlign='center'>Unit - Awards (where unit == actual unit and awards is how many grants were awarded)</TableHeaderCell></TableRow>
@@ -68,7 +123,39 @@ export const Reports = () => {
                         <TableHeaderCell>Award Amount</TableHeaderCell>
                     </TableRow>
                 </TableHeader>
+                <TableBody>
+                    {getReport.map((row) => {
+                        return (
+                            <TableRow>
+                                <TableCell>{row.unit}</TableCell>
+                                <TableCell>{row.grant_type}</TableCell>
+                                <TableCell>{row.proposal_number}</TableCell>
+                                <TableCell>{row.title}</TableCell>
+                                <TableCell>{row.agency}</TableCell>
+                                <TableCell>{row.funding_type}</TableCell>
+                                <TableCell>{row.investigator}</TableCell>
+                                <TableCell>{row.department_name}</TableCell>
+                                <TableCell>{row.amount_requested}</TableCell>
+                                <TableCell>{row.date_submitted}</TableCell>
+                                <TableCell>{row.pre_award_status}</TableCell>
+                                <TableCell>{row.date_of_notice}</TableCell>
+                                <TableCell>{row.amount_funded}</TableCell>
+                            </TableRow>
+                        );})}
+                </TableBody>
+            </Table>
+            </Segment>
+            ) : (
+                <Segment basic>
+                    <Header>No results found</Header>
+                </Segment>
+            )}
+        </Segment>
+    );
+}
 
+
+/*
                 <TableBody>
                     {getReport.map((row) => {
                         return (
@@ -90,7 +177,101 @@ export const Reports = () => {
                         );
                     })}
                 </TableBody>
-            </Table>
-        </div>
-    );
-}
+*/
+
+/*
+Next attempt:
+within the "getReport", insert new row at the end of every unit/grant_type pairing
+that has the total amount requested, amound funded for that pairing.
+Then, at the end of every overall unit, insert row for that units totals.
+
+Then, in the return for the Reports() hook, we just have to use getReport.map so we don't
+use any nested hooks. 
+*/
+
+    /*
+    const makeTable = (unit) => {
+        // Filter through the unit, as well as through each grant type within that unit
+        const currUnit = getReport.filter(row=> row.unit = unit);
+        const [getAmounts, setAmounts] = useState([]);
+        const [finalAmounts, setFinals] = useState([]);
+
+        Axios.post('http://localhost:3001/get_unit_totals', {
+            startDate: startDate,
+            endDate: endDate,
+            unit: unit
+        }).then((response) => {
+            setFinals(response.data);
+        })
+
+        return (
+            <TableBody>
+            <TableRow>
+                <TableCell colSpan='13'>{unit}</TableCell>
+            </TableRow>
+            {grantTypes.forEach(grantType => {
+                const subsection = currUnit.filter(row=> row.grant_type = grantType);
+                {subsection.map((row) => {
+                    return (
+                        <TableRow>
+                            <TableCell>{row.unit}</TableCell>
+                            <TableCell>{row.grant_type}</TableCell>
+                            <TableCell>{row.proposal_number}</TableCell>
+                            <TableCell>{row.title}</TableCell>
+                            <TableCell>{row.agency}</TableCell>
+                            <TableCell>{row.funding_type}</TableCell>
+                            <TableCell>{row.investigator}</TableCell>
+                            <TableCell>{row.department_name}</TableCell>
+                            <TableCell>{row.amount_requested}</TableCell>
+                            <TableCell>{row.date_submitted}</TableCell>
+                            <TableCell>{row.pre_award_status}</TableCell>
+                            <TableCell>{row.date_of_notice}</TableCell>
+                            <TableCell>{row.amount_funded}</TableCell>
+                        </TableRow>
+                    )
+                })}
+
+                // Set amount total for each unit + grant type
+                Axios.post('http://localhost:3001/get_amounts', {
+                    unit: unit,
+                    grant_type: grantType,
+                    startDate: startDate,
+                    endDate: endDate
+                }).then((response) => {
+                    setAmounts(response.data);
+                });
+
+                // return final row of subsection
+                return(
+                    <TableRow>
+                        <TableCell colSpan='8'>{grantType} Total: </TableCell>
+                        <TableCell>{getAmounts.req}</TableCell>
+                        <TableCell colSpan='3'></TableCell>
+                        <TableCell>{getAmounts.funded}</TableCell>
+                    </TableRow>
+                )
+            })}
+            <TableRow>
+                <TableCell colSpan='8'>Total {unit} Amounts:</TableCell>
+                <TableCell>{finalAmounts.req}</TableCell>
+                <TableCell colSpan='3'></TableCell>
+                <TableCell>{finalAmounts.funded}</TableCell>
+            </TableRow>
+            </TableBody>
+        );
+
+    }
+    */
+
+    /*
+    Things i've tried:
+        Creating multiple tables, one for each unit
+            doesn't work because it requires nested hooks (for each unit, make table)
+        Inserting row into the reports response
+            Whenever i try viewing getReports anytime other than in the return statement, 
+            it is "undefined" according to javascript. Cannot iterate through it and then insert at the 
+            desired index because javascript claims it is empty
+        In the return, checking after each row to see if unit or grant_type has changed
+            Can't even do this because there's no way to keep track of the previous unit/gt has changed.
+            Trying to change the previous unit/gt results in "too many re-renders" in react
+    */

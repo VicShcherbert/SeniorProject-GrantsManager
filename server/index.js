@@ -442,13 +442,15 @@ app.post('/add_post_award_poc', (req, res) => {
 // Reporting Queries
 // currently static with the dates, change in future!!
 // per Kristyl's request, we have to be dynamic because "Unit" is likely to change at anytime in future. 
-app.get('/get_report', (req, res) => {
+app.post('/get_report', (req, res) => {
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
   db.query(
     `SELECT unit, grant_type, proposal_number, title, agency, funding_type, investigator, department_name, amount_requested, date_submitted, pre_award_status, date_of_notice, amount_funded
     FROM Proposals
-    WHERE date_of_notice>="2020-07-01" AND date_of_notice<= "2021-06-30" AND pre_award_status != 'Pending'
+    WHERE date_of_notice>= ? AND date_of_notice<= ? OR pre_award_status = 'Pending' AND unit != ''
     ORDER BY unit, grant_type, proposal_number ASC, date_of_notice ASC;
-    `, (err, result) => {
+    `,[startDate, endDate], (err, result) => {
       if (err) console.log(err);
       else {
         res.send(result);
@@ -456,28 +458,62 @@ app.get('/get_report', (req, res) => {
     });
 });
 
-// Get list of units between the requested dates ***currently still static dates***
-app.get('/get_units', (req, res) => {
+// Get list of units between the requested dates 
+app.post('/get_units', (req, res) => {
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
   db.query(
     `SELECT DISTINCT unit
     FROM Proposals
-    WHERE date_of_notice>="2020-07-01" AND date_of_notice<= "2021-06-30" AND pre_award_status != 'Pending'`,
-    (err, result) => {
+    WHERE date_of_notice>= ? AND date_of_notice<= ? OR pre_award_status = 'Pending' AND unit != ''`,
+    [startDate, endDate], (err, result) => {
       if (err) console.log(err);
       else res.send(result);
     });
 });
 
-// Get amount requested, award amount for the given unit, grant_type ***currently still static dates***
+// Get which grant types are used for each unit between requested dates
+app.post('/get_grant_types', (req, res) => {
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
+  const unit = req.body.unit;
+  db.query(
+    `SELECT DISTINCT grant_type
+    FROM Proposals
+    WHERE date_of_notice>= ? AND date_of_notice<= ? AND unit = ?`,
+    [startDate, endDate, unit], (err, result) => {
+      if (err) console.log(err);
+      else res.send(result);
+    });
+});
+
+// Get amount requested, award amount for the given unit, grant_type
 app.post('/get_amounts', (req, res) => {
   const unit = req.body.unit;
   const grantType = req.body.grant_type;
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
   db.query(
     `SELECT SUM(amount_requested) AS req, SUM(amount_funded) AS funded
     FROM Proposals
-    WHERE date_of_notice>="2020-07-01" AND date_of_notice<= "2021-06-30" AND pre_award_status != 'Pending'
+    WHERE date_of_notice>= ? AND date_of_notice<= ? OR pre_award_status = 'Pending' AND unit != ''
     AND unit = ?
-    AND grant_type = ?`, [unit, grantType], (err, result) => {
+    AND grant_type = ?`, [startDate, endDate, unit, grantType], (err, result) => {
+      if(err) console.log(err);
+      else res.send(result);
+    });
+});
+
+// Get total amount requested + funded for unit
+app.post('/get_unit_totals', (req, res) => {
+  const unit = req.body.unit;
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
+  db.query(
+    `SELECT SUM(amount_requested) AS req, SUM(amount_funded) AS funded
+    FROM Proposals
+    WHERE date_of_notice>= ? AND date_of_notice<= ? OR pre_award_status = 'Pending'
+    AND unit = ?`, [startDate, endDate, unit], (err, result) => {
       if(err) console.log(err);
       else res.send(result);
     });
