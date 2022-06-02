@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Axios from 'axios'; //when adding something to the database
+import Axios from 'axios';
 import {
-  Icon,
   Table,
   TableBody,
   TableCell,
@@ -9,6 +8,7 @@ import {
   TableHeaderCell,
   TableRow,
 } from 'semantic-ui-react';
+import { PostAwardModal } from '../../modal/post-award-modal';
 
 export const ViewPostAwardPOCs = () => {
   const [post_award_poc, setList] = useState([]);
@@ -21,16 +21,21 @@ export const ViewPostAwardPOCs = () => {
 
   return (
     <div className='post-award-poc-table'>
-        <h3 id='add-poc-header'>Post Award POCs</h3>
       <Table celled>
         <TableHeader>
-          <TableHeaderCell>Name</TableHeaderCell>
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell width = "1"></TableHeaderCell>
+        </TableRow>
         </TableHeader>
         <TableBody>
           {post_award_poc.map((post_award_poc, key) => {
             return (
               <TableRow>
                 <TableCell>{post_award_poc.name}</TableCell>
+                <TableCell>
+                    <PostAwardModal poc={post_award_poc} />
+                </TableCell>
               </TableRow>
             );
           })}

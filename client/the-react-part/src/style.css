@@ -33,14 +33,14 @@ cursor: pointer;
 }
 
 .site-title {
-font-size: 40px;
-padding-top: 20px;
-padding-bottom: 20px;
-margin: auto;
-text-align: center;
-color: white;
-background-color: #A10022;
-border-bottom: solid 5px #6D6E71;
+height: 170px;
+background-image: url(header.jpeg);
+background-color: #bc122a;
+background-repeat: no-repeat;
+background-size: auto;
+background-position: center;
+background-size: 50%;
+border-bottom: solid 1px grey;
 padding: 50px 0 50px 0;
 }
 
@@ -49,16 +49,22 @@ max-width: 70%;
 margin: auto;
 }
 
-.departments-table{
-max-width: 80%;
-float: left;
-margin-left: 20%;
+.departments-table, .add-department{
+max-width: 100%;
+float: center;
+margin: auto;
 }
   
 .users-table{
 max-width: 100%;
 float: center;
 margin: auto;
+}
+
+.add-unit{
+  max-width: 100%;
+  float: center;
+  margin: auto;
 }
 
 .dashboard-container {
@@ -72,8 +78,20 @@ float: center;
 margin: auto;
 }
 
+.footer{
+  position: relative;
+  bottom: 0px;
+  width: 100%;
+  top: 200px;
+}
+
+#icon{
+  width: 100%;
+}
 #nav-link {
 font-size: 16px;
+color: #5e90c5;
+display: block;
 }
 
 #dashboard-stat {
@@ -96,7 +114,6 @@ margin-bottom: 50px;
 }
 
 #add-proposal {
-/* display: flex; */
 justify-content: center;
 }
 
@@ -106,13 +123,6 @@ margin-bottom: 30px;
 
 #add-proposal button {
 margin-bottom: 30px;
-}
-
-#add-department{
-max-width: 30%;
-margin: auto;
-float: right;
-margin-right: 20%;
 }
   
 #add-user{

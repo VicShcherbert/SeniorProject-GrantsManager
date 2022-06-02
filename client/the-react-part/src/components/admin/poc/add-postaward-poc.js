@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Axios from 'axios'; //when adding something to the database
+import Axios from 'axios';
 import { Form } from 'semantic-ui-react';
 
 export const AddPostAwardPOC = () => {
@@ -17,7 +17,6 @@ export const AddPostAwardPOC = () => {
 
   return (
     <div className='add-post-award-poc'>
-      <h3 id='add-postaward-poc-header'>Add Post Award POC</h3>
       <Form id='add-postaward-poc'>
         <label>Name:</label>
         <input
@@ -26,7 +25,7 @@ export const AddPostAwardPOC = () => {
             setName(event.target.value);
           }}
         />
-        <Form.Button onClick={addPostAwardPOC}>Add Post-Award POC</Form.Button>
+        <Form.Button color = 'green' onClick={addPostAwardPOC}>Add Post-Award POC</Form.Button>
       </Form>
     </div>
   );

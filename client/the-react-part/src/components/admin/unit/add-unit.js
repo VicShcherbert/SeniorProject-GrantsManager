@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import Axios from 'axios';
+import Axios from 'axios';  
 import { Form } from 'semantic-ui-react';
 
-export const AddPreAwardPOC = () => {
+export const AddUnit = () => {
 
   const [name, setName] = useState('');
 
-  const addPreAwardPOC = () => {
-    Axios.post('http://localhost:3001/add_pre_award_poc', {
+  const addUnit = () => {
+    Axios.post('http://localhost:3001/add_unit', {
       name: name,
     }).then(
       console.log('success'), 
@@ -16,16 +16,16 @@ export const AddPreAwardPOC = () => {
   };
 
   return (
-    <div className='add-pre-award-poc'>
-      <Form id='add-preaward-poc'>
-        <label>Name:</label>
+    <div className='add-unit'>
+      <Form id='add-unit'>
+        <label>Unit:</label>
         <input
           type='text'
           onChange={(event) => {
             setName(event.target.value);
           }}
         />
-        <Form.Button color = 'green' onClick={addPreAwardPOC}>Add Pre-Award POC</Form.Button>
+        <Form.Button color = 'green' onClick={addUnit}>Add Unit</Form.Button>
       </Form>
     </div>
   );

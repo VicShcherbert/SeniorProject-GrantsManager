@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Axios from 'axios';
+import Axios from 'axios';  
 import {
   Table,
   TableBody,
@@ -8,36 +8,35 @@ import {
   TableHeaderCell,
   TableRow,
 } from 'semantic-ui-react';
-import { PreAwardModal } from '../../modal/pre-award-modal';
+import { UnitModal } from '../../modal/unit-modal';
 
-export const ViewPreAwardPOCs = () => {
-  const [pre_award_poc, setList] = useState([]);
+export const ViewUnits = () => {
+  const [unit, setList] = useState([]);
   
   useEffect(() => {
-    Axios.get('http://localhost:3001/get_pre_award_POCs').then((response) => {
+    Axios.get('http://localhost:3001/get_units').then((response) => {
       setList(response.data);
     });
   }, []);
 
   return (
-    <div className='pre-award-poc-table'>
+    <div className='unit-table'>
       <Table celled>
         <TableHeader>
-          <TableRow>
-            <TableHeaderCell>Name</TableHeaderCell>
+        <TableRow>
+            <TableHeaderCell>Unit</TableHeaderCell>
             <TableHeaderCell width = "1"></TableHeaderCell>
-          </TableRow>
+        </TableRow>
         </TableHeader>
         <TableBody>
-          {pre_award_poc.map((pre_award_poc, key) => {
+          {unit.map((unit, key) => {
             return (
               <TableRow>
-                <TableCell>{pre_award_poc.name}</TableCell>
+                <TableCell>{unit.name}</TableCell>
                 <TableCell>
-                    <PreAwardModal poc={pre_award_poc} />
+                    <UnitModal unit={unit} />
                 </TableCell>
               </TableRow>
-              
             );
           })}
         </TableBody>
