@@ -575,7 +575,7 @@ app.post('/get_report', (req, res) => {
   db.query(
     `SELECT unit, grant_type, proposal_number, title, agency, funding_type, investigator, department_name, amount_requested, date_submitted, pre_award_status, date_of_notice, amount_funded
     FROM Proposals
-    WHERE date_of_notice>= ? AND date_of_notice<= ? OR pre_award_status = 'Pending' AND unit != ''
+    WHERE date_of_notice>= ? AND date_of_notice<= ? AND unit != '' AND grant_type != ''
     ORDER BY unit, grant_type, proposal_number ASC, date_of_notice ASC;
     `,[startDate, endDate], (err, result) => {
       if (err) console.log(err);
@@ -592,7 +592,7 @@ app.post('/get_units', (req, res) => {
   db.query(
     `SELECT DISTINCT unit
     FROM Proposals
-    WHERE date_of_notice>= ? AND date_of_notice<= ? OR pre_award_status = 'Pending' AND unit != ''`,
+    WHERE date_of_notice>= ? AND date_of_notice<= ? AND unit != ''`,
     [startDate, endDate], (err, result) => {
       if (err) console.log(err);
       else res.send(result);
@@ -614,33 +614,87 @@ app.post('/get_grant_types', (req, res) => {
     });
 });
 
-// Get amount requested, award amount for the given unit, grant_type
-app.post('/get_amounts', (req, res) => {
-  const unit = req.body.unit;
-  const grantType = req.body.grant_type;
+// Get amount requested, award amount for all unit + grant_type pairings
+app.post('/get_gt_req', (req, res) => {
   const startDate = req.body.startDate;
   const endDate = req.body.endDate;
   db.query(
-    `SELECT SUM(amount_requested) AS req, SUM(amount_funded) AS funded
+    `SELECT SUM(amount_requested) AS req
     FROM Proposals
-    WHERE date_of_notice>= ? AND date_of_notice<= ? OR pre_award_status = 'Pending' AND unit != ''
-    AND unit = ?
-    AND grant_type = ?`, [startDate, endDate, unit, grantType], (err, result) => {
+    WHERE date_of_notice>= ? AND date_of_notice<= ? AND unit != '' AND grant_type != ''
+    GROUP BY unit, grant_type
+    ORDER BY unit, grant_type`, [startDate, endDate], (err, result) => {
       if(err) console.log(err);
       else res.send(result);
     });
 });
 
-// Get total amount requested + funded for unit
-app.post('/get_unit_totals', (req, res) => {
-  const unit = req.body.unit;
+app.post('/get_gt_funded', (req, res) => {
   const startDate = req.body.startDate;
   const endDate = req.body.endDate;
   db.query(
-    `SELECT SUM(amount_requested) AS req, SUM(amount_funded) AS funded
+    `SELECT SUM(amount_funded) AS funded
     FROM Proposals
-    WHERE date_of_notice>= ? AND date_of_notice<= ? OR pre_award_status = 'Pending'
-    AND unit = ?`, [startDate, endDate, unit], (err, result) => {
+    WHERE date_of_notice>= ? AND date_of_notice<= ? AND unit != '' AND grant_type != ''
+    GROUP BY unit, grant_type
+    ORDER BY unit, grant_type`, [startDate, endDate], (err, result) => {
+      if(err) console.log(err);
+      else res.send(result);
+    });
+});
+
+// Get total amount requested + funded for every unit
+app.post('/get_unit_req', (req, res) => {
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
+  db.query(
+    `SELECT SUM(amount_requested) AS req
+    FROM Proposals
+    WHERE date_of_notice>= ? AND date_of_notice<= ? AND unit != '' AND grant_type != ''
+    GROUP BY unit
+    ORDER BY unit`, [startDate, endDate], (err, result) => {
+      if(err) console.log(err);
+      else res.send(result);
+    });
+});
+
+app.post('/get_unit_funded', (req, res) => {
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
+  db.query(
+    `SELECT SUM(amount_funded) AS funded
+    FROM Proposals
+    WHERE date_of_notice>= ? AND date_of_notice<= ? AND unit != '' AND grant_type != ''
+    GROUP BY unit
+    ORDER BY unit`, [startDate, endDate], (err, result) => {
+      if(err) console.log(err);
+      else res.send(result);
+    });
+});
+
+app.post('/get_unit_totals', (req, res) => {
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
+  db.query(
+    `SELECT unit, SUM(amount_requested) AS req, SUM(amount_funded) AS funded
+    FROM Proposals
+    WHERE date_of_notice>= ? AND date_of_notice<= ? AND unit != '' AND grant_type != ''
+    GROUP BY unit
+    ORDER BY unit`, [startDate, endDate], (err, result) => {
+      if(err) console.log(err);
+      else res.send(result);
+    });
+});
+
+app.post('/get_gt_totals', (req, res) => {
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
+  db.query(
+    `SELECT unit, grant_type, SUM(amount_requested) AS req, SUM(amount_funded) AS funded
+    FROM Proposals
+    WHERE date_of_notice>= ? AND date_of_notice<= ? AND unit != '' AND grant_type != ''
+    GROUP BY unit, grant_type
+    ORDER BY unit, grant_type`, [startDate, endDate], (err, result) => {
       if(err) console.log(err);
       else res.send(result);
     });

@@ -22,27 +22,69 @@ export const Reports = () => {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
    
-    const [grantTypes, setGrantTypes] = useState([]);
+    const [gtReq, setGtReq] = useState([]);
+    const [gtFunded, setGtFunded] = useState([]);
+    const [unitReq, setUnitReq] = useState([]);
+    const [unitFunded, setUnitFunded] = useState([]);
+
+    const [unitTotals, setUnitTotals] = useState([]);
+    const [gtTotals, setGtTotals] = useState([]);
+
     const [testReq, setTestReq] = useState(0);
     const [testFund, setTestFund] = useState(0);
 
     // get reports, units using Axios
     function setInfo(){
         // Get all proposals, units from given time period
+        /*
         Axios.post('http://localhost:3001/get_units', {
             startDate: startDate,
             endDate: endDate
         }).then((response) => {
             setUnits(response.data);
         });
+        */
 
-        Axios.post('http://localhost:3001/get_unit_totals', {
-            unit: 'Academic Affairs',
+        Axios.post('http://localhost:3001/get_unit_req', {
             startDate: startDate,
             endDate: endDate
         }).then((response) => {
-            setTestReq(response.data[0].req);
-            setTestFund(response.data[0].funded);
+            setUnitReq(response.data);
+        })
+
+        Axios.post('http://localhost:3001/get_unit_funded', {
+            startDate: startDate,
+            endDate: endDate
+        }).then((response) => {
+            setUnitFunded(response.data);
+        })
+
+        Axios.post('http://localhost:3001/get_gt_req', {
+            startDate: startDate,
+            endDate: endDate
+        }).then((response) => {
+            setGtReq(response.data);
+        })
+
+        Axios.post('http://localhost:3001/get_gt_funded', {
+            startDate: startDate,
+            endDate: endDate
+        }).then((response) => {
+            setGtFunded(response.data);
+        })
+
+        Axios.post('http://localhost:3001/get_gt_totals', {
+            startDate: startDate,
+            endDate: endDate
+        }).then((response) => {
+            setGtTotals(response.data);
+        })
+
+        Axios.post('http://localhost:3001/get_unit_totals', {
+            startDate: startDate,
+            endDate: endDate
+        }).then((response) => {
+            setUnitTotals(response.data);
         })
 
         Axios.post('http://localhost:3001/get_report', {
@@ -54,7 +96,6 @@ export const Reports = () => {
 
     } // end setInfo 
 
-
     // For each unit, have a bold row at top of page declaring Unit and number of awards for that unit
 
     // For each unit type:
@@ -64,14 +105,11 @@ export const Reports = () => {
     //              Display row
     //          Display Amount Requested, Award Amount for that grant type
 
-    var currUnit = '';
-    var prevUnit = '';
-
     return (
         <Segment basic>
             <Segment basic
             style={{
-                justifyContent: 'space-evently',
+                justifyContent: 'space-evenly',
                 width: '175px',
                 margin: '0 auto'
             }}>
@@ -104,6 +142,7 @@ export const Reports = () => {
             </Segment>
             {getReport.length > 0 ? (
             <Segment basic>
+                {console.log(gtTotals)}
             <Table striped>
                 <TableHeader>
                     <TableRow><TableHeaderCell colSpan='13' textAlign='center'>Unit - Awards (where unit == actual unit and awards is how many grants were awarded)</TableHeaderCell></TableRow>
@@ -124,8 +163,90 @@ export const Reports = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {getReport.map((row) => {
-                        return (
+                    {getReport.map((row, index) => {
+                        var thisunit = getReport[index].unit;
+                        var nextunit = thisunit;
+                        var thisgt = getReport[index].grant_type;
+                        var nextgt = thisgt;
+
+                        if(index < getReport.length-1){
+                            nextunit = getReport[index+1].unit;
+                            nextgt = getReport[index+1].grant_type;
+                        }
+
+                        // case 1: same unit, different grant_type
+                        if(thisunit == nextunit && thisgt != nextgt){
+                            var gttotals = gtTotals.filter(function(row){
+                                return row.unit == thisunit && row.grant_type == thisgt;
+                            })
+                            if(gttotals.length == 0){
+                                console.log("Pair not found: " + thisunit + " " + thisgt);
+                                return(<TableRow><TableCell colSpan="100%">Error Row</TableCell></TableRow>)
+                            }
+                            else return (
+                                <><TableRow>
+                                    <TableCell>{row.unit}</TableCell>
+                                    <TableCell>{row.grant_type}</TableCell>
+                                    <TableCell>{row.proposal_number}</TableCell>
+                                    <TableCell>{row.title}</TableCell>
+                                    <TableCell>{row.agency}</TableCell>
+                                    <TableCell>{row.funding_type}</TableCell>
+                                    <TableCell>{row.investigator}</TableCell>
+                                    <TableCell>{row.department_name}</TableCell>
+                                    <TableCell>{row.amount_requested}</TableCell>
+                                    <TableCell>{row.date_submitted}</TableCell>
+                                    <TableCell>{row.pre_award_status}</TableCell>
+                                    <TableCell>{row.date_of_notice}</TableCell>
+                                    <TableCell>{row.amount_funded}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell colSpan='8'>{thisunit} - {thisgt} Totals:</TableCell>
+                                    <TableCell colSpan='4'>{gttotals[0].req}</TableCell>
+                                    <TableCell>{gttotals[0].funded}</TableCell>
+                                </TableRow></>
+                            )
+                        }
+                        // case 2: new unit, first display the unit + grant type row
+                        // then display the overall unit total
+                        else if(thisunit != nextunit){
+                            var gttotals = gtTotals.filter(function(row){
+                                return row.unit == thisunit && row.grant_type == thisgt;
+                            })
+                            var unittotals = unitTotals.filter(function(row){
+                                return row.unit == thisunit;
+                            })
+                            return (
+                                <><TableRow>
+                                    <TableCell>{row.unit}</TableCell>
+                                    <TableCell>{row.grant_type}</TableCell>
+                                    <TableCell>{row.proposal_number}</TableCell>
+                                    <TableCell>{row.title}</TableCell>
+                                    <TableCell>{row.agency}</TableCell>
+                                    <TableCell>{row.funding_type}</TableCell>
+                                    <TableCell>{row.investigator}</TableCell>
+                                    <TableCell>{row.department_name}</TableCell>
+                                    <TableCell>{row.amount_requested}</TableCell>
+                                    <TableCell>{row.date_submitted}</TableCell>
+                                    <TableCell>{row.pre_award_status}</TableCell>
+                                    <TableCell>{row.date_of_notice}</TableCell>
+                                    <TableCell>{row.amount_funded}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell colSpan='8'>{thisunit} - {thisgt} Totals:</TableCell>
+                                    <TableCell colSpan='4'>{gttotals[0].req}</TableCell>
+                                    <TableCell>{gttotals[0].funded}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell colSpan='8'>{thisunit} Totals:</TableCell>
+                                    <TableCell colSpan='4'>{unittotals[0].req}</TableCell>
+                                    <TableCell>{unittotals[0].funded}</TableCell>
+                                </TableRow>
+                                </>
+                            )
+                        }
+
+                        // normal case: just another row, nuthin special here eh
+                        else return (
                             <TableRow>
                                 <TableCell>{row.unit}</TableCell>
                                 <TableCell>{row.grant_type}</TableCell>
@@ -275,3 +396,32 @@ use any nested hooks.
             Can't even do this because there's no way to keep track of the previous unit/gt has changed.
             Trying to change the previous unit/gt results in "too many re-renders" in react
     */
+
+            /*
+                        if(thisunit == nextunit && thisgt != nextgt){
+                            var gtreq = gtReq.shift().req;
+                            var gtfunded = gtFunded.shift().funded;
+                            return (
+                                <><TableRow>
+                                    <TableCell>{row.unit}</TableCell>
+                                    <TableCell>{row.grant_type}</TableCell>
+                                    <TableCell>{row.proposal_number}</TableCell>
+                                    <TableCell>{row.title}</TableCell>
+                                    <TableCell>{row.agency}</TableCell>
+                                    <TableCell>{row.funding_type}</TableCell>
+                                    <TableCell>{row.investigator}</TableCell>
+                                    <TableCell>{row.department_name}</TableCell>
+                                    <TableCell>{row.amount_requested}</TableCell>
+                                    <TableCell>{row.date_submitted}</TableCell>
+                                    <TableCell>{row.pre_award_status}</TableCell>
+                                    <TableCell>{row.date_of_notice}</TableCell>
+                                    <TableCell>{row.amount_funded}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell colSpan='8'>{thisunit} - {thisgt} Totals:</TableCell>
+                                    <TableCell colSpan='2'>{gtreq}</TableCell>
+                                    <TableCell colSpan='2'>{gtfunded}</TableCell>
+                                </TableRow></>
+                            )
+                        }
+            */
