@@ -1,3 +1,6 @@
+/*
+* Search.js provides title and calls search-proposals.js for search functionality
+*/
 import React from 'react'
 import { Search } from './search-proposals';
 

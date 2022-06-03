@@ -1,5 +1,12 @@
-//Set up express server
+/*
+* Index.js is the standalone backend file for this application. It provides express server setup, sql database connection,
+* and all sql queries carried out by the application.
+*
+* NOTE: After making changes to this file, it is required to restart the backend in order to see changes made.
+*       This is done by typing 'node index.js' into the terminal window while in the 'server' directory.
+*/
 
+//Set up express server
 const express = require('express');
 const app = express();
 const mysql = require('mysql');
@@ -8,6 +15,7 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
+//Connect to SQL db
 const db = mysql.createConnection({
   user: 'admin',
   host: 'test-app-db-instance.cbjxu2novkb7.us-west-2.rds.amazonaws.com',

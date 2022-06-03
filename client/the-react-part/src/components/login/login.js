@@ -1,3 +1,13 @@
+/*
+* Login.js uses Google Login API to verify user credentials.
+*
+* NOTE: Users must have ewu email account in order to login, and must be added to 'Users' table within SQL database
+* prior to logging in.
+*
+* New users must be added from within by a user with admin privilege, or by someone with access to SQL database.
+* If valid user exists, they will be redirected to EWU's single sign on page with 2FA.
+*/
+
 import React from "react";
 import Axios from 'axios';
 import { GoogleLogin } from 'react-google-login';

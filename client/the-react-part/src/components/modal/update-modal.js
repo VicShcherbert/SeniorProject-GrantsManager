@@ -1,3 +1,21 @@
+/*
+* Update-modal.js provides update and delete methods for proposals. Modal provides 'pop-up' window
+* when trigger is initiated.
+*
+* handleUpdate and deleteProposal use unique_id field to send put and delete requests. SQL queries can be found
+* within 'index.js' file of the 'server' directory.
+*
+* dealWithCancel saves current values and closes modal window
+*
+* NOTE: updates and deletes use unique_id rather than proposal number, as there can be multiple proposals with the same
+* proposal number. If using proposal number to update or delete, all records would be changed.
+*
+* NOTE: department, pre-award poc, post-award poc, and units are put into lists from their respective SQL tables.
+* This allows drop down lists to be populated by database records rather than hard coded values.
+*
+* NOTE: Per client's request, Award and Contract section is only displayed if pre-award status is 'funded' or 'additional'.
+*/
+
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import {
@@ -70,16 +88,12 @@ export const UpdateModal = ({ proposal }) => {
 
   const dateSubmittedNew = getCorrectDate(new Date(proposal.date_submitted));
   const [date_submitted, setDateSubmitted] = useState(dateSubmittedNew);
-  // console.log(dateSubmitted);
   const dateOfNoticeNew = getCorrectDate(new Date(proposal.date_of_notice));
   const [date_of_notice, setDateOfNotice] = useState(dateOfNoticeNew);
-  // console.log(dateOfNotice);
   const projectStartNew = getCorrectDate(new Date(proposal.project_start));
   const [project_start, setProjectStart] = useState(projectStartNew);
-  // console.log(projectStart);
   const projectEndNew = getCorrectDate(new Date(proposal.project_end));
   const [project_end, setProjectEnd] = useState(projectEndNew);
-  // console.log(projectEnd);
 
   const departmentNames = departmentList.map((element) => ({
     key: element.id,

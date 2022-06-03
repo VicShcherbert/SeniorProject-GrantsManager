@@ -1,3 +1,8 @@
+/*
+* Add-user.js makes a post request to add a user to the Users table in the SQL database.
+* The SQL query can be found in index.js within the 'server' directory of the application. 
+*/
+
 import React, { useState } from 'react';
 import Axios from 'axios';  
 
