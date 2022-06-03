@@ -181,7 +181,7 @@ export const Reports = () => {
                             })
                             if(gttotals.length == 0){
                                 console.log("Pair not found: " + thisunit + " " + thisgt);
-                                return(<TableRow><TableCell colSpan="100%">Error Row</TableCell></TableRow>)
+                                return(<TableRow><TableCell colSpan="100%">Error Row: {thisunit}, {thisgt}</TableCell></TableRow>)
                             }
                             else return (
                                 <><TableRow>
@@ -215,6 +215,14 @@ export const Reports = () => {
                             var unittotals = unitTotals.filter(function(row){
                                 return row.unit == thisunit;
                             })
+                            if(gttotals.length == 0){
+                                console.log("Pair not found: " + thisunit + " " + thisgt);
+                                return(<TableRow><TableCell colSpan="100%">Error Row: {thisunit}, {thisgt}</TableCell></TableRow>)
+                            }
+                            if(unittotals.length == 0){
+                                console.log("Unit totals not found: " + thisunit);
+                                return(<TableRow><TableCell colSpan="100%">Error Row: {thisunit}</TableCell></TableRow>)
+                            }
                             return (
                                 <><TableRow>
                                     <TableCell>{row.unit}</TableCell>
