@@ -28,55 +28,6 @@ export const AddProposal = () => {
     },
   });
 
-  const onSubmit = (data) => {
-    console.log(data.title);
-    // Аxios.post('http://localhost:3001/add_proposal', {
-    //   unique_id: unique_id,
-    //   prop_num: prop_num,
-    //   pre_prop: pre_prop,
-    //   pre_prop_num: pre_prop_num,
-    //   title: title,
-    //   agency: agency,
-    //   fund_type: fund_type,
-    //   cfda: cfda,
-    //   investigator: investigator,
-    //   email: email,
-    //   department_number: department_number,
-    //   department_name: department_name,
-    //   unit: unit,
-    //   category: category,
-    //   amount_requested: amount_requested,
-    //   date_submitted: date_submitted,
-    //   pre_award_poc: pre_award_poc,
-    //   internal_approval: internal_approval,
-    //   certification_assurance: certification_assurance,
-    //   financial_interest: financial_interest,
-    //   notes: notes,
-    //   pre_award_status: pre_award_status,
-    //   date_of_notice: date_of_notice,
-    //   amount_funded: amount_funded,
-    //   project_start: project_start,
-    //   project_end: project_end,
-    //   grant_type: grant_type,
-    //   contract_number: contract_number,
-    //   indirect_cost: indirect_cost,
-    //   sponsor_id: sponsor_id,
-    //   index_number: index_number,
-    //   entered_sharepoint: entered_sharepoint,
-    //   post_award_poc: post_award_poc,
-    //   irb: irb,
-    //   iacuc: iacuc,
-    //   ibc: ibc,
-    //   rcr: rcr,
-    //   student_rcr_notes: student_rcr_notes,
-    //   subawards: subawards,
-    //   subawardees: subawardees,
-    //   subaward_contract_number: subaward_contract_number,
-    //   subaward_notes: subaward_notes,
-    //   files_id: files_id,
-    // }).then(clearFields());
-  };
-
   const [unique_id, setUniqueId] = useState(0);
   const [prop_num, setPropNum] = useState('');
   const [pre_prop, setPreProp] = useState(0);
@@ -183,7 +134,7 @@ export const AddProposal = () => {
     Axios.get('http://localhost:3001/get_departments').then((response) => {
       setDepartmentList(response.data); //becasue response contains 'data'
     });
-    
+
     Axios.get('http://localhost:3001/unique_id').then((response) => {
       setUniqueId(response.data[0].unique_id + 1); //set the unique id as one more than the last proposal in database
     });
@@ -207,18 +158,19 @@ export const AddProposal = () => {
     });
   }, []);
 
-  const addProposal = () => {
+  const onSubmit = (data) => {
+    console.log(data);
     Axios.post('http://localhost:3001/add_proposal', {
       unique_id: unique_id,
-      prop_num: prop_num,
+      prop_num: data.prop_num,
       pre_prop: pre_prop,
       pre_prop_num: pre_prop_num,
-      title: title,
-      agency: agency,
+      title: data.title,
+      agency: data.agency,
       fund_type: fund_type,
       cfda: cfda,
-      investigator: investigator,
-      email: email,
+      investigator: data.investigator,
+      email: data.email,
       department_number: department_number,
       department_name: department_name,
       unit: unit,
@@ -739,8 +691,19 @@ export const AddProposal = () => {
       >
         Add a New Proposal
       </Header>
-      <Segment basic style={{ justifyContent: 'space-evenly', maxWidth: '700px', margin: "0 auto" }}>
+      <Segment
+        basic
+        style={{
+          justifyContent: 'space-evenly',
+          maxWidth: '700px',
+          margin: '0 auto',
+        }}
+      >
         <Form onSubmit={handleSubmit(onSubmit)}>
+          <Segment basic>
+            <Divider horizontal>Main Information</Divider>
+          </Segment>
+
           <Controller
             name='prop_num'
             control={control}
@@ -755,7 +718,7 @@ export const AddProposal = () => {
             render={({ field }) => (
               <Form.Field>
                 <Header>Proposal Number</Header>
-                <Input {...field} />
+                <Input {...field} placeholder='Proposal Number' />
               </Form.Field>
             )}
           />
@@ -764,6 +727,23 @@ export const AddProposal = () => {
               {errors.prop_num.message}
             </Segment>
           )}
+
+          <Form.Field>
+            <Header>Pre-Proposal</Header>
+            <Dropdown
+              placeholder='Pre-Proposal'
+              value={pre_prop}
+              name='pre_prop'
+              onChange={(_, { value }) => setPreProp(value)}
+              fluid
+              selection
+              options={[
+                { key: 'no', value: 0, text: 'No' },
+                { key: 'yes', value: 1, text: 'Yes' },
+              ]}
+            />
+          </Form.Field>
+
           <Controller
             name='title'
             control={control}
@@ -778,7 +758,7 @@ export const AddProposal = () => {
             render={({ field }) => (
               <Form.Field>
                 <Header>Title</Header>
-                <Input {...field} />
+                <Input {...field} placeholder='Title' />
               </Form.Field>
             )}
           />
@@ -787,6 +767,7 @@ export const AddProposal = () => {
               {errors.title.message}
             </Segment>
           )}
+
           <Controller
             name='agency'
             control={control}
@@ -800,7 +781,7 @@ export const AddProposal = () => {
             render={({ field }) => (
               <Form.Field>
                 <Header>Agency</Header>
-                <Input {...field} />
+                <Input {...field} placeholder='Agency' />
               </Form.Field>
             )}
           />
@@ -809,11 +790,40 @@ export const AddProposal = () => {
               {errors.agency.message}
             </Segment>
           )}
+
+          <Form.Field>
+            <Header>Funding Type</Header>
+            <Dropdown
+              placeholder='Select funding type'
+              value={fund_type}
+              name='funding_type'
+              onChange={(_, { value }) => setFundingType(value)}
+              fluid
+              selection
+              options={[
+                { key: 'federal', value: 'federal', text: 'Federal' },
+                { key: 'state', value: 'state', text: 'State' },
+                { key: 'local', value: 'local', text: 'Local' },
+                { key: 'private', value: 'private', text: 'Private' },
+              ]}
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <Header>CFDA Number</Header>
+            <Input
+              placeholder='CFDA Number'
+              value={cfda}
+              name='cfda_number'
+              onChange={(_, { value }) => setCFDANumber(value)}
+              type='number'
+            />
+          </Form.Field>
+
           <Controller
             name='investigator'
             control={control}
             rules={{
-              required: true,
               pattern: {
                 value: /^[^$%#@*&^\d]*$/,
                 message:
@@ -854,114 +864,6 @@ export const AddProposal = () => {
               {errors.email.message}
             </Segment>
           )}
-          <Button type='submit'>Hit me</Button>
-        </Form>
-      </Segment>
-      {/* <Segment basic style={{ justifyContent: 'space-evenly', maxWidth: '700px', margin: "0 auto" }}>
-        <Form>
-          <Segment basic>
-            <Divider horizontal>Main Information</Divider>
-          </Segment>
-
-          <Form.Field>
-            <Header>Proposal Number</Header>
-            <Input
-              placeholder='Proposal Number'
-              value={prop_num}
-              name='prop_num'
-              onChange={(_, { value }) => setPropNum(value)}
-              type='text'
-            />
-          </Form.Field>
-
-          <Form.Field>
-            <Header>Pre-Proposal</Header>
-            <Dropdown
-              placeholder='Pre-Proposal'
-              value={pre_prop}
-              name='pre_prop'
-              onChange={(_, { value }) => setPreProp(value)}
-              fluid
-              selection
-              options={[
-                { key: 'no', value: 0, text: 'No' },
-                { key: 'yes', value: 1, text: 'Yes' },
-              ]}
-            />
-          </Form.Field>
-
-          <Form.Field>
-            <Header>Title</Header>
-            <Input
-              placeholder='Title'
-              value={title}
-              name='title'
-              onChange={(_, { value }) => setTitle(value)}
-              type='text'
-            />
-          </Form.Field>
-  
-          <Form.Field>
-            <Header>Agency</Header>
-            <Input
-              placeholder='Agency'
-              value={agency}
-              name='agency'
-              onChange={(_, { value }) => setAgency(value)}
-              type='text'
-            />
-          </Form.Field>
-          
-          <Form.Field>
-            <Header>Funding Type</Header>
-            <Dropdown
-              placeholder='Select funding type'
-              value={fund_type}
-              name='funding_type'
-              onChange={(_, { value }) => setFundingType(value)}
-              fluid
-              selection
-              options={[
-                { key: 'federal', value: 'federal', text: 'Federal' },
-                { key: 'state', value: 'state', text: 'State' },
-                { key: 'local', value: 'local', text: 'Local' },
-                { key: 'private', value: 'private', text: 'Private' },
-              ]}
-            />
-          </Form.Field>
-
-          <Form.Field>
-            <Header>CFDA Number</Header>
-            <Input
-              placeholder='CFDA Number'
-              value={cfda}
-              name='cfda_number'
-              onChange={(_, { value }) => setCFDANumber(value)}
-              type='number'
-            />
-          </Form.Field>
-
-          <Form.Field>
-            <Header>Investigator</Header>
-            <Input
-              placeholder='Investigator'
-              value={investigator}
-              name='investigator'
-              onChange={(_, { value }) => setInvestigator(value)}
-              type='text'
-            />
-          </Form.Field>
-
-          <Form.Field>
-            <Header>Email</Header>
-            <Input
-              placeholder='Email'
-              value={email}
-              name='email'
-              onChange={(_, { value }) => setEmail(value)}
-              type='text'
-            />
-          </Form.Field>
 
           <Form.Field>
             <Header>Department</Header>
@@ -977,17 +879,17 @@ export const AddProposal = () => {
           </Form.Field>
 
           <Form.Field>
-          <Header>Unit</Header>
-          <Dropdown
-            placeholder='Select Unit'
-            value={unit}
-            name='unit'
-            onChange={(_, { value }) => dealWithNameNumUnits(value)}
-            fluid
-            selection
-            options={units}
-          />
-        </Form.Field>
+            <Header>Unit</Header>
+            <Dropdown
+              placeholder='Select Unit'
+              value={unit}
+              name='unit'
+              onChange={(_, { value }) => dealWithNameNumUnits(value)}
+              fluid
+              selection
+              options={units}
+            />
+          </Form.Field>
 
           <Form.Field>
             <Header>Category</Header>
@@ -1047,17 +949,17 @@ export const AddProposal = () => {
           </Form.Field>
 
           <Form.Field>
-          <Header>Pre Award POC</Header>
-          <Dropdown
-            placeholder='Select Pre Award POC'
-            value={pre_award_poc}
-            name='pre_award_poc'
-            onChange={(_, { value }) => dealWithNameNumPreAwardPOC(value)}
-            fluid
-            selection
-            options={preAwardPOCs}
-          />
-        </Form.Field>
+            <Header>Pre Award POC</Header>
+            <Dropdown
+              placeholder='Select Pre Award POC'
+              value={pre_award_poc}
+              name='pre_award_poc'
+              onChange={(_, { value }) => dealWithNameNumPreAwardPOC(value)}
+              fluid
+              selection
+              options={preAwardPOCs}
+            />
+          </Form.Field>
 
           <Form.Field>
             <Header>Internal Approval</Header>
@@ -1069,10 +971,11 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'need',
                   value: 'Need',
@@ -1108,10 +1011,11 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'need',
                   value: 'Need',
@@ -1147,10 +1051,11 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'need',
                   value: 'Need',
@@ -1188,7 +1093,7 @@ export const AddProposal = () => {
           </Form.Field>
 
           <Form.Field>
-            <Header>Pre Award Status</Header> 
+            <Header>Pre Award Status</Header>
             <Dropdown
               placeholder='Pre Award Status'
               value={pre_award_status}
@@ -1197,10 +1102,11 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'pending',
                   value: 'Pending',
@@ -1211,15 +1117,17 @@ export const AddProposal = () => {
                   value: 'Funded',
                   text: 'Funded',
                 },
-                { 
-                  key: 'not_funded', 
-                  value: 'Not Funded', 
-                  text: 'Not Funded' },
-                { 
-                  key: 'additional', 
-                  value: 'Additional', 
-                  text: 'Additional' },
-                
+                {
+                  key: 'not_funded',
+                  value: 'Not Funded',
+                  text: 'Not Funded',
+                },
+                {
+                  key: 'additional',
+                  value: 'Additional',
+                  text: 'Additional',
+                },
+
                 {
                   key: 'invited',
                   value: 'Invited',
@@ -1245,35 +1153,26 @@ export const AddProposal = () => {
             />
           </Form.Field>
           {awardAndContractSections()}
-
-          <Segment
-            basic
-            style={{
-              display: 'flex',
-              justifyContent: 'right',
-              paddingRight: '0px',
+        </Form>
+        <Segment
+          basic
+          style={{
+            display: 'flex',
+            justifyContent: 'right',
+            paddingRight: '0px',
+          }}
+        >
+          <Button type='submit'>Add Proposal</Button>
+          <Button
+            type='reset'
+            onClick={() => {
+              clearFields();
             }}
           >
-            <Button
-              type='submit'
-              color='green'
-              onClick={() => {
-                addProposal();
-              }}
-            >
-              Submit
-            </Button>
-            <Button
-              type='reset'
-              onClick={() => {
-                clearFields();
-              }}
-            >
-              Clear
-            </Button>
-          </Segment>
-        </Form>
-      </Segment> */}
+            Clear
+          </Button>
+        </Segment>
+      </Segment>
     </Segment>
   );
 };
