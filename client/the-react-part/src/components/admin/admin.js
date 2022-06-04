@@ -1,7 +1,7 @@
 import React from 'react';
 import { AddUser } from './users/add-user';
 import { ViewUsers } from './users/view-users';
-import {Segment, Header, Divider} from 'semantic-ui-react';
+import { Segment, Header, Divider } from 'semantic-ui-react';
 import { AddPreAwardPOC } from './poc/add-preaward-poc';
 import { AddPostAwardPOC } from './poc/add-postaward-poc';
 import { ViewPreAwardPOCs } from './poc/view-preaward-pocs';
@@ -14,44 +14,53 @@ import '../../style.css';
 
 export const Admin = () => {
   return (
-    <Segment basic style={{ justifyContent: 'space-evenly', maxWidth: '900px', margin: "0 auto" }}>
-      <Header textAlign='center' size='huge'>
+    <Segment basic>
+      <Header
+        textAlign='center'
+        size='huge'
+        style={{ marginTop: '5px', marginBottom: '15px' }}
+      >
         Admin Portal
       </Header>
-      <Segment basic>
-        <Divider horizontal><h3>Users</h3></Divider>
-      </Segment>
-      <ViewUsers />
-      <AddUser />
+      <Segment
+        basic
+        style={{
+          padding: '0px',
+          justifyContent: 'space-evenly',
+          maxWidth: '700px',
+          margin: '0 auto',
+        }}
+      >
+        <Segment basic style={{ marginBottom: '0px' }}>
+          <Divider horizontal>Users</Divider>
+          <ViewUsers />
+          <AddUser />
+        </Segment>
 
-      <Segment basic>
-        <Divider horizontal><h3>Departments</h3></Divider>
-      </Segment>
-      <ViewDepartments />
-      <AddDepartment />
-      
-      <Segment basic>
-        <Divider horizontal><h3>Pre Award POC</h3></Divider>
-      </Segment>
-        <br/>
-        <ViewPreAwardPOCs />
-        <br/>
-        <AddPreAwardPOC />
-      <Segment basic>
-        <Divider horizontal><h3>Post Award POC</h3></Divider>
-      </Segment>
-        <br/>
-        <ViewPostAwardPOCs />
-        <br/>
-        <AddPostAwardPOC />
+        <Segment basic style={{ marginTop: '0px', marginBottom: '0px' }}>
+          <Divider horizontal>Departments</Divider>
+          <ViewDepartments />
+          <AddDepartment />
+        </Segment>
 
-      <Segment basic>
-        <Divider horizontal><h3>Units</h3></Divider>
+        <Segment basic style={{ marginTop: '0px', marginBottom: '0px' }}>
+          <Divider horizontal>Pre Award POC</Divider>
+          <ViewPreAwardPOCs />
+          <AddPreAwardPOC />
+        </Segment>
+
+        <Segment basic style={{ marginTop: '0px', marginBottom: '0px' }}>
+          <Divider horizontal>Post Award POC</Divider>
+          <ViewPostAwardPOCs />
+          <AddPostAwardPOC />
+        </Segment>
+
+        <Segment basic style={{ marginTop: '0px', marginBottom: '0px' }}>
+          <Divider horizontal>Units</Divider>
+          <ViewUnits />
+          <AddUnit />
+        </Segment>
       </Segment>
-        <br/>
-        <ViewUnits />
-        <br/>
-        <AddUnit />
-      </Segment>
+    </Segment>
   );
 };

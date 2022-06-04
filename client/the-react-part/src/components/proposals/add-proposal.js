@@ -17,6 +17,7 @@ export const AddProposal = () => {
   const {
     control,
     handleSubmit,
+    resetField,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -208,7 +209,11 @@ export const AddProposal = () => {
   };
 
   const clearFields = () => {
-    setPropNum('');
+    resetField('prop_num');
+    resetField('title');
+    resetField('agency');
+    resetField('investigator');
+    resetField('email');
     setPreProp(0);
     setPrePropNum(0);
     setTitle('');
@@ -712,7 +717,7 @@ export const AddProposal = () => {
               pattern: {
                 value: /^[^$%#@*&^]*$/,
                 message:
-                  'Proposal number required! Make sure there are no extra characters',
+                  'Proposal number required! Please ensure there are no extra special characters.',
               },
             }}
             render={({ field }) => (
@@ -750,9 +755,9 @@ export const AddProposal = () => {
             rules={{
               required: true,
               pattern: {
-                value: /^[^$%#@*&^]*$/,
+                value: /^[a-zA-Z\d .,'"/]{1,50}$/,
                 message:
-                  'The title is required! Ensure there are no extra unneccessary characters',
+                  'Title is required! Please ensure there are no extra special characters.',
               },
             }}
             render={({ field }) => (
@@ -773,9 +778,9 @@ export const AddProposal = () => {
             control={control}
             rules={{
               pattern: {
-                value: /^[^$%#@*&^\d]*$/,
+                value: /^[a-zA-Z\d .,'"/]{1,50}$/,
                 message:
-                  'Entered agency name does not match the format. Ensure there are no extra characters and numbers',
+                  'Entered agency name does not match the format. Please ensure there are no extra special characters',
               },
             }}
             render={({ field }) => (
@@ -825,15 +830,15 @@ export const AddProposal = () => {
             control={control}
             rules={{
               pattern: {
-                value: /^[^$%#@*&^\d]*$/,
+                value: /^[a-zA-Z ,]{1,50}$/,
                 message:
-                  'Investigator required! Ensure there are no extra characters and numbers',
+                  'Entered investigator name does not match the format! Please ensure there are no numbers or extra special characters',
               },
             }}
             render={({ field }) => (
               <Form.Field>
                 <Header>Investigator</Header>
-                <Input {...field} />
+                <Input {...field} placeholder='Investigator'/>
               </Form.Field>
             )}
           />
@@ -849,13 +854,13 @@ export const AddProposal = () => {
               pattern: {
                 value:
                   /(?:[a-z0-9!#$%&'*+\=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
-                message: 'Entered email does not match email format',
+                message: 'Entered email does not match email format.',
               },
             }}
             render={({ field }) => (
               <Form.Field>
                 <Header>Email</Header>
-                <Input {...field} />
+                <Input {...field} placeholder='Email'/>
               </Form.Field>
             )}
           />
@@ -1153,25 +1158,27 @@ export const AddProposal = () => {
             />
           </Form.Field>
           {awardAndContractSections()}
-        </Form>
-        <Segment
-          basic
-          style={{
-            display: 'flex',
-            justifyContent: 'right',
-            paddingRight: '0px',
-          }}
-        >
-          <Button type='submit'>Add Proposal</Button>
-          <Button
-            type='reset'
-            onClick={() => {
-              clearFields();
+          <Segment
+            basic
+            style={{
+              display: 'flex',
+              justifyContent: 'right',
+              paddingRight: '0px',
             }}
           >
-            Clear
-          </Button>
-        </Segment>
+            <Button color='green' type='submit'>
+              Add Proposal
+            </Button>
+            <Button
+              type='reset'
+              onClick={() => {
+                clearFields();
+              }}
+            >
+              Clear
+            </Button>
+          </Segment>
+        </Form>
       </Segment>
     </Segment>
   );

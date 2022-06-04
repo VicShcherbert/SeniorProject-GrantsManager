@@ -10,14 +10,11 @@ import {
   TableHeader,
   TableHeaderCell,
   TableRow,
-  Pagination,
   Segment,
   Header,
-  Button,
   Input,
   Dimmer,
   Loader,
-  Modal,
 } from 'semantic-ui-react';
 import { UpdateModal } from '../modal/update-modal';
 

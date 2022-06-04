@@ -7,12 +7,13 @@ import {
   TableHeader,
   TableHeaderCell,
   TableRow,
+  Segment,
 } from 'semantic-ui-react';
 import { PreAwardModal } from '../../modal/pre-award-modal';
 
 export const ViewPreAwardPOCs = () => {
   const [pre_award_poc, setList] = useState([]);
-  
+
   useEffect(() => {
     Axios.get('http://localhost:3001/get_pre_award_POCs').then((response) => {
       setList(response.data);
@@ -20,12 +21,12 @@ export const ViewPreAwardPOCs = () => {
   }, []);
 
   return (
-    <div className='pre-award-poc-table'>
+    <Segment basic style={{ marginTop: '30px', padding: '0px' }}>
       <Table celled>
         <TableHeader>
           <TableRow>
             <TableHeaderCell>Name</TableHeaderCell>
-            <TableHeaderCell width = "1"></TableHeaderCell>
+            <TableHeaderCell width='1'></TableHeaderCell>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -34,14 +35,13 @@ export const ViewPreAwardPOCs = () => {
               <TableRow>
                 <TableCell>{pre_award_poc.name}</TableCell>
                 <TableCell>
-                    <PreAwardModal poc={pre_award_poc} />
+                  <PreAwardModal poc={pre_award_poc} />
                 </TableCell>
               </TableRow>
-              
             );
           })}
         </TableBody>
       </Table>
-    </div>
+    </Segment>
   );
 };

@@ -22,9 +22,6 @@ export const AddUser = () => {
       name: '',
     },
   });
-
-  // const [email, setEmail] = useState('');
-  // const [name, setName] = useState('');
   const [id, setID] = useState(0);
 
   const onSubmit = (data) => {
@@ -36,7 +33,7 @@ export const AddUser = () => {
   };
 
   return (
-    <Segment basic className='add-user'>
+    <Segment basic style={{ marginTop: '30px', padding: '0px' }}>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Controller
           name='name'
@@ -44,7 +41,7 @@ export const AddUser = () => {
           rules={{
             required: true,
             pattern: {
-              value: /^[a-zA-Z\d ]*$/,
+              value: /^[a-zA-Z ]{1,50}$/,
               message:
                 'Incorrect format for name. Please ensure there are no numbers or extra special characters',
             },
@@ -66,6 +63,7 @@ export const AddUser = () => {
           name='email'
           control={control}
           rules={{
+            required: true,
             pattern: {
               value:
                 /(?:[a-z0-9!#$%&'*+\=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:ewu.edu)/,
@@ -75,7 +73,7 @@ export const AddUser = () => {
           }}
           render={({ field }) => (
             <Form.Field>
-              <Header>Email</Header>
+              <Header>Email:</Header>
               <Input {...field} placeholder='Email' />
             </Form.Field>
           )}
@@ -93,7 +91,9 @@ export const AddUser = () => {
               else setID(1);
             }}
           />
-          <Label basic id='user-checkbox-label'>Administrator Privileges</Label>
+          <Label basic id='user-checkbox-label'>
+            Administrator Privileges
+          </Label>
         </Segment>
 
         <Form.Button color='green' type='submit'>

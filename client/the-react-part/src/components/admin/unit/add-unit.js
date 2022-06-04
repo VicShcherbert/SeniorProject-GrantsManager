@@ -1,32 +1,58 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Axios from 'axios'; //when adding something to the database
-import { Form } from 'semantic-ui-react';
+import { Form, Segment, Header, Input } from 'semantic-ui-react';
+import { useForm, Controller } from 'react-hook-form';
 
 export const AddUnit = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      unitName: '',
+    },
+  });
 
-  const [name, setName] = useState('');
-
-  const addUnit = () => {
+  const onSubmit = (data) => {
     Axios.post('http://localhost:3001/add_unit', {
-      name: name,
+      name: data.unitName,
     }).then(
-      console.log('success'), 
+      console.log('success'),
       window.location.reload()
     );
   };
 
   return (
-    <div className='add-unit'>
-      <Form id='add-unit'>
-        <label>Unit:</label>
-        <input
-          type='text'
-          onChange={(event) => {
-            setName(event.target.value);
+    <Segment basic style={{ marginTop: '30px', padding: '0px' }}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          name='unitName'
+          control={control}
+          rules={{
+            required: true,
+            pattern: {
+              value: /^[a-zA-Z .,'"/]{1,50}$/,
+              message:
+                'Incorrect format for unit name. Please ensure there are no numbers or extra special characters',
+            },
           }}
+          render={({ field }) => (
+            <Form.Field>
+              <Header>Unit:</Header>
+              <Input {...field} placeholder='Unit name' />
+            </Form.Field>
+          )}
         />
-        <Form.Button color = 'green' onClick={addUnit}>Add Unit</Form.Button>
+        {errors.unitName && (
+          <Segment color='red' basic>
+            {errors.unitName.message}
+          </Segment>
+        )}
+        <Form.Button style={{ marginTop: '20px' }} color='green' type='submit'>
+          Add Unit
+        </Form.Button>
       </Form>
-    </div>
+    </Segment>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Axios from 'axios'; //when adding something to the database
 import { Form, Header, Segment, Input } from 'semantic-ui-react';
 import { useForm, Controller } from 'react-hook-form';
@@ -15,9 +15,6 @@ export const AddDepartment = () => {
     },
   });
 
-  // const [name, setName] = useState('');
-  // const [id, setID] = useState('');
-
   const onSubmit = (data) => {
     Axios.post('http://localhost:3001/add_department', {
       id: data.id,
@@ -26,7 +23,7 @@ export const AddDepartment = () => {
   };
 
   return (
-    <Segment basic className='add-department'>
+    <Segment basic style={{marginTop: '30px', padding: '0px'}}>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Controller
           name='id'
@@ -57,9 +54,9 @@ export const AddDepartment = () => {
           rules={{
             required: true,
             pattern: {
-              value: /^[a-zA-Z\d ]*$/,
+              value: /^[a-zA-Z\d .,'"/]{1,50}$/,
               message:
-                'Incorrect format for name. Please ensure there are no numbers or extra special characters',
+                'Incorrect format for name. Please ensure there are no extra special characters',
             },
           }}
           render={({ field }) => (
@@ -74,7 +71,7 @@ export const AddDepartment = () => {
             {errors.name.message}
           </Segment>
         )}
-        <Form.Button color='green' type='submit'>
+        <Form.Button style={{ marginTop: '20px' }} color='green' type='submit'>
           Add Department
         </Form.Button>
       </Form>
