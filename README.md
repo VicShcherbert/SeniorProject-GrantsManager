@@ -191,3 +191,9 @@ The application currently has the database connection details hardcoded along wi
 
 **6. User Input Validation**
 User input validation has been partially completed but will need to be finished in the update modals that are used throughout the application.
+
+**7. Application availability**
+This application currently runs on localhost. When the application eventually launches, it will need to become accessible from computers outside the university.
+
+**8. Archive deleted proposals**
+Archiving deleted proposals for a given amount of time would be useful in the case of accidental deletion.
