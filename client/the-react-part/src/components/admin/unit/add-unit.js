@@ -1,15 +1,11 @@
+/*
+ * Add-unit.js makes a post request to add a unit to the Units table in the SQL database.
+ * The SQL query can be found in index.js within the 'server' directory of the application.
+ */
 import React from 'react';
 import Axios from 'axios'; //when adding something to the database
 import { Form, Segment, Header, Input } from 'semantic-ui-react';
 import { useForm, Controller } from 'react-hook-form';
-/*
-* Add-unit.js makes a post request to add a unit to the Units table in the SQL database.
-* The SQL query can be found in index.js within the 'server' directory of the application. 
-*/
-
-import React, { useState } from 'react';
-import Axios from 'axios';  
-import { Form } from 'semantic-ui-react';
 
 export const AddUnit = () => {
   const {
@@ -25,10 +21,7 @@ export const AddUnit = () => {
   const onSubmit = (data) => {
     Axios.post('http://localhost:3001/add_unit', {
       name: data.unitName,
-    }).then(
-      console.log('success'),
-      window.location.reload()
-    );
+    }).then(console.log('success'), window.location.reload());
   };
 
   return (

@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableHeaderCell,
   TableRow,
+  Segment
 } from 'semantic-ui-react';
 import { DepartmentModal } from '../../modal/department-modal';
 
