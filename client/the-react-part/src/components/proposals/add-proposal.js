@@ -19,9 +19,25 @@ import {
   Segment,
   TextArea,
 } from 'semantic-ui-react';
+import { useForm, Controller } from 'react-hook-form';
 import '../../style.css';
 
 export const AddProposal = () => {
+  const {
+    control,
+    handleSubmit,
+    resetField,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      prop_num: '',
+      title: '',
+      agency: '',
+      investigator: '',
+      email: '',
+    },
+  });
+
   const [unique_id, setUniqueId] = useState(0);
   const [prop_num, setPropNum] = useState('');
   const [pre_prop, setPreProp] = useState(0);
@@ -105,8 +121,7 @@ export const AddProposal = () => {
   const dealWithNameNumPreAwardPOC = (value) => {
     setPreAwardPOC(value);
     for (var i = 0; i < preAwardPOCs.length; i++) {
-      if (preAwardPOCs[i].value === value)
-        setPreAwardPOC(preAwardPOCs[i].key);
+      if (preAwardPOCs[i].value === value) setPreAwardPOC(preAwardPOCs[i].key);
     }
   };
 
@@ -121,8 +136,7 @@ export const AddProposal = () => {
   const dealWithNameNumUnits = (value) => {
     setUnit(value);
     for (var i = 0; i < units.length; i++) {
-      if (units[i].value === value)
-        setPostAwardPOC(units[i].key);
+      if (units[i].value === value) setPostAwardPOC(units[i].key);
     }
   };
 
@@ -130,7 +144,7 @@ export const AddProposal = () => {
     Axios.get('http://localhost:3001/get_departments').then((response) => {
       setDepartmentList(response.data); //because response contains 'data'
     });
-    
+
     Axios.get('http://localhost:3001/unique_id').then((response) => {
       setUniqueId(response.data[0].unique_id + 1); //set the unique id as one more than the last proposal in database
     });
@@ -154,18 +168,19 @@ export const AddProposal = () => {
     });
   }, []);
 
-  const addProposal = () => {
+  const onSubmit = (data) => {
+    console.log(data);
     Axios.post('http://localhost:3001/add_proposal', {
       unique_id: unique_id,
-      prop_num: prop_num, 
+      prop_num: data.prop_num,
       pre_prop: pre_prop,
       pre_prop_num: pre_prop_num,
-      title: title,
-      agency: agency,
+      title: data.title,
+      agency: data.agency,
       fund_type: fund_type,
       cfda: cfda,
-      investigator: investigator,
-      email: email,
+      investigator: data.investigator,
+      email: data.email,
       department_number: department_number,
       department_name: department_name,
       unit: unit,
@@ -198,12 +213,16 @@ export const AddProposal = () => {
       subawardees: subawardees,
       subaward_contract_number: subaward_contract_number,
       subaward_notes: subaward_notes,
-      files_id: files_id
+      files_id: files_id,
     }).then(clearFields());
   };
 
   const clearFields = () => {
-    setPropNum('');
+    resetField('prop_num');
+    resetField('title');
+    resetField('agency');
+    resetField('investigator');
+    resetField('email');
     setPreProp(0);
     setPrePropNum(0);
     setTitle('');
@@ -251,10 +270,13 @@ export const AddProposal = () => {
   };
 
   const awardAndContractSections = () => {
-    if((pre_award_status.includes('Funded') || pre_award_status.includes('Additional')) && !pre_award_status.includes('Not')){
+    if (
+      (pre_award_status.includes('Funded') ||
+        pre_award_status.includes('Additional')) &&
+      !pre_award_status.includes('Not')
+    ) {
       return (
         <div>
-          
           <Segment basic>
             <Divider horizontal>Award</Divider>
           </Segment>
@@ -302,10 +324,11 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'contract',
                   value: 'C - Contract',
@@ -316,10 +339,10 @@ export const AddProposal = () => {
                   value: 'CA - Cooperative Agreement',
                   text: 'CA - Cooperative Agreement',
                 },
-                { 
-                  key: 'grant', 
-                  value: 'G - Grant', 
-                  text: 'G - Grant' 
+                {
+                  key: 'grant',
+                  value: 'G - Grant',
+                  text: 'G - Grant',
                 },
                 {
                   key: 'interagency_agreement',
@@ -340,7 +363,7 @@ export const AddProposal = () => {
                   key: 'subcontract',
                   value: 'S - Subcontract',
                   text: 'S - Subcontract',
-                }
+                },
               ]}
             />
           </Form.Field>
@@ -399,10 +422,11 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'not yet',
                   value: 'Not Yet',
@@ -421,24 +445,24 @@ export const AddProposal = () => {
               ]}
             />
           </Form.Field>
-          
+
           <Form.Field>
-          <Header>Post Award POC</Header>
-          <Dropdown
-            placeholder='Select Post Award POC'
-            value={post_award_poc}
-            name='post_award_poc'
-            onChange={(_, { value }) => dealWithNameNumPostAwardPOC(value)}
-            fluid
-            selection
-            options={postAwardPOCs}
-          />
-        </Form.Field>
+            <Header>Post Award POC</Header>
+            <Dropdown
+              placeholder='Select Post Award POC'
+              value={post_award_poc}
+              name='post_award_poc'
+              onChange={(_, { value }) => dealWithNameNumPostAwardPOC(value)}
+              fluid
+              selection
+              options={postAwardPOCs}
+            />
+          </Form.Field>
 
           <Segment basic>
             <Divider horizontal>Compliance and Contracting</Divider>
           </Segment>
-          
+
           <Form.Field>
             <Header>IRB Approval</Header>
             <Dropdown
@@ -449,10 +473,10 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' 
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
                 },
                 {
                   key: 'need',
@@ -477,7 +501,7 @@ export const AddProposal = () => {
               ]}
             />
           </Form.Field>
-          
+
           <Form.Field>
             <Header>IACUC Approval</Header>
             <Dropdown
@@ -488,10 +512,10 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' 
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
                 },
                 {
                   key: 'need',
@@ -527,10 +551,10 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' 
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
                 },
                 {
                   key: 'need',
@@ -555,7 +579,7 @@ export const AddProposal = () => {
               ]}
             />
           </Form.Field>
-          
+
           <Form.Field>
             <Header>Student RCR</Header>
             <Dropdown
@@ -566,10 +590,11 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'need',
                   value: 'Need',
@@ -610,10 +635,11 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'pending',
                   value: 'Pending',
@@ -666,7 +692,7 @@ export const AddProposal = () => {
             />
           </Form.Field>
         </div>
-      )
+      );
     }
   };
 
@@ -679,22 +705,42 @@ export const AddProposal = () => {
       >
         Add a New Proposal
       </Header>
-      <Segment basic style={{ justifyContent: 'space-evenly', maxWidth: '700px', margin: "0 auto" }}>
-        <Form>
+      <Segment
+        basic
+        style={{
+          justifyContent: 'space-evenly',
+          maxWidth: '700px',
+          margin: '0 auto',
+        }}
+      >
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Segment basic>
             <Divider horizontal>Main Information</Divider>
           </Segment>
 
-          <Form.Field>
-            <Header>Proposal Number</Header>
-            <Input
-              placeholder='Proposal Number'
-              value={prop_num}
-              name='prop_num'
-              onChange={(_, { value }) => setPropNum(value)}
-              type='text'
-            />
-          </Form.Field>
+          <Controller
+            name='prop_num'
+            control={control}
+            rules={{
+              required: true,
+              pattern: {
+                value: /^[^$%#@*&^]*$/,
+                message:
+                  'Proposal number required! Please ensure there are no extra special characters.',
+              },
+            }}
+            render={({ field }) => (
+              <Form.Field>
+                <Header>Proposal Number</Header>
+                <Input {...field} placeholder='Proposal Number' />
+              </Form.Field>
+            )}
+          />
+          {errors.prop_num && (
+            <Segment color='red' basic>
+              {errors.prop_num.message}
+            </Segment>
+          )}
 
           <Form.Field>
             <Header>Pre-Proposal</Header>
@@ -712,28 +758,53 @@ export const AddProposal = () => {
             />
           </Form.Field>
 
-          <Form.Field>
-            <Header>Title</Header>
-            <Input
-              placeholder='Title'
-              value={title}
-              name='title'
-              onChange={(_, { value }) => setTitle(value)}
-              type='text'
-            />
-          </Form.Field>
-  
-          <Form.Field>
-            <Header>Agency</Header>
-            <Input
-              placeholder='Agency'
-              value={agency}
-              name='agency'
-              onChange={(_, { value }) => setAgency(value)}
-              type='text'
-            />
-          </Form.Field>
-          
+          <Controller
+            name='title'
+            control={control}
+            rules={{
+              required: true,
+              pattern: {
+                value: /^[a-zA-Z\d .,'"/]{1,50}$/,
+                message:
+                  'Title is required! Please ensure there are no extra special characters.',
+              },
+            }}
+            render={({ field }) => (
+              <Form.Field>
+                <Header>Title</Header>
+                <Input {...field} placeholder='Title' />
+              </Form.Field>
+            )}
+          />
+          {errors.title && (
+            <Segment color='red' basic>
+              {errors.title.message}
+            </Segment>
+          )}
+
+          <Controller
+            name='agency'
+            control={control}
+            rules={{
+              pattern: {
+                value: /^[a-zA-Z\d .,'"/]{1,50}$/,
+                message:
+                  'Entered agency name does not match the format. Please ensure there are no extra special characters',
+              },
+            }}
+            render={({ field }) => (
+              <Form.Field>
+                <Header>Agency</Header>
+                <Input {...field} placeholder='Agency' />
+              </Form.Field>
+            )}
+          />
+          {errors.agency && (
+            <Segment color='red' basic>
+              {errors.agency.message}
+            </Segment>
+          )}
+
           <Form.Field>
             <Header>Funding Type</Header>
             <Dropdown
@@ -763,27 +834,50 @@ export const AddProposal = () => {
             />
           </Form.Field>
 
-          <Form.Field>
-            <Header>Investigator</Header>
-            <Input
-              placeholder='Investigator'
-              value={investigator}
-              name='investigator'
-              onChange={(_, { value }) => setInvestigator(value)}
-              type='text'
-            />
-          </Form.Field>
-
-          <Form.Field>
-            <Header>Email</Header>
-            <Input
-              placeholder='Email'
-              value={email}
-              name='email'
-              onChange={(_, { value }) => setEmail(value)}
-              type='text'
-            />
-          </Form.Field>
+          <Controller
+            name='investigator'
+            control={control}
+            rules={{
+              pattern: {
+                value: /^[a-zA-Z ,]{1,50}$/,
+                message:
+                  'Entered investigator name does not match the format! Please ensure there are no numbers or extra special characters',
+              },
+            }}
+            render={({ field }) => (
+              <Form.Field>
+                <Header>Investigator</Header>
+                <Input {...field} placeholder='Investigator'/>
+              </Form.Field>
+            )}
+          />
+          {errors.investigator && (
+            <Segment color='red' basic>
+              {errors.investigator.message}
+            </Segment>
+          )}
+          <Controller
+            name='email'
+            control={control}
+            rules={{
+              pattern: {
+                value:
+                  /(?:[a-z0-9!#$%&'*+\=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
+                message: 'Entered email does not match email format.',
+              },
+            }}
+            render={({ field }) => (
+              <Form.Field>
+                <Header>Email</Header>
+                <Input {...field} placeholder='Email'/>
+              </Form.Field>
+            )}
+          />
+          {errors.email && (
+            <Segment color='red' basic>
+              {errors.email.message}
+            </Segment>
+          )}
 
           <Form.Field>
             <Header>Department</Header>
@@ -799,17 +893,17 @@ export const AddProposal = () => {
           </Form.Field>
 
           <Form.Field>
-          <Header>Unit</Header>
-          <Dropdown
-            placeholder='Select Unit'
-            value={unit}
-            name='unit'
-            onChange={(_, { value }) => dealWithNameNumUnits(value)}
-            fluid
-            selection
-            options={units}
-          />
-        </Form.Field>
+            <Header>Unit</Header>
+            <Dropdown
+              placeholder='Select Unit'
+              value={unit}
+              name='unit'
+              onChange={(_, { value }) => dealWithNameNumUnits(value)}
+              fluid
+              selection
+              options={units}
+            />
+          </Form.Field>
 
           <Form.Field>
             <Header>Category</Header>
@@ -869,17 +963,17 @@ export const AddProposal = () => {
           </Form.Field>
 
           <Form.Field>
-          <Header>Pre Award POC</Header>
-          <Dropdown
-            placeholder='Select Pre Award POC'
-            value={pre_award_poc}
-            name='pre_award_poc'
-            onChange={(_, { value }) => dealWithNameNumPreAwardPOC(value)}
-            fluid
-            selection
-            options={preAwardPOCs}
-          />
-        </Form.Field>
+            <Header>Pre Award POC</Header>
+            <Dropdown
+              placeholder='Select Pre Award POC'
+              value={pre_award_poc}
+              name='pre_award_poc'
+              onChange={(_, { value }) => dealWithNameNumPreAwardPOC(value)}
+              fluid
+              selection
+              options={preAwardPOCs}
+            />
+          </Form.Field>
 
           <Form.Field>
             <Header>Internal Approval</Header>
@@ -891,10 +985,11 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'need',
                   value: 'Need',
@@ -930,10 +1025,11 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'need',
                   value: 'Need',
@@ -969,10 +1065,11 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'need',
                   value: 'Need',
@@ -1010,7 +1107,7 @@ export const AddProposal = () => {
           </Form.Field>
 
           <Form.Field>
-            <Header>Pre Award Status</Header> 
+            <Header>Pre Award Status</Header>
             <Dropdown
               placeholder='Pre Award Status'
               value={pre_award_status}
@@ -1019,10 +1116,11 @@ export const AddProposal = () => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'pending',
                   value: 'Pending',
@@ -1033,15 +1131,17 @@ export const AddProposal = () => {
                   value: 'Funded',
                   text: 'Funded',
                 },
-                { 
-                  key: 'not_funded', 
-                  value: 'Not Funded', 
-                  text: 'Not Funded' },
-                { 
-                  key: 'additional', 
-                  value: 'Additional', 
-                  text: 'Additional' },
-                
+                {
+                  key: 'not_funded',
+                  value: 'Not Funded',
+                  text: 'Not Funded',
+                },
+                {
+                  key: 'additional',
+                  value: 'Additional',
+                  text: 'Additional',
+                },
+
                 {
                   key: 'invited',
                   value: 'Invited',
@@ -1067,7 +1167,6 @@ export const AddProposal = () => {
             />
           </Form.Field>
           {awardAndContractSections()}
-
           <Segment
             basic
             style={{
@@ -1076,14 +1175,8 @@ export const AddProposal = () => {
               paddingRight: '0px',
             }}
           >
-            <Button
-              type='submit'
-              color='green'
-              onClick={() => {
-                addProposal();
-              }}
-            >
-              Submit
+            <Button color='green' type='submit'>
+              Add Proposal
             </Button>
             <Button
               type='reset'

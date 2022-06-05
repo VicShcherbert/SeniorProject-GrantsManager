@@ -14,12 +14,13 @@ import {
   TableHeader,
   TableHeaderCell,
   TableRow,
+  Segment
 } from 'semantic-ui-react';
 import { UnitModal } from '../../modal/unit-modal';
 
 export const ViewUnits = () => {
   const [unit, setList] = useState([]);
-  
+
   useEffect(() => {
     Axios.get('http://localhost:3001/get_units').then((response) => {
       setList(response.data);
@@ -27,13 +28,13 @@ export const ViewUnits = () => {
   }, []);
 
   return (
-    <div className='unit-table'>
+    <Segment basic style={{ marginTop: '30px', padding: '0px' }}>
       <Table celled>
         <TableHeader>
-        <TableRow>
+          <TableRow>
             <TableHeaderCell>Unit</TableHeaderCell>
-            <TableHeaderCell width = "1"></TableHeaderCell>
-        </TableRow>
+            <TableHeaderCell width='1'></TableHeaderCell>
+          </TableRow>
         </TableHeader>
         <TableBody>
           {unit.map((unit, key) => {
@@ -41,13 +42,13 @@ export const ViewUnits = () => {
               <TableRow>
                 <TableCell>{unit.name}</TableCell>
                 <TableCell>
-                    <UnitModal unit={unit} />
+                  <UnitModal unit={unit} />
                 </TableCell>
               </TableRow>
             );
           })}
         </TableBody>
       </Table>
-    </div>
+    </Segment>
   );
 };

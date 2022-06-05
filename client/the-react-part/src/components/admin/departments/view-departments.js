@@ -27,13 +27,13 @@ export const ViewDepartments = () => {
   }, []);
 
   return (
-      <div className='departments-table'>
+    <Segment basic style={{marginTop: '30px', padding: '0px'}}>
       <Table celled>
         <TableHeader>
           <Table.Row>
             <TableHeaderCell>ID</TableHeaderCell>
             <TableHeaderCell>Name</TableHeaderCell>
-            <TableHeaderCell width = "1"></TableHeaderCell>
+            <TableHeaderCell width='1'></TableHeaderCell>
           </Table.Row>
         </TableHeader>
         <TableBody>
@@ -43,13 +43,13 @@ export const ViewDepartments = () => {
                 <TableCell>{department.id}</TableCell>
                 <TableCell>{department.name}</TableCell>
                 <TableCell>
-                    <DepartmentModal department={department} />
+                  <DepartmentModal department={department} />
                 </TableCell>
               </TableRow>
             );
           })}
         </TableBody>
       </Table>
-      </div>
+    </Segment>
   );
 };

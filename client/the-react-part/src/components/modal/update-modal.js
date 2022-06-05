@@ -30,8 +30,23 @@ import {
   Segment,
   TextArea,
 } from 'semantic-ui-react';
+import { useForm, Controller } from 'react-hook-form';
 
 export const UpdateModal = ({ proposal }) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      prop_num: proposal.proposal_number,
+      title: proposal.title,
+      agency: proposal.agency,
+      investigator: proposal.investigator,
+      email: proposal.email,
+    },
+  });
+
   const [open, setOpen] = useState(false);
   const [unique_id] = useState(proposal.unique_id);
   const [prop_num, setPropNum] = useState(proposal.proposal_number);
@@ -49,21 +64,35 @@ export const UpdateModal = ({ proposal }) => {
   const [unit, setUnit] = useState(proposal.unit);
   const [unitList, setUnitList] = useState([]);
   const [category, setCategory] = useState(proposal.category);
-  const [amount_requested, setAmountRequested] = useState(proposal.amount_requested);
+  const [amount_requested, setAmountRequested] = useState(
+    proposal.amount_requested
+  );
   const [pre_award_poc, setPreAwardPOC] = useState(proposal.pre_award_poc);
   const [preAwardPOCList, setPreAwardPOCList] = useState([]);
-  const [internal_approval, setInternalApproval] = useState(proposal.internal_approval);
-  const [certification_assurance, setCertificationAssurance] = useState(proposal.certification_assurance);
-  const [financial_interest, setFinancialInterest] = useState(proposal.financial_interest);
+  const [internal_approval, setInternalApproval] = useState(
+    proposal.internal_approval
+  );
+  const [certification_assurance, setCertificationAssurance] = useState(
+    proposal.certification_assurance
+  );
+  const [financial_interest, setFinancialInterest] = useState(
+    proposal.financial_interest
+  );
   const [notes, setNotes] = useState(proposal.notes);
-  const [pre_award_status, setPreAwardStatus] = useState(proposal.pre_award_status);
+  const [pre_award_status, setPreAwardStatus] = useState(
+    proposal.pre_award_status
+  );
   const [amount_funded, setAmountFunded] = useState(proposal.amount_funded);
   const [grant_type, setGrantType] = useState(proposal.grant_type);
-  const [contract_number, setContractNumber] = useState(proposal.contract_number);
+  const [contract_number, setContractNumber] = useState(
+    proposal.contract_number
+  );
   const [indirect_cost, setIndirectCost] = useState(proposal.indirect_cost);
   const [sponsor_id, setSponsorId] = useState(proposal.sponsor_id);
   const [index_number, setIndexNumber] = useState(proposal.index_number);
-  const [entered_sharepoint, setSharepoint] = useState(proposal.entered_sharepoint);
+  const [entered_sharepoint, setSharepoint] = useState(
+    proposal.entered_sharepoint
+  );
   const [post_award_poc, setPostAwardPOC] = useState(proposal.post_award_poc);
   const [postAwardPOCList, setPostAwardPOCList] = useState([]);
   const [irb, setIRB] = useState(proposal.irb_approval);
@@ -73,7 +102,9 @@ export const UpdateModal = ({ proposal }) => {
   const [student_rcr_notes, setRCRNotes] = useState(proposal.rcr_notes);
   const [subawards, setSubawards] = useState(proposal.subawards);
   const [subawardees, setSubawardees] = useState(proposal.subawardees);
-  const [subaward_contract_number, setSubawardContractNumber] = useState(proposal.subaward_contract_number);
+  const [subaward_contract_number, setSubawardContractNumber] = useState(
+    proposal.subaward_contract_number
+  );
   const [subaward_notes, setSubawardNotes] = useState(proposal.subaward_notes);
   const [files_id] = useState(0);
 
@@ -130,8 +161,7 @@ export const UpdateModal = ({ proposal }) => {
   const dealWithNameNumPreAwardPOC = (value) => {
     setPreAwardPOC(value);
     for (var i = 0; i < preAwardPOCs.length; i++) {
-      if (preAwardPOCs[i].value === value)
-        setPreAwardPOC(preAwardPOCs[i].key);
+      if (preAwardPOCs[i].value === value) setPreAwardPOC(preAwardPOCs[i].key);
     }
   };
 
@@ -146,8 +176,7 @@ export const UpdateModal = ({ proposal }) => {
   const dealWithNameNumUnits = (value) => {
     setUnit(value);
     for (var i = 0; i < units.length; i++) {
-      if (units[i].value === value)
-        setPostAwardPOC(units[i].key);
+      if (units[i].value === value) setPostAwardPOC(units[i].key);
     }
   };
 
@@ -221,65 +250,68 @@ export const UpdateModal = ({ proposal }) => {
     setProjectEnd(projectEndNew);
   };
 
-  const handleUpdate = (unique_id) => {
+  const onSubmit = (data) => {
     var result = window.confirm('Are you sure you want to update?');
-    if (result && departmentList) {
-      Axios.put('http://localhost:3001/update', {
-        unique_id: unique_id,
-        prop_num: prop_num, 
-        pre_prop: pre_prop,
-        pre_prop_num: pre_prop_num,
-        title: title,
-        agency: agency,
-        fund_type: fund_type,
-        cfda: cfda,
-        investigator: investigator,
-        email: email,
-        department_number: department_number,
-        department_name: department_name,
-        unit: unit,
-        category: category,
-        amount_requested: amount_requested,
-        date_submitted: date_submitted,
-        pre_award_poc: pre_award_poc,
-        internal_approval: internal_approval,
-        certification_assurance: certification_assurance,
-        financial_interest: financial_interest,
-        notes: notes,
-        pre_award_status: pre_award_status,
-        date_of_notice: date_of_notice,
-        amount_funded: amount_funded,
-        project_start: project_start,
-        project_end: project_end,
-        grant_type: grant_type,
-        contract_number: contract_number,
-        indirect_cost: indirect_cost,
-        sponsor_id: sponsor_id,
-        index_number: index_number,
-        entered_sharepoint: entered_sharepoint,
-        post_award_poc: post_award_poc,
-        irb: irb,
-        iacuc: iacuc,
-        ibc: ibc,
-        rcr: rcr,
-        student_rcr_notes: student_rcr_notes,
-        subawards: subawards,
-        subawardees: subawardees,
-        subaward_contract_number: subaward_contract_number,
-        subaward_notes: subaward_notes,
-        files_id: files_id
-      }).then((response) => {
-        alert('Entry has been updated');
-        window.location.reload();
-      });
-    }
+    console.log(data.prop_num);
+    console.log(prop_num);
+    // console.log(prop.unique_id);
+    // if (result && departmentList) {
+    //   Axios.put('http://localhost:3001/update', {
+    //     unique_id: unique_id,
+    //     prop_num: data.prop_num,
+    //     pre_prop: pre_prop,
+    //     pre_prop_num: pre_prop_num,
+    //     title: data.title,
+    //     agency: data.agency,
+    //     fund_type: fund_type,
+    //     cfda: cfda,
+    //     investigator: data.investigator,
+    //     email: data.email,
+    //     department_number: department_number,
+    //     department_name: department_name,
+    //     unit: unit,
+    //     category: category,
+    //     amount_requested: amount_requested,
+    //     date_submitted: date_submitted,
+    //     pre_award_poc: pre_award_poc,
+    //     internal_approval: internal_approval,
+    //     certification_assurance: certification_assurance,
+    //     financial_interest: financial_interest,
+    //     notes: notes,
+    //     pre_award_status: pre_award_status,
+    //     date_of_notice: date_of_notice,
+    //     amount_funded: amount_funded,
+    //     project_start: project_start,
+    //     project_end: project_end,
+    //     grant_type: grant_type,
+    //     contract_number: contract_number,
+    //     indirect_cost: indirect_cost,
+    //     sponsor_id: sponsor_id,
+    //     index_number: index_number,
+    //     entered_sharepoint: entered_sharepoint,
+    //     post_award_poc: post_award_poc,
+    //     irb: irb,
+    //     iacuc: iacuc,
+    //     ibc: ibc,
+    //     rcr: rcr,
+    //     student_rcr_notes: student_rcr_notes,
+    //     subawards: subawards,
+    //     subawardees: subawardees,
+    //     subaward_contract_number: subaward_contract_number,
+    //     subaward_notes: subaward_notes,
+    //     files_id: files_id
+    //   }).then((response) => {
+    //     alert('Entry has been updated');
+    //     window.location.reload();
+    //   });
+    // }
   };
 
   const deleteProposal = (unique_id) => {
     var result = window.confirm('Are you sure you want to delete?');
     if (result) {
       Axios.delete('http://localhost:3001/delete_proposal', {
-        data: {unique_id: unique_id},
+        data: { unique_id: unique_id },
       }).then((response) => {
         alert('Entry has been deleted');
         window.location.reload();
@@ -288,10 +320,13 @@ export const UpdateModal = ({ proposal }) => {
   };
 
   const awardAndContractSections = () => {
-    if((pre_award_status.includes('Funded') || pre_award_status.includes('Additional')) && !pre_award_status.includes('Not')){
+    if (
+      (pre_award_status.includes('Funded') ||
+        pre_award_status.includes('Additional')) &&
+      !pre_award_status.includes('Not')
+    ) {
       return (
         <div>
-          
           <Segment basic>
             <Divider horizontal>Award</Divider>
           </Segment>
@@ -339,10 +374,11 @@ export const UpdateModal = ({ proposal }) => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'contract',
                   value: 'C - Contract',
@@ -353,10 +389,10 @@ export const UpdateModal = ({ proposal }) => {
                   value: 'CA - Cooperative Agreement',
                   text: 'CA - Cooperative Agreement',
                 },
-                { 
-                  key: 'grant', 
-                  value: 'G - Grant', 
-                  text: 'G - Grant' 
+                {
+                  key: 'grant',
+                  value: 'G - Grant',
+                  text: 'G - Grant',
                 },
                 {
                   key: 'interagency_agreement',
@@ -377,7 +413,7 @@ export const UpdateModal = ({ proposal }) => {
                   key: 'subcontract',
                   value: 'S - Subcontract',
                   text: 'S - Subcontract',
-                }
+                },
               ]}
             />
           </Form.Field>
@@ -436,10 +472,11 @@ export const UpdateModal = ({ proposal }) => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'not yet',
                   value: 'Not Yet',
@@ -458,24 +495,24 @@ export const UpdateModal = ({ proposal }) => {
               ]}
             />
           </Form.Field>
-          
+
           <Form.Field>
-          <Header>Post Award POC</Header>
-          <Dropdown
-            placeholder='Select Post Award POC'
-            value={post_award_poc}
-            name='post_award_poc'
-            onChange={(_, { value }) => dealWithNameNumPostAwardPOC(value)}
-            fluid
-            selection
-            options={postAwardPOCs}
-          />
-        </Form.Field>
+            <Header>Post Award POC</Header>
+            <Dropdown
+              placeholder='Select Post Award POC'
+              value={post_award_poc}
+              name='post_award_poc'
+              onChange={(_, { value }) => dealWithNameNumPostAwardPOC(value)}
+              fluid
+              selection
+              options={postAwardPOCs}
+            />
+          </Form.Field>
 
           <Segment basic>
             <Divider horizontal>Compliance and Contracting</Divider>
           </Segment>
-          
+
           <Form.Field>
             <Header>IRB Approval</Header>
             <Dropdown
@@ -486,10 +523,10 @@ export const UpdateModal = ({ proposal }) => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' 
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
                 },
                 {
                   key: 'need',
@@ -514,7 +551,7 @@ export const UpdateModal = ({ proposal }) => {
               ]}
             />
           </Form.Field>
-          
+
           <Form.Field>
             <Header>IACUC Approval</Header>
             <Dropdown
@@ -525,10 +562,10 @@ export const UpdateModal = ({ proposal }) => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' 
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
                 },
                 {
                   key: 'need',
@@ -564,10 +601,10 @@ export const UpdateModal = ({ proposal }) => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' 
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
                 },
                 {
                   key: 'need',
@@ -592,7 +629,7 @@ export const UpdateModal = ({ proposal }) => {
               ]}
             />
           </Form.Field>
-          
+
           <Form.Field>
             <Header>Student RCR</Header>
             <Dropdown
@@ -603,10 +640,11 @@ export const UpdateModal = ({ proposal }) => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'need',
                   value: 'Need',
@@ -647,10 +685,11 @@ export const UpdateModal = ({ proposal }) => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'pending',
                   value: 'Pending',
@@ -703,7 +742,7 @@ export const UpdateModal = ({ proposal }) => {
             />
           </Form.Field>
         </div>
-      )
+      );
     }
   };
 
@@ -717,22 +756,20 @@ export const UpdateModal = ({ proposal }) => {
       <Modal.Header>{proposal.title}</Modal.Header>
       <Modal.Content>
         {proposal.unique_id ? (
-          <Label size='large'>
-            Proposal ID: {proposal.unique_id}
-          </Label>
+          <Label size='large'>Proposal ID: {proposal.unique_id}</Label>
         ) : null}
         {proposal.pre_proposal_number ? (
           <Label size='large'>
             Pre-Proposal Number: {proposal.pre_proposal_number}
           </Label>
         ) : null}
-        
-        <Form>
+
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Segment basic>
             <Divider horizontal>Main Information</Divider>
           </Segment>
 
-          <Form.Field>
+          {/* <Form.Field>
             <Header>Proposal Number</Header>
             <Input
               placeholder='Proposal Number'
@@ -741,7 +778,37 @@ export const UpdateModal = ({ proposal }) => {
               onChange={(_, { value }) => setPropNum(value)}
               type='text'
             />
-          </Form.Field>
+          </Form.Field> */}
+
+          <Controller
+            name='prop_num'
+            control={control}
+            rules={{
+              required: true,
+              pattern: {
+                value: /^[^$%#@*&^]*$/,
+                message:
+                  'Proposal number required! Make sure there are no extra characters',
+              },
+            }}
+            render={({ field }) => (
+              <Form.Field>
+                <Header>Proposal Number</Header>
+                <Input
+                  {...field}
+                  placeholder='Proposal Number'
+                  value={prop_num}
+                  name='prop_num'
+                  onChange={(_, { value }) => setPropNum(value)}
+                />
+              </Form.Field>
+            )}
+          />
+          {errors.prop_num && (
+            <Segment color='red' basic>
+              {errors.prop_num.message}
+            </Segment>
+          )}
 
           <Form.Field>
             <Header>Pre-Proposal</Header>
@@ -780,7 +847,7 @@ export const UpdateModal = ({ proposal }) => {
               type='text'
             />
           </Form.Field>
-          
+
           <Form.Field>
             <Header>Funding Type</Header>
             <Dropdown
@@ -846,17 +913,17 @@ export const UpdateModal = ({ proposal }) => {
           </Form.Field>
 
           <Form.Field>
-          <Header>Unit</Header>
-          <Dropdown
-            placeholder='Select Unit'
-            value={unit}
-            name='unit'
-            onChange={(_, { value }) => dealWithNameNumUnits(value)}
-            fluid
-            selection
-            options={units}
-          />
-        </Form.Field>
+            <Header>Unit</Header>
+            <Dropdown
+              placeholder='Select Unit'
+              value={unit}
+              name='unit'
+              onChange={(_, { value }) => dealWithNameNumUnits(value)}
+              fluid
+              selection
+              options={units}
+            />
+          </Form.Field>
 
           <Form.Field>
             <Header>Category</Header>
@@ -916,17 +983,17 @@ export const UpdateModal = ({ proposal }) => {
           </Form.Field>
 
           <Form.Field>
-          <Header>Pre Award POC</Header>
-          <Dropdown
-            placeholder='Select Pre Award POC'
-            value={pre_award_poc}
-            name='pre_award_poc'
-            onChange={(_, { value }) => dealWithNameNumPreAwardPOC(value)}
-            fluid
-            selection
-            options={preAwardPOCs}
-          />
-        </Form.Field>
+            <Header>Pre Award POC</Header>
+            <Dropdown
+              placeholder='Select Pre Award POC'
+              value={pre_award_poc}
+              name='pre_award_poc'
+              onChange={(_, { value }) => dealWithNameNumPreAwardPOC(value)}
+              fluid
+              selection
+              options={preAwardPOCs}
+            />
+          </Form.Field>
 
           <Form.Field>
             <Header>Internal Approval</Header>
@@ -938,10 +1005,11 @@ export const UpdateModal = ({ proposal }) => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'need',
                   value: 'Need',
@@ -977,10 +1045,11 @@ export const UpdateModal = ({ proposal }) => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'need',
                   value: 'Need',
@@ -1016,10 +1085,11 @@ export const UpdateModal = ({ proposal }) => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'need',
                   value: 'Need',
@@ -1057,7 +1127,7 @@ export const UpdateModal = ({ proposal }) => {
           </Form.Field>
 
           <Form.Field>
-            <Header>Pre Award Status</Header> 
+            <Header>Pre Award Status</Header>
             <Dropdown
               placeholder='Pre Award Status'
               value={pre_award_status}
@@ -1066,10 +1136,11 @@ export const UpdateModal = ({ proposal }) => {
               fluid
               selection
               options={[
-                { 
-                  key: 'none', 
-                  value: '', 
-                  text: 'None' },
+                {
+                  key: 'none',
+                  value: '',
+                  text: 'None',
+                },
                 {
                   key: 'pending',
                   value: 'Pending',
@@ -1080,15 +1151,17 @@ export const UpdateModal = ({ proposal }) => {
                   value: 'Funded',
                   text: 'Funded',
                 },
-                { 
-                  key: 'not_funded', 
-                  value: 'Not Funded', 
-                  text: 'Not Funded' },
-                { 
-                  key: 'additional', 
-                  value: 'Additional', 
-                  text: 'Additional' },
-                
+                {
+                  key: 'not_funded',
+                  value: 'Not Funded',
+                  text: 'Not Funded',
+                },
+                {
+                  key: 'additional',
+                  value: 'Additional',
+                  text: 'Additional',
+                },
+
                 {
                   key: 'invited',
                   value: 'Invited',
@@ -1114,22 +1187,25 @@ export const UpdateModal = ({ proposal }) => {
             />
           </Form.Field>
           {awardAndContractSections()}
+          <Button color='green' type='submit'>
+            Update
+          </Button>
+          <Button color='orange' onClick={() => dealWithCancel()}>
+            Cancel
+          </Button>
+          <Button
+            color='red'
+            onClick={() => deleteProposal(proposal.unique_id)}
+          >
+            Delete
+          </Button>
         </Form>
       </Modal.Content>
-      <Modal.Actions>
-      <Button
-          color='green'
-          onClick={() => handleUpdate(proposal.unique_id)}
-        >
+      {/* <Modal.Actions> */}
+      {/* <Button color='green' onClick={onSubmit}>
           Update
-        </Button>
-        <Button color='orange' onClick={() => dealWithCancel()}>
-          Cancel
-        </Button>
-        <Button color='red' onClick={() => deleteProposal(proposal.unique_id)}>
-          Delete
-        </Button>
-      </Modal.Actions>
+        </Button> */}
+      {/* </Modal.Actions> */}
     </Modal>
   );
 };
