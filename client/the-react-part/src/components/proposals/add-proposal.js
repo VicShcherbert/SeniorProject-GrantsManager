@@ -1,11 +1,11 @@
 /*
-* Add-proposal.js adds a proposals to the database.
-*
-* NOTE: department, pre-award poc, post-award poc, and units are put into lists from their respective SQL tables.
-* This allows drop down lists to be populated by database records rather than hard coded values.
-*
-* NOTE: Per client's request, Award and Contract section is only displayed if pre-award status is 'funded' or 'additional'.
-*/
+ * Add-proposal.js adds a proposals to the database.
+ *
+ * NOTE: department, pre-award poc, post-award poc, and units are put into lists from their respective SQL tables.
+ * This allows drop down lists to be populated by database records rather than hard coded values.
+ *
+ * NOTE: Per client's request, Award and Contract section is only displayed if pre-award status is 'funded' or 'additional'.
+ */
 
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
@@ -169,7 +169,6 @@ export const AddProposal = () => {
   }, []);
 
   const onSubmit = (data) => {
-    console.log(data);
     Axios.post('http://localhost:3001/add_proposal', {
       unique_id: unique_id,
       prop_num: data.prop_num,
@@ -847,7 +846,7 @@ export const AddProposal = () => {
             render={({ field }) => (
               <Form.Field>
                 <Header>Investigator</Header>
-                <Input {...field} placeholder='Investigator'/>
+                <Input {...field} placeholder='Investigator' />
               </Form.Field>
             )}
           />
@@ -869,7 +868,7 @@ export const AddProposal = () => {
             render={({ field }) => (
               <Form.Field>
                 <Header>Email</Header>
-                <Input {...field} placeholder='Email'/>
+                <Input {...field} placeholder='Email' />
               </Form.Field>
             )}
           />
