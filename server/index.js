@@ -575,7 +575,6 @@ app.post('/add_unit', (req, res) => {
 });
 
 // Reporting Queries
-// currently static with the dates, change in future!!
 // per Kristyl's request, we have to be dynamic because "Unit" is likely to change at anytime in future. 
 app.post('/get_report', (req, res) => {
   const startDate = req.body.startDate;
