@@ -188,3 +188,6 @@ The current login security has a flaw where the user may alter the in-memory *id
 
 **5. Credential Security**
 The application currently has the database connection details hardcoded along with the google authentication client id hardcoded. These should be moved into an external file and imported as variables instead.
+
+**6. User Input Validation**
+User input validation has been partially completed but will need to be finished in the update modals that are used throughout the application.
