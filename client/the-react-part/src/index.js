@@ -1,11 +1,22 @@
+/*
+* Index.js provides routing to different pages, including paths for the separate tabs within the application.
+*
+* UserAccessMenuItem verifies if current user has an id of '1', which denotes admin privilege.
+* If user has admin privilege, they will have access to the admin screen. Otherwise, user will have id of 0, and
+* will not have access to admin screen. 
+*
+* NOTE: unique_id within Users table in the database is not equivalent to id. 
+* ID denotes user privilege, whereas unique_id is a means to keep a user from deleting themselves from the databse
+* (this has not yet been implimented, and users currently can delete themselves from the database).
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Link } from 'react-router-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './style.css';
 import { ViewProposals } from './components/proposals/view-proposals';
 import { AddProposal } from './components/proposals/add-proposal';
-import { Menu, MenuItem, Segment } from 'semantic-ui-react';
+import { Menu, MenuItem } from 'semantic-ui-react';
 import { Title } from './components/title/title';
 import { Dashboard } from './components/dashboard/dashboard';
 import { Report } from './components/report/report';
@@ -29,9 +40,9 @@ const App = () => {
   const userAccessMenuItem = () => {
     if (sessionStorage.getItem('id') === '1') {
       return (
-        <MenuItem id='nav-link'>
+        <MenuItem onClick={event =>  window.location.href='/admin'} id='nav-link'>
           <div id='icon'><MdOutlineAdminPanelSettings id='icon'/></div>
-          <Link to="/admin">Admin</Link>
+          Admin
         </MenuItem>
       );
     }
@@ -46,25 +57,25 @@ const App = () => {
       <Title />
       <IconContext.Provider value = {{ color: '#5e90c5', size: '1.5em' }}>
       <Menu compact style={{ display: 'flex', justifyContent: 'center' }}>
-        <MenuItem id='nav-link'>
+        <MenuItem onClick={event =>  window.location.href='/'} id='nav-link'>
           <div id='icon'><AiOutlineDashboard id='icon'/></div>
-          <Link to='/'>Dashboard </Link>
+          Dashboard
         </MenuItem>
-        <MenuItem id='nav-link'>
+        <MenuItem onClick={event =>  window.location.href='/proposals'} id='nav-link'>
           <div id='icon'><AiOutlineUnorderedList id='icon'/></div>
-          <Link to='/proposals'>Proposals</Link>
+          Proposals
         </MenuItem>
-        <MenuItem id='nav-link'>
+        <MenuItem onClick={event =>  window.location.href='/add-proposal'} id='nav-link'>
           <div id='icon'><AiOutlineFileAdd id='icon'/></div>
-          <Link to='/add-proposal'>Add Proposal</Link>
+          Add Proposal
         </MenuItem>
-        <MenuItem id='nav-link'>
+        <MenuItem onClick={event =>  window.location.href='/reporting'} id='nav-link'>
           <div id='icon'><BsGraphUp id='icon'/></div>
-          <Link to='/reporting'>Reporting</Link>
+          Reporting
         </MenuItem>
-        <MenuItem id='nav-link'>
+        <MenuItem onClick={event =>  window.location.href='/search-proposals'} id='nav-link'>
           <div id='icon'><AiOutlineSearch id='icon'/></div>
-          <Link to='/search-proposals'>Search</Link>
+          Search
         </MenuItem>
         {userAccessMenuItem()}
         <MenuItem onClick={logout} id='nav-link'>
@@ -88,7 +99,5 @@ const App = () => {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
   <App />
-  // </React.StrictMode>
 );

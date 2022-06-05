@@ -1,3 +1,13 @@
+/*
+* Unit-modal.js provides update and delete methods for units. Modal provides 'pop-up' window
+* when trigger is initiated.
+*
+* handleUpdate and deleteUnit use unique_id field to send put and delete requests. SQL queries can be found
+* within 'index.js' file of the 'server' directory.
+*
+* dealWithCancel saves current values and closes modal window
+*/
+
 import Axios from 'axios';
 import React, { useState } from 'react';
 import {

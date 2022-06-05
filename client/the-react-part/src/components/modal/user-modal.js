@@ -1,3 +1,15 @@
+/*
+* User-modal.js provides update and delete methods for users. Modal provides 'pop-up' window
+* when trigger is initiated.
+*
+* handleUpdate and deleteUser use unique_id field to send put and delete requests. SQL queries can be found
+* within 'index.js' file of the 'server' directory.
+*
+* dealWithCancel saves current values and closes modal window
+*
+* NOTE: Users currently have ability to delete themselves from database. This should not be allowed and must be fixed.
+*/
+
 import Axios from 'axios';
 import React, { useState } from 'react';
 import {

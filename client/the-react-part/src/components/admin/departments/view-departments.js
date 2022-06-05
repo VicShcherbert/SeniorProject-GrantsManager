@@ -1,8 +1,13 @@
+/*
+* View-departments.js makes a get request to view all departments within the Departments table in the SQL database.
+* The SQL query can be found in index.js within the 'server' directory of the application.
+*
+* DepartmentModal is called from department-modal.js to provide update and delete methods.
+*/
+
 import React, { useEffect, useState } from 'react';
-import Axios from 'axios'; //when adding something to the database
+import Axios from 'axios';
 import {
-  Header,
-  Segment,
   Table,
   TableBody,
   TableCell,

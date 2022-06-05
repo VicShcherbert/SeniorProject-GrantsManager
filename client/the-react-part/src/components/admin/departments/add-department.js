@@ -1,7 +1,18 @@
+<<<<<<< HEAD
 import React from 'react';
 import Axios from 'axios'; //when adding something to the database
 import { Form, Header, Segment, Input } from 'semantic-ui-react';
 import { useForm, Controller } from 'react-hook-form';
+=======
+/*
+* Add-department.js makes a post request to add a department to the Departments table in the SQL database.
+* The SQL query can be found in index.js within the 'server' directory of the application. 
+*/
+
+import React, { useState } from 'react';
+import Axios from 'axios';
+import { Form, Header, Input } from 'semantic-ui-react';
+>>>>>>> origin/main
 
 export const AddDepartment = () => {
   const {

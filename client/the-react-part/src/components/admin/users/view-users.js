@@ -1,5 +1,12 @@
+/*
+* View-users.js makes a get request to view all users within the Users table in the SQL database.
+* The SQL query can be found in index.js within the 'server' directory of the application.
+*
+* UserModal is called from user-modal.js to provide update and delete methods.
+*/
+
 import React, { useEffect, useState } from 'react';
-import Axios from 'axios'; //when adding something to the database
+import Axios from 'axios';  
 import {
   Icon,
   Table,

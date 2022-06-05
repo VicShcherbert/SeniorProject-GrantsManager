@@ -1,3 +1,8 @@
+/*
+* Admin.js provides order and layout of admin tab. Table formatting takes place in respective files
+* (e.g. view-users.js, add-user.js, etc) and the style.css file.
+*/
+
 import React from 'react';
 import { AddUser } from './users/add-user';
 import { ViewUsers } from './users/view-users';

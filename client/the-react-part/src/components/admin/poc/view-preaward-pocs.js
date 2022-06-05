@@ -1,5 +1,12 @@
+/*
+* View-preaward-pocs.js makes a get request to view all pre award pocs within the Pre_Award_Poc table in the SQL database.
+* The SQL query can be found in index.js within the 'server' directory of the application.
+*
+* PreAwardModal is called from pre-award-modal.js to provide update and delete methods.
+*/
+
 import React, { useEffect, useState } from 'react';
-import Axios from 'axios'; //when adding something to the database
+import Axios from 'axios';
 import {
   Table,
   TableBody,

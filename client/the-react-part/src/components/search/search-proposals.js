@@ -1,3 +1,20 @@
+/*
+* Search-proposals.js provides search functions based on proposal number, proposal title, and any combination of
+* investigator, department name, or department number.
+*
+* Query logic can be found in index.js file inside 'server' directory
+* 
+* NOTE: this search works by querying the database each time a request is made. A more efficient search could be built
+* by loading the entire proposal set once, then filtering results based on user input.
+*
+* NOTE: In this search, proposal number and title take precedence over department name, number, or investigator.
+* The last three can be used in combination to filer results (i.e. all proposals from the "chemistry" dept. with a 
+* given investigator)
+*
+* NOTE: Proposal number and title must be exact matches, however other fields may be partially entered. For example, if
+* user submits 'chem' or 'hemistr' into the department field, all proposals under the 'Chemistry' department will be returned.
+*/
+
 import React, { useState } from 'react';
 import Axios from 'axios';
 import { Form } from 'semantic-ui-react';

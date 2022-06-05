@@ -33,14 +33,14 @@ cursor: pointer;
 }
 
 .site-title {
-font-size: 40px;
-padding-top: 20px;
-padding-bottom: 20px;
-margin: auto;
-text-align: center;
-color: white;
-background-color: #A10022;
-border-bottom: solid 5px #6D6E71;
+height: 170px;
+background-image: url(header.jpeg);
+background-color: #bc122a;
+background-repeat: no-repeat;
+background-size: auto;
+background-position: 50%, 50%;
+background-size: 550px 190px;
+border-bottom: solid 1px grey;
 padding: 50px 0 50px 0;
 }
 
@@ -60,12 +60,6 @@ max-width: 100%;
 float: center;
 margin: auto;
 }
-
-/* .unit-table{
-  display: "flex";
-  justify-content: "center";
-  align-items: "center"; 
-} */
 
 .add-unit{
   max-width: 100%;
@@ -120,7 +114,6 @@ margin-bottom: 50px;
 }
 
 #add-proposal {
-/* display: flex; */
 justify-content: center;
 }
 

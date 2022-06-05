@@ -2,6 +2,14 @@ import React from 'react';
 import Axios from 'axios'; //when adding something to the database
 import { Form, Segment, Header, Input } from 'semantic-ui-react';
 import { useForm, Controller } from 'react-hook-form';
+/*
+* Add-postaward-poc.js makes a post request to add a post award poc to the Post_Award_Poc table in the SQL database.
+* The SQL query can be found in index.js within the 'server' directory of the application. 
+*/
+
+import React, { useState } from 'react';
+import Axios from 'axios';
+import { Form } from 'semantic-ui-react';
 
 export const AddPostAwardPOC = () => {
   const {

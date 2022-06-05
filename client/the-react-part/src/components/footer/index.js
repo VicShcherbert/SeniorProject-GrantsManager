@@ -1,3 +1,7 @@
+/*
+* Footer.js provides official title of grants office and current year to be added to the bottom of each page
+*/
+
 import React from 'react';
 import { Segment } from 'semantic-ui-react';
 
