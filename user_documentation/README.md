@@ -61,7 +61,7 @@ To navigate throughout the application, a navigation bar will be shown at the to
 
 ![Proposal Modal](proposalsModal.JPG)
 
-**To edit a proposal, refer to the section on [Editing Proposals](#editing-proposals).**
+**To edit a proposal, refer to the section on [Editing Proposals](#editing-and-deleting-proposals).**
 
 ## SEARCHING PROPOSALS
 **To search for one or more proposals move to the "Search" page by clicking the button in the navigation bar. You will see all of the fields as shown below.**
