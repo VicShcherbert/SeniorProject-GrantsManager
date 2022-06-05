@@ -9,7 +9,7 @@ var d = new Date();
 var fullYear = d.getFullYear();
 
 export const Footer = () => (
-  <Segment textAlign='center' inverted color='grey'>
-    Office of Grants and Research Development | {fullYear}
-  </Segment>
+  <div class = 'footer'>
+    <Segment textAlign='center' inverted color='grey'>Office of Grants and Research Development | {fullYear}</Segment>
+  </div>
 );
