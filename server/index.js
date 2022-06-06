@@ -576,6 +576,8 @@ app.post('/add_unit', (req, res) => {
 
 // Reporting Queries
 // per Kristyl's request, we have to be dynamic because "Unit" is likely to change at anytime in future. 
+
+// /get_report gets all proposals in the table within the given dates
 app.post('/get_report', (req, res) => {
   const startDate = req.body.startDate;
   const endDate = req.body.endDate;
@@ -592,14 +594,14 @@ app.post('/get_report', (req, res) => {
     });
 });
 
-// Get number of awards given by unit
+// Get number of awards awarded for each unit
 app.post('/get_units', (req, res) => {
   const startDate = req.body.startDate;
   const endDate = req.body.endDate;
   db.query(
     `SELECT unit, COUNT(*) AS numawards
     FROM Proposals
-    WHERE date_of_notice>= ? AND date_of_notice<= ? AND unit != '' AND grant_type != ''
+    WHERE date_of_notice>= ? AND date_of_notice<= ? AND unit != '' AND grant_type != '' AND pre_award_status != "Pending"
     GROUP BY unit
     ORDER BY unit`,
     [startDate, endDate], (err, result) => {
@@ -608,6 +610,7 @@ app.post('/get_units', (req, res) => {
     });
 });
 
+// Get amount requested, amount funded for the entire unit
 app.post('/get_unit_totals', (req, res) => {
   const startDate = req.body.startDate;
   const endDate = req.body.endDate;
@@ -622,6 +625,7 @@ app.post('/get_unit_totals', (req, res) => {
     });
 });
 
+// Get amount requested, amount funded for each unit/grant_type pairing
 app.post('/get_gt_totals', (req, res) => {
   const startDate = req.body.startDate;
   const endDate = req.body.endDate;

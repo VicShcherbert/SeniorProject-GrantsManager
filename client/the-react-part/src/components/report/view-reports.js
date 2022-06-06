@@ -1,3 +1,20 @@
+/*
+"view-reports.js" is where the bulk of the reporting work is done. 
+The logic for the reporting is essentially - 
+
+For each unit type:
+      New Table
+      For each grant type:
+          For each row:
+              Display row
+          Display Amount Requested, Award Amount for that grant type
+      Display Amount Requested, Award amount for that unit
+      end of table
+
+Uses Semantic UI React for table elements
+Uses Axios to perform SQL queries within the server/index..js file.
+All queries used for reporting will appear at the bottom of that file, under the "Reporting Queries" comment. 
+*/
 import React, { useState } from 'react';
 import Axios from 'axios';
 import { 
@@ -12,16 +29,19 @@ import {
     Input,
     Header
  } from 'semantic-ui-react';
- // import '../../style.css';
 
 export const Reports = () => {
+    // getReport has all table entries within the time frame
     const [getReport, setReport] = useState([]);
+
+    // getUnits has the count of how many awards were given for a unit
     const [getUnits, setUnits] = useState([]);
    
     // get start, end dates for proposal
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
+    // amount_requested, amount_funded totals for each unit, grant_type within unit
     const [unitTotals, setUnitTotals] = useState([]);
     const [gtTotals, setGtTotals] = useState([]);
 
@@ -59,15 +79,7 @@ export const Reports = () => {
 
     } // end setInfo 
 
-    // For each unit, have a bold row at top of page declaring Unit and number of awards for that unit
-
-    // For each unit type:
-    //      New Table
-    //      For each grant type:
-    //          For each row:
-    //              Display row
-    //          Display Amount Requested, Award Amount for that grant type
-
+    // formats the amounts into USD formatting
     var formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
@@ -111,6 +123,7 @@ export const Reports = () => {
             {getReport.length > 0 ? (
             <Segment basic>
                 {getUnits.map((row1, index) => {
+                    // *** For each unit, new table ***
                     var unittotals = unitTotals.filter(function(row){
                         return row.unit == row1.unit;
                     })
@@ -119,9 +132,9 @@ export const Reports = () => {
                         <TableHeader>
                             <TableRow style={{fontSize: 'large'}}><TableHeaderCell colSpan='12' textAlign='center'>{row1.unit} - {row1.numawards} Awards</TableHeaderCell></TableRow>
                             <TableRow>
-                                <TableHeaderCell>Grant Type</TableHeaderCell>
+                                <TableHeaderCell width="two">Grant Type</TableHeaderCell>
                                 <TableHeaderCell>Proposal Number</TableHeaderCell>
-                                <TableHeaderCell>Title</TableHeaderCell>
+                                <TableHeaderCell width='three'>Title</TableHeaderCell>
                                 <TableHeaderCell>Agency</TableHeaderCell>
                                 <TableHeaderCell>Funding Type</TableHeaderCell>
                                 <TableHeaderCell>Project Director</TableHeaderCell>
