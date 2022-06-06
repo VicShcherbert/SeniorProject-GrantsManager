@@ -38,14 +38,9 @@ The table contains a column with a "View" button for each proposal that will ope
 The add proposal page allows the user to create a new proposal and add it to the database. The "Award" and "Compliance and Contracting" sections of the proposal will only display if the user has selected "Funded" or "Additional" in the "Pre Award Status" dropdown. 
 ### REPORTING
 
-The reporting page allows the user to query the database by the following fields:
-- first field
-- second field
-- third field
-- fourth field
-- fifth field
+The reporting page allows the user to choose the start and end date of the report, then creates tables for each Unit in the university that had proposals during that time frame. 
+Within each unit, a subtotal of the amounts requested and amounts funded for each grant type is shown, as well as a total sum of those two values for the entire unit. 
 
-Once the query has run, the report will be generated detailing the requested information.
 ### SEARCH
 The search page allows the user to search for one or more proposals by the following fields:
 - Proposal Number
