@@ -68,6 +68,12 @@ export const Reports = () => {
     //              Display row
     //          Display Amount Requested, Award Amount for that grant type
 
+    var formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        maximumFractionDigits: 2, // (causes 2500.99 to be printed as $2,501)
+      });
+
     return (
         <Segment basic>
             <Segment basic
@@ -111,9 +117,8 @@ export const Reports = () => {
                     return(
                     <Table striped color={colors[index%2]} key={colors[index%2]}>
                         <TableHeader>
-                            <TableRow><TableHeaderCell colSpan='13' textAlign='center'>{row1.unit} - {row1.numawards} Awards</TableHeaderCell></TableRow>
+                            <TableRow style={{fontSize: 'large'}}><TableHeaderCell colSpan='12' textAlign='center'>{row1.unit} - {row1.numawards} Awards</TableHeaderCell></TableRow>
                             <TableRow>
-                                <TableHeaderCell>Unit</TableHeaderCell>
                                 <TableHeaderCell>Grant Type</TableHeaderCell>
                                 <TableHeaderCell>Proposal Number</TableHeaderCell>
                                 <TableHeaderCell>Title</TableHeaderCell>
@@ -122,9 +127,9 @@ export const Reports = () => {
                                 <TableHeaderCell>Project Director</TableHeaderCell>
                                 <TableHeaderCell>Dept</TableHeaderCell>
                                 <TableHeaderCell>Amount Requested</TableHeaderCell>
-                                <TableHeaderCell>Date Submitted</TableHeaderCell>
+                                <TableHeaderCell width="two">Date Submitted</TableHeaderCell>
                                 <TableHeaderCell>Status</TableHeaderCell>
-                                <TableHeaderCell>Notice of Funding</TableHeaderCell>
+                                <TableHeaderCell width="two">Notice of Funding</TableHeaderCell>
                                 <TableHeaderCell>Award Amount</TableHeaderCell>
                             </TableRow>
                         </TableHeader>
@@ -154,7 +159,6 @@ export const Reports = () => {
                                     }
                                     else return (
                                         <><TableRow>
-                                            <TableCell>{row.unit}</TableCell>
                                             <TableCell>{row.grant_type}</TableCell>
                                             <TableCell>{row.proposal_number}</TableCell>
                                             <TableCell>{row.title}</TableCell>
@@ -162,16 +166,16 @@ export const Reports = () => {
                                             <TableCell>{row.funding_type}</TableCell>
                                             <TableCell>{row.investigator}</TableCell>
                                             <TableCell>{row.department_name}</TableCell>
-                                            <TableCell>{row.amount_requested}</TableCell>
-                                            <TableCell>{row.date_submitted}</TableCell>
+                                            <TableCell>{formatter.format(row.amount_requested)}</TableCell>
+                                            <TableCell>{row.date_submitted.substring(0, 10)}</TableCell>
                                             <TableCell>{row.pre_award_status}</TableCell>
-                                            <TableCell>{row.date_of_notice}</TableCell>
-                                            <TableCell>{row.amount_funded}</TableCell>
+                                            <TableCell>{row.date_of_notice.substring(0, 10)}</TableCell>
+                                            <TableCell>{formatter.format(row.amount_funded)}</TableCell>
                                         </TableRow>
                                         <TableRow style={{background: "#ddd", fontWeight: "bold"}}>
-                                            <TableCell colSpan='8'>{row1.unit} - {thisgt} Totals:</TableCell>
-                                            <TableCell colSpan='4'>{gttotals[0].req}</TableCell>
-                                            <TableCell>{gttotals[0].funded}</TableCell>
+                                            <TableCell colSpan='7'>{row1.unit} - {thisgt} Totals:</TableCell>
+                                            <TableCell colSpan='4'>{formatter.format(gttotals[0].req)}</TableCell>
+                                            <TableCell>{formatter.format(gttotals[0].funded)}</TableCell>
                                         </TableRow></>
                                     )
                                 }
@@ -179,7 +183,6 @@ export const Reports = () => {
                                 // normal case: just another row, nuthin special here eh
                                 else return (
                                     <TableRow>
-                                        <TableCell>{row.unit}</TableCell>
                                         <TableCell>{row.grant_type}</TableCell>
                                         <TableCell>{row.proposal_number}</TableCell>
                                         <TableCell>{row.title}</TableCell>
@@ -187,17 +190,17 @@ export const Reports = () => {
                                         <TableCell>{row.funding_type}</TableCell>
                                         <TableCell>{row.investigator}</TableCell>
                                         <TableCell>{row.department_name}</TableCell>
-                                        <TableCell>{row.amount_requested}</TableCell>
-                                        <TableCell>{row.date_submitted}</TableCell>
+                                        <TableCell>{formatter.format(row.amount_requested)}</TableCell>
+                                        <TableCell>{row.date_submitted.substring(0, 10)}</TableCell>
                                         <TableCell>{row.pre_award_status}</TableCell>
-                                        <TableCell>{row.date_of_notice}</TableCell>
-                                        <TableCell>{row.amount_funded}</TableCell>
+                                        <TableCell>{row.date_of_notice.substring(0, 10)}</TableCell>
+                                        <TableCell>{formatter.format(row.amount_funded)}</TableCell>
                                     </TableRow>
                                 );})}
                         <TableRow style={{background: "#fcbbbb", fontWeight: "bold", fontSize: "large"}}>
-                            <TableCell colSpan='8'>{row1.unit} Totals:</TableCell>
-                            <TableCell colSpan='4'>{unittotals[0].req}</TableCell>
-                            <TableCell>{unittotals[0].funded}</TableCell>
+                            <TableCell colSpan='7'>{row1.unit} Totals:</TableCell>
+                            <TableCell colSpan='4'>{formatter.format(unittotals[0].req)}</TableCell>
+                            <TableCell>{formatter.format(unittotals[0].funded)}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
