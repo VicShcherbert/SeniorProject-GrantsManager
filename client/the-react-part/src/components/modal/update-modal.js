@@ -1,20 +1,20 @@
 /*
-* Update-modal.js provides update and delete methods for proposals. Modal provides 'pop-up' window
-* when trigger is initiated.
-*
-* handleUpdate and deleteProposal use unique_id field to send put and delete requests. SQL queries can be found
-* within 'index.js' file of the 'server' directory.
-*
-* dealWithCancel saves current values and closes modal window
-*
-* NOTE: updates and deletes use unique_id rather than proposal number, as there can be multiple proposals with the same
-* proposal number. If using proposal number to update or delete, all records would be changed.
-*
-* NOTE: department, pre-award poc, post-award poc, and units are put into lists from their respective SQL tables.
-* This allows drop down lists to be populated by database records rather than hard coded values.
-*
-* NOTE: Per client's request, Award and Contract section is only displayed if pre-award status is 'funded' or 'additional'.
-*/
+ * Update-modal.js provides update and delete methods for proposals. Modal provides 'pop-up' window
+ * when trigger is initiated.
+ *
+ * handleUpdate and deleteProposal use unique_id field to send put and delete requests. SQL queries can be found
+ * within 'index.js' file of the 'server' directory.
+ *
+ * dealWithCancel saves current values and closes modal window
+ *
+ * NOTE: updates and deletes use unique_id rather than proposal number, as there can be multiple proposals with the same
+ * proposal number. If using proposal number to update or delete, all records would be changed.
+ *
+ * NOTE: department, pre-award poc, post-award poc, and units are put into lists from their respective SQL tables.
+ * This allows drop down lists to be populated by database records rather than hard coded values.
+ *
+ * NOTE: Per client's request, Award and Contract section is only displayed if pre-award status is 'funded' or 'additional'.
+ */
 
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
@@ -30,23 +30,8 @@ import {
   Segment,
   TextArea,
 } from 'semantic-ui-react';
-import { useForm, Controller } from 'react-hook-form';
 
 export const UpdateModal = ({ proposal }) => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      prop_num: proposal.proposal_number,
-      title: proposal.title,
-      agency: proposal.agency,
-      investigator: proposal.investigator,
-      email: proposal.email,
-    },
-  });
-
   const [open, setOpen] = useState(false);
   const [unique_id] = useState(proposal.unique_id);
   const [prop_num, setPropNum] = useState(proposal.proposal_number);
@@ -250,61 +235,58 @@ export const UpdateModal = ({ proposal }) => {
     setProjectEnd(projectEndNew);
   };
 
-  const onSubmit = (data) => {
+  const handleUpdate = (unique_id) => {
     var result = window.confirm('Are you sure you want to update?');
-    console.log(data.prop_num);
-    console.log(prop_num);
-    // console.log(prop.unique_id);
-    // if (result && departmentList) {
-    //   Axios.put('http://localhost:3001/update', {
-    //     unique_id: unique_id,
-    //     prop_num: data.prop_num,
-    //     pre_prop: pre_prop,
-    //     pre_prop_num: pre_prop_num,
-    //     title: data.title,
-    //     agency: data.agency,
-    //     fund_type: fund_type,
-    //     cfda: cfda,
-    //     investigator: data.investigator,
-    //     email: data.email,
-    //     department_number: department_number,
-    //     department_name: department_name,
-    //     unit: unit,
-    //     category: category,
-    //     amount_requested: amount_requested,
-    //     date_submitted: date_submitted,
-    //     pre_award_poc: pre_award_poc,
-    //     internal_approval: internal_approval,
-    //     certification_assurance: certification_assurance,
-    //     financial_interest: financial_interest,
-    //     notes: notes,
-    //     pre_award_status: pre_award_status,
-    //     date_of_notice: date_of_notice,
-    //     amount_funded: amount_funded,
-    //     project_start: project_start,
-    //     project_end: project_end,
-    //     grant_type: grant_type,
-    //     contract_number: contract_number,
-    //     indirect_cost: indirect_cost,
-    //     sponsor_id: sponsor_id,
-    //     index_number: index_number,
-    //     entered_sharepoint: entered_sharepoint,
-    //     post_award_poc: post_award_poc,
-    //     irb: irb,
-    //     iacuc: iacuc,
-    //     ibc: ibc,
-    //     rcr: rcr,
-    //     student_rcr_notes: student_rcr_notes,
-    //     subawards: subawards,
-    //     subawardees: subawardees,
-    //     subaward_contract_number: subaward_contract_number,
-    //     subaward_notes: subaward_notes,
-    //     files_id: files_id
-    //   }).then((response) => {
-    //     alert('Entry has been updated');
-    //     window.location.reload();
-    //   });
-    // }
+    if (result && departmentList) {
+      Axios.put('http://localhost:3001/update', {
+        unique_id: unique_id,
+        prop_num: prop_num,
+        pre_prop: pre_prop,
+        pre_prop_num: pre_prop_num,
+        title: title,
+        agency: agency,
+        fund_type: fund_type,
+        cfda: cfda,
+        investigator: investigator,
+        email: email,
+        department_number: department_number,
+        department_name: department_name,
+        unit: unit,
+        category: category,
+        amount_requested: amount_requested,
+        date_submitted: date_submitted,
+        pre_award_poc: pre_award_poc,
+        internal_approval: internal_approval,
+        certification_assurance: certification_assurance,
+        financial_interest: financial_interest,
+        notes: notes,
+        pre_award_status: pre_award_status,
+        date_of_notice: date_of_notice,
+        amount_funded: amount_funded,
+        project_start: project_start,
+        project_end: project_end,
+        grant_type: grant_type,
+        contract_number: contract_number,
+        indirect_cost: indirect_cost,
+        sponsor_id: sponsor_id,
+        index_number: index_number,
+        entered_sharepoint: entered_sharepoint,
+        post_award_poc: post_award_poc,
+        irb: irb,
+        iacuc: iacuc,
+        ibc: ibc,
+        rcr: rcr,
+        student_rcr_notes: student_rcr_notes,
+        subawards: subawards,
+        subawardees: subawardees,
+        subaward_contract_number: subaward_contract_number,
+        subaward_notes: subaward_notes,
+        files_id: files_id,
+      }).then((response) => {
+        alert('Entry has been updated');
+        window.location.reload();
+      });
+    }
   };
 
   const deleteProposal = (unique_id) => {
@@ -764,12 +746,12 @@ export const UpdateModal = ({ proposal }) => {
           </Label>
         ) : null}
 
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form>
           <Segment basic>
             <Divider horizontal>Main Information</Divider>
           </Segment>
 
-          {/* <Form.Field>
+          <Form.Field>
             <Header>Proposal Number</Header>
             <Input
               placeholder='Proposal Number'
@@ -778,37 +760,7 @@ export const UpdateModal = ({ proposal }) => {
               onChange={(_, { value }) => setPropNum(value)}
               type='text'
             />
-          </Form.Field> */}
-
-          <Controller
-            name='prop_num'
-            control={control}
-            rules={{
-              required: true,
-              pattern: {
-                value: /^[^$%#@*&^]*$/,
-                message:
-                  'Proposal number required! Make sure there are no extra characters',
-              },
-            }}
-            render={({ field }) => (
-              <Form.Field>
-                <Header>Proposal Number</Header>
-                <Input
-                  {...field}
-                  placeholder='Proposal Number'
-                  value={prop_num}
-                  name='prop_num'
-                  onChange={(_, { value }) => setPropNum(value)}
-                />
-              </Form.Field>
-            )}
-          />
-          {errors.prop_num && (
-            <Segment color='red' basic>
-              {errors.prop_num.message}
-            </Segment>
-          )}
+          </Form.Field>
 
           <Form.Field>
             <Header>Pre-Proposal</Header>
@@ -1187,25 +1139,19 @@ export const UpdateModal = ({ proposal }) => {
             />
           </Form.Field>
           {awardAndContractSections()}
-          <Button color='green' type='submit'>
-            Update
-          </Button>
-          <Button color='orange' onClick={() => dealWithCancel()}>
-            Cancel
-          </Button>
-          <Button
-            color='red'
-            onClick={() => deleteProposal(proposal.unique_id)}
-          >
-            Delete
-          </Button>
         </Form>
       </Modal.Content>
-      {/* <Modal.Actions> */}
-      {/* <Button color='green' onClick={onSubmit}>
+      <Modal.Actions>
+        <Button color='green' onClick={() => handleUpdate(proposal.unique_id)}>
           Update
-        </Button> */}
-      {/* </Modal.Actions> */}
+        </Button>
+        <Button color='orange' onClick={() => dealWithCancel()}>
+          Cancel
+        </Button>
+        <Button color='red' onClick={() => deleteProposal(proposal.unique_id)}>
+          Delete
+        </Button>
+      </Modal.Actions>
     </Modal>
   );
 };
