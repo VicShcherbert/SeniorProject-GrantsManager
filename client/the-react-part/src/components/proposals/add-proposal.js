@@ -118,31 +118,9 @@ export const AddProposal = () => {
     }
   };
 
-  const dealWithNameNumPreAwardPOC = (value) => {
-    setPreAwardPOC(value);
-    for (var i = 0; i < preAwardPOCs.length; i++) {
-      if (preAwardPOCs[i].value === value) setPreAwardPOC(preAwardPOCs[i].key);
-    }
-  };
-
-  const dealWithNameNumPostAwardPOC = (value) => {
-    setPostAwardPOC(value);
-    for (var i = 0; i < postAwardPOCs.length; i++) {
-      if (postAwardPOCs[i].value === value)
-        setPostAwardPOC(postAwardPOCs[i].key);
-    }
-  };
-
-  const dealWithNameNumUnits = (value) => {
-    setUnit(value);
-    for (var i = 0; i < units.length; i++) {
-      if (units[i].value === value) setPostAwardPOC(units[i].key);
-    }
-  };
-
   useEffect(() => {
     Axios.get('http://localhost:3001/get_departments').then((response) => {
-      setDepartmentList(response.data); //because response contains 'data'
+      setDepartmentList(response.data);
     });
 
     Axios.get('http://localhost:3001/unique_id').then((response) => {
@@ -152,19 +130,19 @@ export const AddProposal = () => {
 
   useEffect(() => {
     Axios.get('http://localhost:3001/get_pre_award_POCs').then((response) => {
-      setPreAwardPOCList(response.data); //because response contains 'data'
+      setPreAwardPOCList(response.data);
     });
   }, []);
 
   useEffect(() => {
     Axios.get('http://localhost:3001/get_post_award_POCs').then((response) => {
-      setPostAwardPOCList(response.data); //because response contains 'data'
+      setPostAwardPOCList(response.data);
     });
   }, []);
 
   useEffect(() => {
     Axios.get('http://localhost:3001/get_units').then((response) => {
-      setUnitList(response.data); //because response contains 'data'
+      setUnitList(response.data);
     });
   }, []);
 
@@ -454,7 +432,7 @@ export const AddProposal = () => {
               placeholder='Select Post Award POC'
               value={post_award_poc}
               name='post_award_poc'
-              onChange={(_, { value }) => dealWithNameNumPostAwardPOC(value)}
+              onChange={(_, { value }) => setPostAwardPOC(value)}
               fluid
               selection
               options={postAwardPOCs}
@@ -900,7 +878,7 @@ export const AddProposal = () => {
               placeholder='Select Unit'
               value={unit}
               name='unit'
-              onChange={(_, { value }) => dealWithNameNumUnits(value)}
+              onChange={(_, { value }) => setUnit(value)}
               fluid
               selection
               options={units}
@@ -970,7 +948,7 @@ export const AddProposal = () => {
               placeholder='Select Pre Award POC'
               value={pre_award_poc}
               name='pre_award_poc'
-              onChange={(_, { value }) => dealWithNameNumPreAwardPOC(value)}
+              onChange={(_, { value }) => setPreAwardPOC(value)}
               fluid
               selection
               options={preAwardPOCs}

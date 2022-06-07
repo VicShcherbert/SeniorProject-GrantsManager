@@ -143,28 +143,6 @@ export const UpdateModal = ({ proposal }) => {
     }
   };
 
-  const dealWithNameNumPreAwardPOC = (value) => {
-    setPreAwardPOC(value);
-    for (var i = 0; i < preAwardPOCs.length; i++) {
-      if (preAwardPOCs[i].value === value) setPreAwardPOC(preAwardPOCs[i].key);
-    }
-  };
-
-  const dealWithNameNumPostAwardPOC = (value) => {
-    setPostAwardPOC(value);
-    for (var i = 0; i < postAwardPOCs.length; i++) {
-      if (postAwardPOCs[i].value === value)
-        setPostAwardPOC(postAwardPOCs[i].key);
-    }
-  };
-
-  const dealWithNameNumUnits = (value) => {
-    setUnit(value);
-    for (var i = 0; i < units.length; i++) {
-      if (units[i].value === value) setPostAwardPOC(units[i].key);
-    }
-  };
-
   useEffect(() => {
     Axios.get('http://localhost:3001/get_departments').then((response) => {
       setDepartmentList(response.data);
@@ -484,7 +462,7 @@ export const UpdateModal = ({ proposal }) => {
               placeholder='Select Post Award POC'
               value={post_award_poc}
               name='post_award_poc'
-              onChange={(_, { value }) => dealWithNameNumPostAwardPOC(value)}
+              onChange={(_, { value }) => setPostAwardPOC(value)}
               fluid
               selection
               options={postAwardPOCs}
@@ -870,7 +848,7 @@ export const UpdateModal = ({ proposal }) => {
               placeholder='Select Unit'
               value={unit}
               name='unit'
-              onChange={(_, { value }) => dealWithNameNumUnits(value)}
+              onChange={(_, { value }) => setUnit(value)}
               fluid
               selection
               options={units}
@@ -940,7 +918,7 @@ export const UpdateModal = ({ proposal }) => {
               placeholder='Select Pre Award POC'
               value={pre_award_poc}
               name='pre_award_poc'
-              onChange={(_, { value }) => dealWithNameNumPreAwardPOC(value)}
+              onChange={(_, { value }) => setPreAwardPOC(value)}
               fluid
               selection
               options={preAwardPOCs}

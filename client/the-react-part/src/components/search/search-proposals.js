@@ -52,7 +52,7 @@ export const Search = () => {
       investigator: investigator,
     }).then((response) => {
       console.log(response.data);
-      setList(response.data); //because response contains 'data'
+      setList(response.data);
     });
   };
 
